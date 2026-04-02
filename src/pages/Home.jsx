@@ -94,7 +94,7 @@ export default function Home() {
             <span className="cylinderMarks" />
           </Link>
 
-          {/* GAME（ここ修正） */}
+          {/* GAME */}
           <Link className="doodle doodleGame doodleFeatured" to="/game">
             <span className="doodleLabel">GAME / COMING SOON</span>
             <span className="doodleHint">ミニゲーム実験室は準備中</span>
@@ -107,6 +107,21 @@ export default function Home() {
             <span className="gameSpark spark1" />
             <span className="gameSpark spark2" />
             <span className="gameSpark spark3" />
+          </Link>
+
+          {/* ABOUT */}
+          <Link className="doodle doodleAbout" to="/about">
+            <span className="doodleLabel">NAME TAG / ABOUT</span>
+            <span className="doodleHint">研究所と自己紹介を見る</span>
+
+            <span className="aboutCardBody" />
+            <span className="aboutCardClip" />
+            <span className="aboutCardAvatar" />
+            <span className="aboutCardLine aboutCardLine1" />
+            <span className="aboutCardLine aboutCardLine2" />
+            <span className="aboutCardLine aboutCardLine3" />
+            <span className="aboutCardSpark aboutCardSpark1" />
+            <span className="aboutCardSpark aboutCardSpark2" />
           </Link>
 
           {/* CONTACT */}

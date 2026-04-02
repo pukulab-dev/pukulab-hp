@@ -324,12 +324,16 @@ button.doodle {
   grid-column: span 4;
 }
 
+.doodleAbout {
+  grid-column: span 4;
+}
+
 .doodleClip {
-  grid-column: span 6;
+  grid-column: span 4;
 }
 
 .doodleAtom {
-  grid-column: span 6;
+  grid-column: span 4;
 }
 
 /* ------------------------------
@@ -352,7 +356,12 @@ button.doodle {
 .gameStand,
 .gameBase,
 .gamePad,
-.gameSpark {
+.gameSpark,
+.aboutCardBody,
+.aboutCardClip,
+.aboutCardAvatar,
+.aboutCardLine,
+.aboutCardSpark {
   position: absolute;
   transition:
     transform 220ms ease,
@@ -621,6 +630,106 @@ button.doodle {
 }
 
 /* ------------------------------
+   About card
+------------------------------ */
+
+.aboutCardBody {
+  width: 154px;
+  height: 104px;
+  left: 50%;
+  top: 58px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 16px;
+}
+
+.aboutCardClip {
+  width: 64px;
+  height: 16px;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 14px;
+}
+
+.aboutCardAvatar {
+  width: 34px;
+  height: 34px;
+  left: calc(50% - 48px);
+  top: 88px;
+  border: 3px solid rgba(121, 242, 208, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(121, 242, 208, 0.12);
+}
+
+.aboutCardLine {
+  height: 0;
+  border-top: 3px solid rgba(243, 240, 223, 0.75);
+  border-radius: 999px;
+}
+
+.aboutCardLine1 {
+  width: 52px;
+  left: calc(50% - 2px);
+  top: 94px;
+}
+
+.aboutCardLine2 {
+  width: 62px;
+  left: calc(50% - 2px);
+  top: 112px;
+}
+
+.aboutCardLine3 {
+  width: 42px;
+  left: calc(50% - 2px);
+  top: 130px;
+}
+
+.aboutCardSpark {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 196, 109, 0.8);
+  box-shadow: 0 0 10px rgba(255, 196, 109, 0.26);
+  animation: sparkFloat 1900ms ease-in-out infinite;
+}
+
+.aboutCardSpark1 {
+  left: calc(50% + 52px);
+  top: 74px;
+  animation-delay: 120ms;
+}
+
+.aboutCardSpark2 {
+  left: calc(50% + 62px);
+  top: 138px;
+  animation-delay: 520ms;
+}
+
+.doodleAbout:hover .aboutCardAvatar,
+.doodleAbout:focus-visible .aboutCardAvatar {
+  transform: scale(1.06);
+  box-shadow: 0 0 18px rgba(121, 242, 208, 0.2);
+}
+
+.doodleAbout:hover .aboutCardLine1,
+.doodleAbout:focus-visible .aboutCardLine1 {
+  transform: translateX(2px);
+}
+
+.doodleAbout:hover .aboutCardLine2,
+.doodleAbout:focus-visible .aboutCardLine2 {
+  transform: translateX(4px);
+}
+
+.doodleAbout:hover .aboutCardLine3,
+.doodleAbout:focus-visible .aboutCardLine3 {
+  transform: translateX(1px);
+}
+
+/* ------------------------------
    Clip
 ------------------------------ */
 
@@ -855,6 +964,7 @@ button.doodle {
   .doodleFlask,
   .doodleCylinder,
   .doodleGame,
+  .doodleAbout,
   .doodleClip,
   .doodleAtom {
     grid-column: span 12;
@@ -951,6 +1061,34 @@ button.doodle {
 
   .gamePadRight {
     left: calc(50% + 24px);
+  }
+
+  .aboutCardBody {
+    width: 146px;
+    height: 100px;
+    top: 48px;
+  }
+
+  .aboutCardClip {
+    width: 58px;
+    top: 32px;
+  }
+
+  .aboutCardAvatar {
+    left: calc(50% - 44px);
+    top: 78px;
+  }
+
+  .aboutCardLine1 {
+    top: 84px;
+  }
+
+  .aboutCardLine2 {
+    top: 102px;
+  }
+
+  .aboutCardLine3 {
+    top: 120px;
   }
 
   .clipBody {
