@@ -1,0 +1,1136 @@
+.homeBoard {
+  position: relative;
+}
+
+.boardHeader,
+.boardGrid,
+.boardFooter {
+  position: relative;
+  z-index: 2;
+}
+
+.boardHeader h1 {
+  margin: 8px 0 0;
+  font-size: clamp(40px, 5.3vw, 72px);
+  line-height: 1.02;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.leadText {
+  margin: 10px 0 0;
+  color: var(--chalk-soft);
+  font-size: clamp(15px, 1.45vw, 20px);
+}
+
+/* ------------------------------
+   背景の落書き / ラボ感
+------------------------------ */
+
+.chalkDoodles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.chalkNote,
+.chalkCircle,
+.chalkArrow,
+.chalkLine,
+.chalkDust {
+  position: absolute;
+}
+
+.chalkNote {
+  color: rgba(243, 240, 223, 0.16);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.04);
+}
+
+.note1 {
+  top: 18%;
+  left: 58%;
+}
+
+.note2 {
+  top: 64%;
+  left: 14%;
+  transform: rotate(-10deg);
+}
+
+.note3 {
+  top: 11%;
+  right: 12%;
+  transform: rotate(7deg);
+}
+
+.note4 {
+  bottom: 14%;
+  right: 16%;
+  transform: rotate(-6deg);
+}
+
+.chalkCircle {
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(243, 240, 223, 0.14);
+  border-radius: 999px;
+}
+
+.circle1 {
+  top: 23%;
+  right: 19%;
+}
+
+.circle2 {
+  bottom: 24%;
+  left: 31%;
+  width: 34px;
+  height: 34px;
+}
+
+.chalkArrow {
+  width: 92px;
+  height: 0;
+  border-top: 1px solid rgba(243, 240, 223, 0.14);
+}
+
+.chalkArrow::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid rgba(243, 240, 223, 0.14);
+  border-right: 1px solid rgba(243, 240, 223, 0.14);
+  transform: rotate(45deg);
+}
+
+.arrow1 {
+  top: 33%;
+  left: 20%;
+  transform: rotate(-12deg);
+}
+
+.arrow2 {
+  bottom: 18%;
+  right: 26%;
+  width: 70px;
+  transform: rotate(16deg);
+}
+
+.chalkLine {
+  height: 0;
+  border-top: 1px dashed rgba(243, 240, 223, 0.11);
+}
+
+.line1 {
+  top: 46%;
+  left: 49%;
+  width: 120px;
+  transform: rotate(8deg);
+}
+
+.line2 {
+  top: 73%;
+  left: 62%;
+  width: 84px;
+  transform: rotate(-10deg);
+}
+
+.line3 {
+  top: 25%;
+  left: 72%;
+  width: 54px;
+  transform: rotate(12deg);
+}
+
+.chalkDust {
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 68%);
+  filter: blur(8px);
+}
+
+.dust1 {
+  top: 22%;
+  left: 41%;
+}
+
+.dust2 {
+  bottom: 18%;
+  right: 34%;
+  width: 120px;
+  height: 120px;
+}
+
+.dust3 {
+  top: 62%;
+  left: 74%;
+  width: 72px;
+  height: 72px;
+}
+
+/* ------------------------------
+   グリッド
+------------------------------ */
+
+.boardGrid {
+  margin-top: 42px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+
+/* ------------------------------
+   ドゥードル共通
+------------------------------ */
+
+.doodle {
+  min-height: 224px;
+  border: none;
+  border-radius: 22px;
+  padding: 12px;
+  background: transparent;
+  position: relative;
+  text-decoration: none;
+  color: var(--chalk);
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  overflow: hidden;
+}
+
+.doodle::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 18px;
+  border: 1px solid rgba(243, 240, 223, 0);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transition: opacity 220ms ease, border-color 220ms ease;
+  pointer-events: none;
+}
+
+button.doodle {
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--chalk);
+  font: inherit;
+  text-align: left;
+  padding: 12px;
+}
+
+.doodle:hover,
+.doodle:focus-visible {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow:
+    inset 0 0 0 1px rgba(243, 240, 223, 0.06),
+    0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.doodle:hover::before,
+.doodle:focus-visible::before {
+  opacity: 1;
+  border-color: rgba(243, 240, 223, 0.14);
+}
+
+.doodleLabel {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--chalk-soft);
+  pointer-events: none;
+  opacity: 0.9;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.12);
+  transition: color 220ms ease, opacity 220ms ease;
+}
+
+.doodleHint {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  font-size: 12px;
+  color: rgba(243, 240, 223, 0.68);
+  letter-spacing: 0.04em;
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.doodle:hover .doodleLabel,
+.doodle:focus-visible .doodleLabel {
+  color: rgba(255, 255, 255, 0.92);
+  opacity: 1;
+}
+
+.doodle:hover .doodleHint,
+.doodle:focus-visible .doodleHint {
+  color: rgba(243, 240, 223, 0.9);
+  transform: translateY(-1px);
+}
+
+.doodleBadge {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 1px solid rgba(121, 242, 208, 0.3);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(121, 242, 208, 0.95);
+  background: rgba(121, 242, 208, 0.06);
+  box-shadow: 0 0 10px rgba(121, 242, 208, 0.08);
+}
+
+.doodlePrimary {
+  background: rgba(121, 242, 208, 0.015);
+}
+
+.doodleFeatured {
+  background:
+    radial-gradient(circle at 78% 30%, rgba(121, 242, 208, 0.08), transparent 30%),
+    rgba(121, 242, 208, 0.015);
+}
+
+.doodleFlask {
+  grid-column: span 4;
+}
+
+.doodleCylinder {
+  grid-column: span 4;
+}
+
+.doodleGame {
+  grid-column: span 4;
+}
+
+.doodleAbout {
+  grid-column: span 4;
+}
+
+.doodleClip {
+  grid-column: span 4;
+}
+
+.doodleAtom {
+  grid-column: span 4;
+}
+
+/* ------------------------------
+   図形の共通 position
+------------------------------ */
+
+.flaskNeck,
+.flaskBody,
+.flaskLiquid,
+.flaskShine,
+.cylinderBody,
+.cylinderLiquid,
+.cylinderMarks,
+.clipBody,
+.clipHead,
+.clipLines,
+.atomCore,
+.atomOrbit,
+.gameMonitor,
+.gameStand,
+.gameBase,
+.gamePad,
+.gameSpark,
+.aboutCardBody,
+.aboutCardClip,
+.aboutCardAvatar,
+.aboutCardLine,
+.aboutCardSpark {
+  position: absolute;
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease;
+}
+
+/* ------------------------------
+   Flask
+------------------------------ */
+
+.flaskNeck {
+  width: 48px;
+  height: 20px;
+  left: 50%;
+  top: 34px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.85);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+
+.flaskBody {
+  width: 120px;
+  height: 112px;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.85);
+  border-radius: 22px 22px 28px 28px;
+}
+
+.flaskLiquid {
+  width: 104px;
+  height: 22px;
+  left: 50%;
+  top: 138px;
+  transform: translateX(-50%);
+  background: rgba(121, 242, 208, 0.78);
+  border-radius: 0 0 18px 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 14px rgba(121, 242, 208, 0.12);
+  transition:
+    height 260ms ease,
+    top 260ms ease,
+    box-shadow 220ms ease;
+}
+
+.flaskShine {
+  width: 10px;
+  height: 58px;
+  background: rgba(255, 255, 255, 0.24);
+  left: calc(50% - 34px);
+  top: 68px;
+  border-radius: 6px;
+}
+
+.doodleFlask:hover .flaskLiquid,
+.doodleFlask:focus-visible .flaskLiquid {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 22px rgba(121, 242, 208, 0.2);
+}
+
+.bubbleField,
+.smokeField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bubble,
+.smoke {
+  position: absolute;
+  opacity: 0;
+}
+
+.bubble {
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+}
+
+.bubblea { left: calc(50% - 24px); top: 134px; }
+.bubbleb { left: calc(50% - 8px); top: 126px; width: 12px; height: 12px; }
+.bubblec { left: calc(50% + 6px); top: 132px; }
+.bubbled { left: calc(50% + 20px); top: 140px; }
+.bubblee { left: calc(50% + 24px); top: 122px; width: 8px; height: 8px; }
+.bubblef { left: calc(50% - 16px); top: 142px; width: 8px; height: 8px; }
+
+.smoke {
+  width: 28px;
+  height: 16px;
+  border: 2px solid rgba(243, 240, 223, 0.7);
+  border-radius: 100px;
+}
+
+.smoke1 { left: calc(50% - 20px); top: 24px; }
+.smoke2 { left: calc(50% + 8px); top: 16px; }
+.smoke3 { left: calc(50% - 6px); top: 8px; }
+
+.doodleFlask.active .flaskLiquid {
+  height: 42px;
+  top: 118px;
+}
+
+.doodleFlask.active .bubblea { animation: bubbleUp 700ms ease-out; }
+.doodleFlask.active .bubbleb { animation: bubbleUp 860ms ease-out 60ms; }
+.doodleFlask.active .bubblec { animation: bubbleUp 620ms ease-out 40ms; }
+.doodleFlask.active .bubbled { animation: bubbleUp 790ms ease-out 120ms; }
+.doodleFlask.active .bubblee { animation: bubbleUp 580ms ease-out 90ms; }
+.doodleFlask.active .bubblef { animation: bubbleUp 540ms ease-out; }
+
+.doodleFlask.active .smoke1 { animation: smokeFloat 880ms ease-out; }
+.doodleFlask.active .smoke2 { animation: smokeFloat 920ms ease-out 120ms; }
+.doodleFlask.active .smoke3 { animation: smokeFloat 960ms ease-out 200ms; }
+
+/* ------------------------------
+   Cylinder
+------------------------------ */
+
+.cylinderBody {
+  width: 86px;
+  height: 124px;
+  left: 50%;
+  top: 48px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 8px 8px 18px 18px;
+}
+
+.cylinderLiquid {
+  width: 64px;
+  height: 36px;
+  left: 50%;
+  top: 126px;
+  transform: translateX(-50%);
+  border-radius: 0 0 14px 14px;
+  background: rgba(255, 196, 109, 0.78);
+  box-shadow: 0 0 14px rgba(255, 196, 109, 0.08);
+}
+
+.cylinderMarks {
+  width: 44px;
+  height: 104px;
+  left: calc(50% + 16px);
+  top: 60px;
+  background:
+    repeating-linear-gradient(to bottom, rgba(243, 240, 223, 0.7) 0 2px, transparent 2px 14px);
+}
+
+.doodleCylinder:hover .cylinderLiquid,
+.doodleCylinder:focus-visible .cylinderLiquid {
+  transform: translateX(-50%) scaleY(1.05);
+  box-shadow: 0 0 18px rgba(255, 196, 109, 0.16);
+}
+
+/* ------------------------------
+   Game
+------------------------------ */
+
+.gameMonitor {
+  width: 116px;
+  height: 74px;
+  left: 50%;
+  top: 62px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 14px;
+}
+
+.gameMonitor::before {
+  content: "";
+  position: absolute;
+  inset: 12px 14px;
+  border: 2px solid rgba(121, 242, 208, 0.42);
+  border-radius: 8px;
+  box-shadow:
+    0 0 12px rgba(121, 242, 208, 0.12),
+    inset 0 0 10px rgba(121, 242, 208, 0.06);
+  animation: screenGlow 2400ms ease-in-out infinite;
+}
+
+.gameStand {
+  width: 10px;
+  height: 18px;
+  left: 50%;
+  top: 138px;
+  transform: translateX(-50%);
+  background: rgba(243, 240, 223, 0.84);
+  border-radius: 4px;
+}
+
+.gameBase {
+  width: 54px;
+  height: 8px;
+  left: 50%;
+  top: 156px;
+  transform: translateX(-50%);
+  background: rgba(243, 240, 223, 0.84);
+  border-radius: 999px;
+}
+
+.gamePad {
+  width: 34px;
+  height: 22px;
+  border: 3px solid rgba(243, 240, 223, 0.8);
+  border-radius: 10px;
+  top: 138px;
+}
+
+.gamePadLeft {
+  left: calc(50% - 64px);
+  transform: rotate(-12deg);
+}
+
+.gamePadRight {
+  left: calc(50% + 28px);
+  transform: rotate(12deg);
+}
+
+.gameSpark {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(121, 242, 208, 0.7);
+  box-shadow: 0 0 10px rgba(121, 242, 208, 0.3);
+  opacity: 0.7;
+  animation: sparkFloat 1800ms ease-in-out infinite;
+}
+
+.spark1 {
+  left: calc(50% - 56px);
+  top: 76px;
+  animation-delay: 0ms;
+}
+
+.spark2 {
+  left: calc(50% + 46px);
+  top: 84px;
+  animation-delay: 380ms;
+}
+
+.spark3 {
+  left: calc(50% + 54px);
+  top: 114px;
+  animation-delay: 720ms;
+}
+
+.doodleGame:hover .gameMonitor,
+.doodleGame:focus-visible .gameMonitor {
+  box-shadow: 0 0 18px rgba(121, 242, 208, 0.12);
+}
+
+.doodleGame:hover .gamePadLeft,
+.doodleGame:focus-visible .gamePadLeft {
+  transform: rotate(-16deg) translateY(-2px);
+}
+
+.doodleGame:hover .gamePadRight,
+.doodleGame:focus-visible .gamePadRight {
+  transform: rotate(16deg) translateY(-2px);
+}
+
+/* ------------------------------
+   About card
+------------------------------ */
+
+.aboutCardBody {
+  width: 154px;
+  height: 104px;
+  left: 50%;
+  top: 58px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 16px;
+}
+
+.aboutCardClip {
+  width: 64px;
+  height: 16px;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 14px;
+}
+
+.aboutCardAvatar {
+  width: 34px;
+  height: 34px;
+  left: calc(50% - 48px);
+  top: 88px;
+  border: 3px solid rgba(121, 242, 208, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(121, 242, 208, 0.12);
+}
+
+.aboutCardLine {
+  height: 0;
+  border-top: 3px solid rgba(243, 240, 223, 0.75);
+  border-radius: 999px;
+}
+
+.aboutCardLine1 {
+  width: 52px;
+  left: calc(50% - 2px);
+  top: 94px;
+}
+
+.aboutCardLine2 {
+  width: 62px;
+  left: calc(50% - 2px);
+  top: 112px;
+}
+
+.aboutCardLine3 {
+  width: 42px;
+  left: calc(50% - 2px);
+  top: 130px;
+}
+
+.aboutCardSpark {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 196, 109, 0.8);
+  box-shadow: 0 0 10px rgba(255, 196, 109, 0.26);
+  animation: sparkFloat 1900ms ease-in-out infinite;
+}
+
+.aboutCardSpark1 {
+  left: calc(50% + 52px);
+  top: 74px;
+  animation-delay: 120ms;
+}
+
+.aboutCardSpark2 {
+  left: calc(50% + 62px);
+  top: 138px;
+  animation-delay: 520ms;
+}
+
+.doodleAbout:hover .aboutCardAvatar,
+.doodleAbout:focus-visible .aboutCardAvatar {
+  transform: scale(1.06);
+  box-shadow: 0 0 18px rgba(121, 242, 208, 0.2);
+}
+
+.doodleAbout:hover .aboutCardLine1,
+.doodleAbout:focus-visible .aboutCardLine1 {
+  transform: translateX(2px);
+}
+
+.doodleAbout:hover .aboutCardLine2,
+.doodleAbout:focus-visible .aboutCardLine2 {
+  transform: translateX(4px);
+}
+
+.doodleAbout:hover .aboutCardLine3,
+.doodleAbout:focus-visible .aboutCardLine3 {
+  transform: translateX(1px);
+}
+
+/* ------------------------------
+   Clip
+------------------------------ */
+
+.clipBody {
+  width: 166px;
+  height: 114px;
+  left: 50%;
+  top: 58px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 16px;
+}
+
+.clipHead {
+  width: 52px;
+  height: 16px;
+  left: 50%;
+  top: 42px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 14px;
+}
+
+.clipLines {
+  width: 118px;
+  height: 72px;
+  left: 50%;
+  top: 84px;
+  transform: translateX(-50%);
+  background:
+    repeating-linear-gradient(to bottom, rgba(243, 240, 223, 0.65) 0 2px, transparent 2px 14px);
+}
+
+.doodleClip:hover .clipLines,
+.doodleClip:focus-visible .clipLines {
+  transform: translateX(-50%) translateY(-1px);
+}
+
+/* ------------------------------
+   Atom
+------------------------------ */
+
+.atomCore {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--chalk);
+  left: 50%;
+  top: 56%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.12);
+}
+
+.atomOrbit {
+  width: 124px;
+  height: 52px;
+  border: 2px solid rgba(243, 240, 223, 0.76);
+  border-radius: 50%;
+  left: 50%;
+  top: 58%;
+  transform-origin: center;
+}
+
+.orbit1 {
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: atomDrift1 8s linear infinite;
+}
+
+.orbit2 {
+  transform: translate(-50%, -50%) rotate(58deg);
+  animation: atomDrift2 9s linear infinite;
+}
+
+.orbit3 {
+  transform: translate(-50%, -50%) rotate(-58deg);
+  animation: atomDrift3 7s linear infinite;
+}
+
+.doodleAtom:hover .atomCore,
+.doodleAtom:focus-visible .atomCore {
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.24);
+}
+
+.doodleAtom:active .atomOrbit {
+  animation-duration: 620ms;
+}
+
+/* ------------------------------
+   Footer
+------------------------------ */
+
+.boardFooter {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  color: var(--chalk-soft);
+  font-size: 13px;
+}
+
+.secretDoor {
+  border: 1px solid rgba(243, 240, 223, 0.22);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+
+.secretDoor:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(243, 240, 223, 0.42);
+  transform: translateY(-1px);
+}
+
+.secretDoor.disabled {
+  opacity: 0.4;
+}
+
+/* ------------------------------
+   Animation
+------------------------------ */
+
+@keyframes bubbleUp {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-52px) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes smokeFloat {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-26px) scale(1.18);
+    opacity: 0;
+  }
+}
+
+@keyframes screenGlow {
+  0%,
+  100% {
+    opacity: 0.72;
+    box-shadow:
+      0 0 12px rgba(121, 242, 208, 0.12),
+      inset 0 0 10px rgba(121, 242, 208, 0.06);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 20px rgba(121, 242, 208, 0.18),
+      inset 0 0 14px rgba(121, 242, 208, 0.1);
+  }
+}
+
+@keyframes sparkFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.95;
+  }
+}
+
+@keyframes atomDrift1 {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes atomDrift2 {
+  from {
+    transform: translate(-50%, -50%) rotate(58deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(418deg);
+  }
+}
+
+@keyframes atomDrift3 {
+  from {
+    transform: translate(-50%, -50%) rotate(-58deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(302deg);
+  }
+}
+
+/* ------------------------------
+   Mobile
+------------------------------ */
+
+@media (max-width: 760px) {
+  .chalkDoodles {
+    opacity: 0.26;
+  }
+
+  .boardHeader h1 {
+    line-height: 1.08;
+  }
+
+  .boardGrid {
+    margin-top: 24px;
+    gap: 14px;
+  }
+
+  .doodle {
+    min-height: 190px;
+    border-radius: 20px;
+  }
+
+  .doodleFlask,
+  .doodleCylinder,
+  .doodleGame,
+  .doodleAbout,
+  .doodleClip,
+  .doodleAtom {
+    grid-column: span 12;
+  }
+
+  .doodleHint {
+    font-size: 11px;
+    bottom: 14px;
+  }
+
+  .doodleBadge {
+    right: 14px;
+  }
+
+  .flaskNeck {
+    width: 44px;
+    height: 18px;
+    top: 24px;
+  }
+
+  .flaskBody {
+    width: 112px;
+    height: 104px;
+    top: 38px;
+  }
+
+  .flaskLiquid {
+    width: 96px;
+    height: 20px;
+    top: 124px;
+  }
+
+  .flaskShine {
+    top: 56px;
+    left: calc(50% - 30px);
+  }
+
+  .bubblea { left: calc(50% - 22px); top: 120px; }
+  .bubbleb { left: calc(50% - 10px); top: 112px; width: 12px; height: 12px; }
+  .bubblec { left: calc(50% + 2px); top: 118px; }
+  .bubbled { left: calc(50% + 16px); top: 126px; }
+  .bubblee { left: calc(50% + 24px); top: 108px; width: 8px; height: 8px; }
+  .bubblef { left: calc(50% - 18px); top: 128px; width: 8px; height: 8px; }
+
+  .smoke1 { left: calc(50% - 18px); top: 18px; }
+  .smoke2 { left: calc(50% + 8px); top: 12px; }
+  .smoke3 { left: calc(50% - 4px); top: 6px; }
+
+  .doodleFlask.active .flaskLiquid {
+    height: 38px;
+    top: 106px;
+  }
+
+  .cylinderBody {
+    width: 80px;
+    height: 116px;
+    top: 42px;
+  }
+
+  .cylinderLiquid {
+    width: 60px;
+    height: 34px;
+    top: 118px;
+  }
+
+  .cylinderMarks {
+    width: 40px;
+    height: 98px;
+    left: calc(50% + 14px);
+    top: 54px;
+  }
+
+  .gameMonitor {
+    width: 108px;
+    height: 68px;
+    top: 54px;
+  }
+
+  .gameStand {
+    top: 126px;
+  }
+
+  .gameBase {
+    top: 144px;
+  }
+
+  .gamePad {
+    top: 126px;
+  }
+
+  .gamePadLeft {
+    left: calc(50% - 58px);
+  }
+
+  .gamePadRight {
+    left: calc(50% + 24px);
+  }
+
+  .aboutCardBody {
+    width: 146px;
+    height: 100px;
+    top: 48px;
+  }
+
+  .aboutCardClip {
+    width: 58px;
+    top: 32px;
+  }
+
+  .aboutCardAvatar {
+    left: calc(50% - 44px);
+    top: 78px;
+  }
+
+  .aboutCardLine1 {
+    top: 84px;
+  }
+
+  .aboutCardLine2 {
+    top: 102px;
+  }
+
+  .aboutCardLine3 {
+    top: 120px;
+  }
+
+  .clipBody {
+    width: 156px;
+    height: 108px;
+    top: 46px;
+  }
+
+  .clipHead {
+    width: 48px;
+    top: 30px;
+  }
+
+  .clipLines {
+    width: 110px;
+    height: 68px;
+    top: 74px;
+  }
+
+  .atomCore {
+    width: 14px;
+    height: 14px;
+    top: 52%;
+  }
+
+  .atomOrbit {
+    width: 116px;
+    height: 48px;
+    top: 54%;
+  }
+
+  .boardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .note3,
+  .note4,
+  .arrow2,
+  .line2,
+  .line3,
+  .dust2 {
+    display: none;
+  }
+}

@@ -1,0 +1,449 @@
+.kanlog-page {
+  min-height: 100vh;
+  padding: 20px 18px 28px;
+  background: transparent;
+  color: #f4ecd4;
+  box-sizing: border-box;
+}
+
+.kanlog-board {
+  width: min(1440px, 94vw);
+  margin: 0 auto;
+  padding: clamp(24px, 2.2vw, 32px);
+  border-radius: 28px;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.028) 0 2px,
+      transparent 2px 38px
+    ),
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.07), transparent 52%),
+    linear-gradient(150deg, #203434 0%, #112323 70%, #0f1d1d 100%);
+  outline: 8px solid #4c331f;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.32),
+    inset 0 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 0 56px rgba(0, 0, 0, 0.26);
+  position: relative;
+  overflow: hidden;
+}
+
+.kanlog-board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.2;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.24) 0 2px, transparent 3px),
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.12) 0 2px, transparent 3px),
+    radial-gradient(circle at 74% 72%, rgba(255, 255, 255, 0.14) 0 1px, transparent 2px),
+    radial-gradient(circle at 35% 78%, rgba(255, 255, 255, 0.1) 0 1px, transparent 2px);
+}
+
+.kanlog-left,
+.kanlog-right {
+  position: relative;
+  z-index: 1;
+}
+
+.kanlog-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kanlog-right {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.kanlog-eyebrow,
+.kanlog-label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: rgba(243, 240, 223, 0.72);
+}
+
+.kanlog-title {
+  margin: 2px 0 0;
+  font-size: clamp(46px, 4.8vw, 74px);
+  line-height: 0.98;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  color: #f6e8c0;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+.kanlog-lead {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.95;
+  color: rgba(244, 236, 212, 0.94);
+}
+
+.kanlog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kanlog-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 240, 223, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  font-weight: 700;
+  color: #f5e8c3;
+}
+
+.kanlog-panel {
+  padding: 20px;
+  border-radius: 22px;
+  background: rgba(0, 0, 0, 0.035);
+  border: 1px solid rgba(243, 240, 223, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.kanlog-panel h2 {
+  margin: 10px 0 14px;
+  font-size: clamp(28px, 2.2vw, 38px);
+  line-height: 1.2;
+  color: #fff4cf;
+}
+
+.kanlog-panel p,
+.kanlog-panel li {
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(244, 236, 212, 0.94);
+}
+
+.kanlog-panel ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.kanlog-cta-panel h2 {
+  font-size: clamp(24px, 1.9vw, 32px);
+}
+
+.kanlog-store-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.storeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 240, 223, 0.24);
+  text-decoration: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.storeButton.primary {
+  background: rgba(121, 242, 208, 0.08);
+  color: #f6f0da;
+  box-shadow: inset 0 0 0 1px rgba(121, 242, 208, 0.12);
+}
+
+.storeButton.primary:hover,
+.storeButton.primary:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(121, 242, 208, 0.12);
+  border-color: rgba(121, 242, 208, 0.34);
+}
+
+.storeButton.ghost {
+  background: rgba(0, 0, 0, 0.03);
+  color: #f6f0da;
+}
+
+.storeButton.ghost:hover,
+.storeButton.ghost:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(243, 240, 223, 0.34);
+}
+
+.storeButton.compact {
+  min-height: 42px;
+  padding: 8px 14px;
+  white-space: nowrap;
+}
+
+.kanlog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kanlog-actions button {
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 240, 223, 0.22);
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff2cb;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.kanlog-actions button:hover,
+.kanlog-actions button:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(243, 240, 223, 0.34);
+}
+
+.kanlog-actions button.ghost {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.kanlog-top {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.preview-row {
+  margin-top: 16px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 16px;
+  min-height: 252px;
+}
+
+.preview-card {
+  width: min(180px, 31%);
+  min-width: 150px;
+  min-height: 220px;
+  padding: 18px 14px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(circle at top, rgba(62, 95, 89, 0.24), transparent 60%),
+    linear-gradient(180deg, rgba(17, 33, 38, 0.92) 0%, rgba(9, 18, 22, 0.96) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 10px 24px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  transition: transform 220ms ease, border-color 220ms ease;
+}
+
+.preview-card.active {
+  transform: translateY(-8px);
+  border-color: rgba(255, 233, 170, 0.18);
+}
+
+.preview-card span {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #d8c89c;
+  font-weight: 700;
+}
+
+.preview-card strong {
+  margin-top: 10px;
+  font-size: 28px;
+  line-height: 1.2;
+  color: #fff4d0;
+}
+
+.preview-card p {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.kanlog-middle {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kanlog-screens-panel {
+  padding-top: 18px;
+}
+
+.kanlog-screens-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.kanlog-screens-head h2 {
+  margin-bottom: 8px;
+}
+
+.kanlog-screens-copy {
+  margin: 0;
+  max-width: 700px;
+  color: rgba(243, 240, 223, 0.78);
+  font-size: 14px;
+}
+
+.screen-row {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.screen-card {
+  flex: 1 1 250px;
+  max-width: 320px;
+  min-width: 220px;
+}
+
+.screen-imageWrap {
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+
+.screen-card img {
+  width: auto;
+  max-width: 100%;
+  height: 420px;
+  object-fit: contain;
+  border-radius: 20px;
+  border: 6px solid #0b1112;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.34);
+  background: #0b1112;
+}
+
+.screen-card h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: #fff1c7;
+}
+
+.screen-card p {
+  margin: 0;
+  color: rgba(244, 236, 212, 0.9);
+}
+
+@media (max-width: 1180px) {
+  .kanlog-board {
+    grid-template-columns: 1fr;
+  }
+
+  .kanlog-top {
+    grid-template-columns: 1fr;
+  }
+
+  .kanlog-middle {
+    grid-template-columns: 1fr;
+  }
+
+  .kanlog-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .kanlog-actions button {
+    width: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .kanlog-page {
+    padding: 12px 10px 20px;
+  }
+
+  .kanlog-board {
+    width: min(100%, 100vw);
+    padding: 18px 14px;
+    outline-width: 6px;
+    border-radius: 22px;
+  }
+
+  .kanlog-title {
+    line-height: 1.04;
+  }
+
+  .kanlog-panel {
+    padding: 16px;
+  }
+
+  .kanlog-store-actions,
+  .kanlog-actions {
+    flex-direction: column;
+  }
+
+  .storeButton,
+  .kanlog-actions button {
+    width: 100%;
+  }
+
+  .preview-row {
+    min-height: auto;
+    gap: 14px;
+    flex-direction: column;
+  }
+
+  .preview-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 180px;
+  }
+
+  .kanlog-screens-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .screen-row {
+    gap: 20px;
+  }
+
+  .screen-imageWrap {
+    min-height: auto;
+  }
+
+  .screen-card img {
+    height: auto;
+    max-height: 420px;
+  }
+}

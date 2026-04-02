@@ -1,0 +1,229 @@
+.surveyBoard {
+  width: min(1280px, 95vw);
+}
+
+.surveyHead {
+  margin-bottom: 30px;
+}
+
+.surveyHead p {
+  max-width: 760px;
+  line-height: 1.85;
+}
+
+.surveyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.surveyBlock {
+  margin: 0;
+  padding: 22px 22px 24px;
+  border: 1px solid rgba(243, 240, 223, 0.55);
+  border-radius: 18px;
+  background: rgba(8, 18, 19, 0.22);
+}
+
+.surveyBlock legend {
+  padding: 0 10px;
+  color: #f3f0df;
+  font-size: 0.96rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.surveyLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.surveyLabel:first-of-type {
+  margin-top: 0;
+}
+
+.questionText {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.7;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f3f0df;
+}
+
+.requiredMark {
+  color: #ffc46d;
+  font-weight: 700;
+}
+
+.surveyForm select,
+.surveyForm textarea {
+  width: 100%;
+  border: 1px solid rgba(243, 240, 223, 0.45);
+  border-radius: 12px;
+  background: rgba(6, 15, 16, 0.76);
+  color: #f3f0df;
+  padding: 12px 14px;
+  font: inherit;
+  line-height: 1.65;
+  outline: none;
+  appearance: none;
+}
+
+.surveyForm select {
+  min-height: 48px;
+}
+
+.surveyForm textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.surveyForm select:focus,
+.surveyForm textarea:focus {
+  border-color: rgba(121, 242, 208, 0.88);
+  box-shadow: 0 0 0 3px rgba(121, 242, 208, 0.14);
+}
+
+.surveyForm option {
+  color: #f3f0df;
+  background: #102427;
+}
+
+.radioGroup,
+.checkboxGroup {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.radioGroup label,
+.checkboxGroup label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.75;
+  color: #f3f0df;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 12px;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.radioGroup label:hover,
+.checkboxGroup label:hover {
+  background: rgba(243, 240, 223, 0.06);
+}
+
+.radioGroup input,
+.checkboxGroup input {
+  margin-top: 0.28em;
+  flex: 0 0 auto;
+}
+
+.metricPanel {
+  margin-top: 6px;
+}
+
+.surveyError {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 120, 120, 0.45);
+  border-radius: 12px;
+  background: rgba(120, 20, 20, 0.18);
+  color: #ffd7d7;
+  line-height: 1.7;
+}
+
+.surveyThanks {
+  padding: 10px 0 4px;
+}
+
+.surveyThanks h3 {
+  margin: 8px 0 12px;
+  font-size: clamp(1.65rem, 2.6vw, 2.25rem);
+}
+
+.surveyThanks p {
+  line-height: 1.9;
+}
+
+@media (min-width: 900px) {
+  .radioGroup {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+
+  .checkboxGroup {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+
+  .radioGroup label,
+  .checkboxGroup label {
+    min-height: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .surveyBoard {
+    width: min(1320px, 95vw);
+  }
+
+  .surveyBlock {
+    padding: 24px 24px 26px;
+  }
+
+  .surveyForm textarea {
+    min-height: 170px;
+  }
+}
+
+@media (max-width: 720px) {
+  .surveyBoard {
+    width: min(96vw, 1320px);
+  }
+
+  .surveyHead {
+    margin-bottom: 22px;
+  }
+
+  .surveyBlock {
+    padding: 16px 14px 18px;
+    border-radius: 16px;
+  }
+
+  .surveyBlock legend {
+    font-size: 0.88rem;
+  }
+
+  .questionText {
+    font-size: 0.95rem;
+  }
+
+  .surveyForm select,
+  .surveyForm textarea {
+    padding: 11px 12px;
+  }
+
+  .surveyForm textarea {
+    min-height: 130px;
+  }
+
+  .radioGroup,
+  .checkboxGroup {
+    gap: 10px;
+  }
+
+  .radioGroup label,
+  .checkboxGroup label {
+    padding: 4px 2px;
+  }
+}

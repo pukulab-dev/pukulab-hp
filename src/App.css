@@ -1,0 +1,315 @@
+:root {
+  --chalk: #f3f0df;
+  --chalk-soft: rgba(243, 240, 223, 0.7);
+  --ink: #0d1515;
+  --ink-soft: #1b2d2d;
+  --neon: #79f2d0;
+  --accent: #ffc46d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html,
+body,
+#root {
+  background:
+    linear-gradient(180deg, #173136 0%, #11272b 70%, #0f2023 100%);
+}
+
+body {
+  margin: 0;
+  color: var(--chalk);
+  font-family: "Trebuchet MS", "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.siteFrame {
+  min-height: 100vh;
+  padding: 42px 24px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0.008)),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.018) 0 2px,
+      transparent 2px 38px
+    ),
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.05), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05), transparent 52%),
+    linear-gradient(150deg, #203434 0%, #112323 70%, #0f1d1d 100%);
+}
+
+.chalkboard {
+  width: min(1720px, 96vw);
+  min-height: 580px;
+  border-radius: 24px;
+  padding: clamp(32px, 3vw, 46px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.028) 0 2px,
+      transparent 2px 38px
+    ),
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.06), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.07), transparent 52%),
+    linear-gradient(150deg, #203434 0%, #112323 70%, #0f1d1d 100%);
+  outline: 8px solid #4c331f;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.32),
+    inset 0 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 0 56px rgba(0, 0, 0, 0.26);
+  position: relative;
+  overflow: hidden;
+}
+
+.chalkboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.24) 0 2px, transparent 3px),
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.12) 0 2px, transparent 3px),
+    radial-gradient(circle at 74% 72%, rgba(255, 255, 255, 0.14) 0 1px, transparent 2px),
+    radial-gradient(circle at 35% 78%, rgba(255, 255, 255, 0.1) 0 1px, transparent 2px);
+}
+
+.pageHead,
+.pageActions,
+.appList,
+.contactForm,
+.planList,
+.metricPanel,
+.secretStuff {
+  position: relative;
+  z-index: 2;
+}
+
+.smallTag {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--chalk-soft);
+}
+
+.pageHead h2 {
+  margin: 8px 0 0;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.02;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.pageHead p {
+  margin: 10px 0 0;
+  color: var(--chalk-soft);
+  font-size: clamp(15px, 1.45vw, 20px);
+}
+
+.innerPageFrame {
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 42px;
+  padding-bottom: 36px;
+  background: transparent;
+}
+
+.pageBoard {
+  width: min(1540px, 96vw);
+}
+
+.pageHead h2 {
+  margin-top: 8px;
+}
+
+.appList {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.appCard {
+  border: 1px dashed rgba(243, 240, 223, 0.16);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 18px;
+}
+
+.appCard h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.appCard .meta {
+  margin: 4px 0 10px;
+  color: var(--chalk-soft);
+  font-size: 13px;
+}
+
+.contactForm {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.contactForm label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--chalk-soft);
+}
+
+.contactForm input,
+.contactForm textarea {
+  border: 1px solid rgba(243, 240, 223, 0.18);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--chalk);
+  padding: 12px;
+  font: inherit;
+}
+
+.contactForm input:focus,
+.contactForm textarea:focus {
+  outline: 2px solid rgba(121, 242, 208, 0.45);
+  outline-offset: 1px;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(243, 240, 223, 0.24);
+  border-radius: 999px;
+  background: rgba(121, 242, 208, 0.04);
+  color: var(--chalk);
+  padding: 10px 16px;
+  min-height: 42px;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+
+.navButton:hover,
+.navButton:focus-visible {
+  transform: translateY(-2px);
+  background: rgba(121, 242, 208, 0.07);
+  border-color: rgba(243, 240, 223, 0.34);
+}
+
+.navButton.ghost {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.pageActions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.successText {
+  margin: 0;
+  color: var(--neon);
+  font-size: 14px;
+}
+
+.planList {
+  margin: 22px 0 0;
+  padding-left: 20px;
+  color: var(--chalk-soft);
+  display: grid;
+  gap: 10px;
+}
+
+.metricPanel {
+  margin-top: 20px;
+  border: 1px dashed rgba(121, 242, 208, 0.22);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(121, 242, 208, 0.025);
+}
+
+.metricPanel p {
+  margin: 0 0 6px;
+  color: var(--chalk-soft);
+}
+
+.secretBoard {
+  background:
+    radial-gradient(circle at 30% 10%, rgba(121, 242, 208, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255, 196, 109, 0.07), transparent 50%),
+    linear-gradient(150deg, #1d2f2f 0%, #101e1e 70%, #0f1718 100%);
+}
+
+.secretStuff {
+  margin-top: 28px;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.pulseOrb {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #d9fff3, #72e4c2);
+  box-shadow: 0 0 22px rgba(121, 242, 208, 0.8);
+  animation: pulseOrb 1600ms ease-in-out infinite;
+}
+
+@keyframes pulseOrb {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+}
+
+@media (max-width: 760px) {
+  .siteFrame {
+    padding: 16px 10px 20px;
+  }
+
+  .chalkboard {
+    width: min(100%, 100vw);
+    min-height: auto;
+    padding: 18px 14px;
+    outline-width: 6px;
+  }
+
+  .pageBoard {
+    width: min(100%, 100vw);
+  }
+
+  .pageActions {
+    flex-direction: column;
+  }
+
+  .navButton {
+    width: 100%;
+  }
+
+  .innerPageFrame {
+    padding-top: 16px;
+    padding-bottom: 20px;
+  }
+}
