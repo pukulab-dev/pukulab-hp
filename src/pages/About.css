@@ -1,0 +1,204 @@
+.aboutPage {
+  min-height: 100vh;
+  padding: 32px 20px 80px;
+  color: var(--chalk);
+}
+
+.aboutHero {
+  margin: 0 auto 24px;
+  max-width: 1180px;
+}
+
+.aboutHeroInner {
+  border-radius: 28px;
+  padding: 34px 28px;
+  background:
+    radial-gradient(circle at top right, rgba(121, 242, 208, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(243, 240, 223, 0.1);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 12px 34px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(6px);
+}
+
+.aboutEyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--chalk-soft);
+}
+
+.aboutTitle {
+  margin: 0;
+  font-size: clamp(34px, 4.6vw, 58px);
+  line-height: 1.08;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.16);
+}
+
+.aboutLead {
+  max-width: 820px;
+  margin: 16px 0 0;
+  line-height: 1.9;
+  color: rgba(243, 240, 223, 0.88);
+  font-size: 15px;
+}
+
+.aboutHeroLinks {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.aboutHeroLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--chalk);
+  border: 1px solid rgba(243, 240, 223, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.aboutHeroLink:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(243, 240, 223, 0.34);
+}
+
+.aboutSection {
+  max-width: 1180px;
+  margin: 0 auto 18px;
+  padding: 26px 24px;
+  border-radius: 26px;
+  border: 1px solid rgba(243, 240, 223, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.aboutSectionHeader {
+  margin-bottom: 18px;
+}
+
+.aboutSectionMini {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--chalk-soft);
+}
+
+.aboutSection h2 {
+  margin: 0;
+  font-size: clamp(24px, 2.8vw, 34px);
+}
+
+.aboutProfileGrid,
+.aboutProjectGrid,
+.aboutLinkGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.aboutProfileGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.aboutProjectGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aboutLinkGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aboutCard,
+.aboutProjectCard {
+  min-height: 100%;
+  padding: 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(243, 240, 223, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+}
+
+.aboutCard h3,
+.aboutProjectCard h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  color: #f8f4dd;
+}
+
+.aboutCard p,
+.aboutProjectCard p,
+.aboutTextBlock p {
+  margin: 0;
+  line-height: 1.9;
+  color: rgba(243, 240, 223, 0.86);
+}
+
+.aboutCard p + p,
+.aboutProjectCard p + p,
+.aboutTextBlock p + p {
+  margin-top: 12px;
+}
+
+.aboutTextBlock {
+  max-width: 860px;
+}
+
+.aboutEntryLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  padding: 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--chalk);
+  border: 1px solid rgba(243, 240, 223, 0.12);
+  background:
+    radial-gradient(circle at top right, rgba(255, 196, 109, 0.06), transparent 32%),
+    rgba(255, 255, 255, 0.03);
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.aboutEntryLink:hover {
+  transform: translateY(-2px);
+  background:
+    radial-gradient(circle at top right, rgba(255, 196, 109, 0.1), transparent 32%),
+    rgba(255, 255, 255, 0.05);
+  border-color: rgba(243, 240, 223, 0.26);
+}
+
+@media (max-width: 860px) {
+  .aboutProfileGrid,
+  .aboutProjectGrid,
+  .aboutLinkGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutPage {
+    padding: 20px 14px 56px;
+  }
+
+  .aboutHeroInner,
+  .aboutSection {
+    padding: 22px 18px;
+  }
+
+  .aboutLead {
+    font-size: 14px;
+  }
+}
