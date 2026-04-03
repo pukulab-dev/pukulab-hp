@@ -12,7 +12,7 @@
   padding: clamp(24px, 2.2vw, 32px);
   border-radius: 28px;
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 380px minmax(0, 1fr);
   gap: 20px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
 .kanlog-right {
@@ -76,11 +77,14 @@
 
 .kanlog-title {
   margin: 2px 0 0;
-  font-size: clamp(46px, 4.8vw, 74px);
-  line-height: 0.98;
+  font-size: clamp(34px, 3.6vw, 60px);
+  line-height: 1.02;
   font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
   color: #f6e8c0;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.01em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .kanlog-lead {
@@ -122,6 +126,8 @@
   font-size: clamp(28px, 2.2vw, 38px);
   line-height: 1.2;
   color: #fff4cf;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .kanlog-panel p,
@@ -400,7 +406,8 @@
   }
 
   .kanlog-title {
-    line-height: 1.04;
+    font-size: clamp(30px, 9vw, 44px);
+    line-height: 1.06;
   }
 
   .kanlog-panel {
