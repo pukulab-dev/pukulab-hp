@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import "./About.css";
 
+const NOTE_URL = "#";
+const X_URL = "#";
+
 export default function About() {
   return (
     <main className="aboutPage">
@@ -111,6 +114,43 @@ export default function About() {
               開発の裏側や世界観、試作中のアイデアも発信しています。
             </p>
           </article>
+        </div>
+      </section>
+
+      <section className="aboutSection">
+        <div className="aboutSectionHeader">
+          <p className="aboutSectionMini">LINKS</p>
+          <h2>活動している場所</h2>
+        </div>
+
+        <div className="aboutTextBlock">
+          <p>
+            開発の裏側や試行錯誤、物語として読める記録は note で発信しています。
+            日々の動きや更新のお知らせ、ちょっとしたボヤキは X で流しています。
+          </p>
+          <p>
+            研究所の外側と内側、どちらも気になったらのぞいてみてください。
+          </p>
+        </div>
+
+        <div className="aboutLinkGrid">
+          <a
+            className="aboutEntryLink"
+            href={note.com/rich_bison8482}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            noteを見る
+          </a>
+
+          <a
+            className="aboutEntryLink"
+            href={x.com/pukurin5573607}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Xを見る
+          </a>
         </div>
       </section>
 
