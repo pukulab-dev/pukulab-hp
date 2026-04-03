@@ -20,7 +20,7 @@ export default function Kanlog() {
             <br />
             漫画の巻数管理
             <br />
-            ダブり防止アプリ
+            ダブり防止
           </h1>
           <p className="kanlog-lead">
             るのと始める漫画管理。持っている漫画の巻数を記録して、ダブり買いを防ぎながら、
