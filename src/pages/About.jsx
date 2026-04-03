@@ -136,7 +136,7 @@ export default function About() {
         <div className="aboutLinkGrid">
           <a
             className="aboutEntryLink"
-            href={note.com/rich_bison8482}
+            href="https://note.com/rich_bison8482"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -145,7 +145,7 @@ export default function About() {
 
           <a
             className="aboutEntryLink"
-            href={x.com/pukurin5573607}
+            href="https://x.com/pukurin5573607"
             target="_blank"
             rel="noopener noreferrer"
           >
