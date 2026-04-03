@@ -15,7 +15,13 @@ export default function Kanlog() {
       <div className="kanlog-board">
         <aside className="kanlog-left">
           <p className="kanlog-eyebrow">KANLOG / MANGA MANAGEMENT APP</p>
-          <h1 className="kanlog-title">巻ログ｜漫画の巻数管理・ダブり防止アプリ</h1>
+          <h1 className="kanlog-title">
+            巻ログ｜
+            <br />
+            漫画の巻数管理
+            <br />
+            ダブり防止アプリ
+          </h1>
           <p className="kanlog-lead">
             るのと始める漫画管理。持っている漫画の巻数を記録して、ダブり買いを防ぎながら、
             自分だけの本棚を育てていく漫画管理アプリです。何巻まで買ったか分からなくなりやすい人でも、
@@ -185,7 +191,10 @@ export default function Kanlog() {
 
               <article className="screen-card">
                 <div className="screen-imageWrap">
-                  <img src={shelfImg} alt="巻ログの本棚一覧画面。所持している漫画の巻数を整理して確認できる画面" />
+                  <img
+                    src={shelfImg}
+                    alt="巻ログの本棚一覧画面。所持している漫画の巻数を整理して確認できる画面"
+                  />
                 </div>
                 <h3>本棚一覧</h3>
                 <p>持っている巻や抜け巻きを見返しやすく整理。</p>
@@ -193,7 +202,10 @@ export default function Kanlog() {
 
               <article className="screen-card">
                 <div className="screen-imageWrap">
-                  <img src={detailImg} alt="巻ログの作品詳細画面。何巻まで持っているか確認しやすい画面" />
+                  <img
+                    src={detailImg}
+                    alt="巻ログの作品詳細画面。何巻まで持っているか確認しやすい画面"
+                  />
                 </div>
                 <h3>作品詳細</h3>
                 <p>
