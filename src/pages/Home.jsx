@@ -160,6 +160,19 @@ export default function Home() {
             <span className="secretDoor disabled">LOCKED</span>
           )}
         </footer>
+
+        <section className="homeSeoBlock" aria-label="Puku Labの研究ログ">
+          <p className="homeSeoTag">RESEARCH LOG</p>
+          <h2>Puku Labについて</h2>
+          <p>
+            Puku Labは、漫画管理アプリ「巻ログ」を開発している個人開発の研究所です。
+            紙の漫画を中心に、巻数管理、ダブり防止、コレクション整理を楽しく続けられる形でまとめています。
+          </p>
+          <p>
+            巻ログは、何巻まで買ったか分からなくなりやすい人や、同じ巻をうっかり重複して買いたくない人向けの漫画管理アプリです。
+            本棚のように一覧で見返しながら、持っている巻や抜け巻を確認しやすくしています。
+          </p>
+        </section>
       </section>
     </main>
   );
