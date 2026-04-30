@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import "./Questionnaire.css";
 
-const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT || "";
+const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT || "https://script.google.com/macros/s/AKfycbzr8yCaM-ejpk9_rUkbbN1m6M-x4OyLddhCxEeaAMAOkwQfLbua8-ET7XCc1Dz3N3ES4Q/exec";
 
 const initialForm = {
   booksOwned: "",
