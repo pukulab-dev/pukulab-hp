@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import "./Questionnaire.css";
 
+const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT || "";
+
 const initialForm = {
   booksOwned: "",
   duplicateExperience: "",
@@ -70,6 +72,13 @@ export default function Questionnaire() {
       return;
     }
 
+    if (!SURVEY_ENDPOINT) {
+      setSubmitError(
+        "現在、研究データの送信先を準備中です。少し時間をおいてからお試しください。"
+      );
+      return;
+    }
+
     const payload = {
       submitted_at: new Date().toISOString(),
       books_owned: form.booksOwned,
@@ -82,15 +91,25 @@ export default function Questionnaire() {
       want_ios: form.wantIos,
       app_decision_factor: form.appDecisionFactor,
       note: form.note.trim(),
+      page_url: window.location.href,
+      user_agent: navigator.userAgent,
     };
 
     try {
       setIsSubmitting(true);
 
-      console.log("survey payload", payload);
+      const body = new URLSearchParams();
+      body.append("payload", JSON.stringify(payload));
+
+      await fetch(SURVEY_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        body,
+      });
 
       setIsSubmitted(true);
       setForm(initialForm);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error(error);
       setSubmitError("送信に失敗しました。時間をおいてもう一度お試しください。");
@@ -108,18 +127,18 @@ export default function Questionnaire() {
           <p>
             Puku Labでは、使いたくなるアプリを研究しています。
             <br />
-            よければあなたの声を聞かせてください。
+            あなたの声を、次の改善や新しいアプリ企画のヒントにします。
           </p>
         </header>
 
         {isSubmitted ? (
           <section className="surveyThanks" aria-live="polite">
             <p className="smallTag">ANALYSIS COMPLETE</p>
-            <h3>回答ありがとうございました！</h3>
+            <h3>研究データを受け取りました！</h3>
             <p>
-              いただいた内容は、
+              回答ありがとうございました。
               <br />
-              巻ログの改善や次のアプリ開発の参考に使わせていただきます。
+              巻ログの改善や、次のアプリ企画の参考に使わせていただきます。
             </p>
 
             <div className="pageActions">
@@ -163,6 +182,7 @@ export default function Questionnaire() {
                   ダブり買いをしたことはありますか？
                   <span className="requiredMark">*</span>
                 </span>
+
                 <div className="radioGroup">
                   <label>
                     <input
@@ -218,7 +238,9 @@ export default function Questionnaire() {
                   <option value="forget_owned_books">持っている本を忘れる</option>
                   <option value="duplicate_purchase">ダブり購入</option>
                   <option value="new_release_check">新刊チェックが大変</option>
-                  <option value="collection_management">コレクション管理が面倒</option>
+                  <option value="collection_management">
+                    コレクション管理が面倒
+                  </option>
                   <option value="storage_problem">置き場所や収納</option>
                 </select>
               </label>
@@ -228,7 +250,10 @@ export default function Questionnaire() {
               <legend>02. 巻ログにほしいもの</legend>
 
               <div className="surveyLabel">
-                <span className="questionText">ほしい機能を選んでください（複数可）</span>
+                <span className="questionText">
+                  ほしい機能を選んでください（複数可）
+                </span>
+
                 <div className="checkboxGroup">
                   {featureOptions.map((feature) => (
                     <label key={feature.value}>
@@ -252,6 +277,7 @@ export default function Questionnaire() {
                   欲しいのにストアにないアプリはありますか？
                   <span className="requiredMark">*</span>
                 </span>
+
                 <div className="radioGroup">
                   <label>
                     <input
@@ -259,7 +285,9 @@ export default function Questionnaire() {
                       name="missingAppNeed"
                       value="yes_clear"
                       checked={form.missingAppNeed === "yes_clear"}
-                      onChange={(e) => updateField("missingAppNeed", e.target.value)}
+                      onChange={(e) =>
+                        updateField("missingAppNeed", e.target.value)
+                      }
                     />
                     <span>はっきりある</span>
                   </label>
@@ -270,7 +298,9 @@ export default function Questionnaire() {
                       name="missingAppNeed"
                       value="yes_maybe"
                       checked={form.missingAppNeed === "yes_maybe"}
-                      onChange={(e) => updateField("missingAppNeed", e.target.value)}
+                      onChange={(e) =>
+                        updateField("missingAppNeed", e.target.value)
+                      }
                     />
                     <span>なんとなくある</span>
                   </label>
@@ -281,7 +311,9 @@ export default function Questionnaire() {
                       name="missingAppNeed"
                       value="none"
                       checked={form.missingAppNeed === "none"}
-                      onChange={(e) => updateField("missingAppNeed", e.target.value)}
+                      onChange={(e) =>
+                        updateField("missingAppNeed", e.target.value)
+                      }
                     />
                     <span>今は特にない</span>
                   </label>
@@ -322,6 +354,7 @@ export default function Questionnaire() {
                   iOS版があれば使いたいですか？
                   <span className="requiredMark">*</span>
                 </span>
+
                 <div className="radioGroup">
                   <label>
                     <input
@@ -365,7 +398,9 @@ export default function Questionnaire() {
                 </span>
                 <select
                   value={form.appDecisionFactor}
-                  onChange={(e) => updateField("appDecisionFactor", e.target.value)}
+                  onChange={(e) =>
+                    updateField("appDecisionFactor", e.target.value)
+                  }
                 >
                   <option value="">選んでください</option>
                   <option value="design">見た目</option>
@@ -398,7 +433,9 @@ export default function Questionnaire() {
 
             <div className="metricPanel">
               <p>研究メモ</p>
-              <strong>回答は今後の改善・新アプリ企画の参考に使われます</strong>
+              <strong>
+                回答は今後の改善・新アプリ企画の参考に使われます
+              </strong>
             </div>
 
             <div className="pageActions">
