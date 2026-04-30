@@ -5,7 +5,8 @@ import homeImg from "../assets/Screenshot_home.png";
 import shelfImg from "../assets/Screenshot_hondana.png";
 import detailImg from "../assets/Screenshot_book.png";
 
-const PLAY_STORE_URL = "#";
+const PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.pukulab.makilog";
 
 export default function Kanlog() {
   const navigate = useNavigate();
@@ -39,18 +40,19 @@ export default function Kanlog() {
             <p className="kanlog-label">CURRENT STATUS</p>
             <h2>現在の状況</h2>
             <p>
-              巻ログは現在、クローズドテスト段階です。公開に向けて、使いやすさの調整や
-              漫画管理に役立つ機能の追加を進めています。紙の漫画を集めている人が、
-              「うっかり同じ巻を買ってしまった」を減らせるように整えています。
+              巻ログは Google Play で配信中です。紙の漫画を集めている人が、
+              「うっかり同じ巻を買ってしまった」を減らせるように、
+              巻数管理やダブり防止をしやすい形に整えています。
             </p>
           </section>
 
           <section className="kanlog-panel kanlog-cta-panel">
             <p className="kanlog-label">GET APP</p>
-            <h2>公開後はここから使えるように</h2>
+            <h2>Google Play で配信中</h2>
             <p>
-              公開後は Google Play からすぐにダウンロードできるようにする予定です。
-              漫画の巻数管理やダブり防止をしたい人は、公開後にチェックしてもらえるとうれしいです。
+              巻ログは Google Play からダウンロードできます。
+              漫画の巻数管理やダブり防止をしたい人は、
+              ぜひチェックしてもらえるとうれしいです。
             </p>
 
             <div className="kanlog-store-actions">
