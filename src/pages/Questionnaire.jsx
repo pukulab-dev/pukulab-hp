@@ -1,21 +1,10 @@
 import { Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import "./Questionnaire.css";
 
-const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT || "https://script.google.com/macros/s/AKfycbzr8yCaM-ejpk9_rUkbbN1m6M-x4OyLddhCxEeaAMAOkwQfLbua8-ET7XCc1Dz3N3ES4Q/exec";
-
-const initialForm = {
-  booksOwned: "",
-  duplicateExperience: "",
-  biggestProblem: "",
-  wantedFeatures: [],
-  missingAppNeed: "",
-  missingAppIdea: "",
-  deviceType: "",
-  wantIos: "",
-  appDecisionFactor: "",
-  note: "",
-};
+const SURVEY_ENDPOINT =
+  import.meta.env.VITE_SURVEY_ENDPOINT ||
+  "https://script.google.com/macros/s/AKfycbxlN4pN8ERn4gp0jjK-pqvyRMguIXe8fq8_biKMe7BKyBJE9aKuqQnjA6HQ6xiu6hE/exec";
 
 const featureOptions = [
   { value: "duplicate_check", label: "ダブり防止" },
@@ -25,52 +14,40 @@ const featureOptions = [
   { value: "memo_review", label: "感想メモ・レビュー" },
 ];
 
+const lifeProblemOptions = [
+  { value: "collection", label: "本・漫画・コレクション管理" },
+  { value: "task_schedule", label: "予定・タスク管理" },
+  { value: "money_shopping", label: "買い物・お金まわり" },
+  { value: "health_life", label: "生活習慣・体調管理" },
+  { value: "travel_outing", label: "旅行・おでかけ" },
+  { value: "communication", label: "人間関係・連絡" },
+  { value: "learning_work", label: "学習・仕事・作業" },
+  { value: "none", label: "今は特にない" },
+];
+
+const pukulabInterestOptions = [
+  { value: "manga_management", label: "漫画・コレクション管理" },
+  { value: "life_record", label: "生活を整えるアプリ" },
+  { value: "travel_memory", label: "旅行・思い出系のアプリ" },
+  { value: "ai_dev_log", label: "AIを使った開発記録" },
+  { value: "note_story", label: "note記事・開発日誌" },
+  { value: "fictional_world", label: "物語・世界観づくり" },
+  { value: "local_project", label: "地域企画・リアル展開" },
+  { value: "not_sure", label: "まだよく分からない" },
+];
+
+function getText(formData, key) {
+  return String(formData.get(key) || "").trim();
+}
+
 export default function Questionnaire() {
-  const [form, setForm] = useState(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  const requiredFilled = useMemo(() => {
-    return (
-      form.booksOwned &&
-      form.duplicateExperience &&
-      form.biggestProblem &&
-      form.missingAppNeed &&
-      form.deviceType &&
-      form.wantIos &&
-      form.appDecisionFactor
-    );
-  }, [form]);
-
-  function updateField(key, value) {
-    setForm((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  }
-
-  function toggleFeature(value) {
-    setForm((prev) => {
-      const exists = prev.wantedFeatures.includes(value);
-
-      return {
-        ...prev,
-        wantedFeatures: exists
-          ? prev.wantedFeatures.filter((item) => item !== value)
-          : [...prev.wantedFeatures, value],
-      };
-    });
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
     setSubmitError("");
-
-    if (!requiredFilled) {
-      setSubmitError("未回答の必須項目があります。");
-      return;
-    }
 
     if (!SURVEY_ENDPOINT) {
       setSubmitError(
@@ -79,21 +56,37 @@ export default function Questionnaire() {
       return;
     }
 
+    const formElement = event.currentTarget;
+    const formData = new FormData(formElement);
+
     const payload = {
+      form_version: "pukulab_marketing_survey_v2",
       submitted_at: new Date().toISOString(),
-      books_owned: form.booksOwned,
-      duplicate_experience: form.duplicateExperience,
-      biggest_problem: form.biggestProblem,
-      wanted_features: form.wantedFeatures,
-      missing_app_need: form.missingAppNeed,
-      missing_app_idea: form.missingAppIdea.trim(),
-      device_type: form.deviceType,
-      want_ios: form.wantIos,
-      app_decision_factor: form.appDecisionFactor,
-      note: form.note.trim(),
+
+      age_range: getText(formData, "ageRange"),
+      gender: getText(formData, "gender"),
+      device_type: getText(formData, "deviceType"),
+      app_decision_factor: getText(formData, "appDecisionFactor"),
+
+      life_problem_categories: formData.getAll("lifeProblemCategories"),
+      life_problem_note: getText(formData, "lifeProblemNote"),
+
+      books_owned: getText(formData, "booksOwned"),
+      duplicate_experience: getText(formData, "duplicateExperience"),
+      biggest_problem: getText(formData, "biggestProblem"),
+      wanted_features: formData.getAll("wantedFeatures"),
+
+      pukulab_interests: formData.getAll("pukulabInterests"),
+      note: getText(formData, "note"),
+
       page_url: window.location.href,
       user_agent: navigator.userAgent,
     };
+
+    if (!payload.device_type || !payload.app_decision_factor) {
+      setSubmitError("未回答の必須項目があります。");
+      return;
+    }
 
     try {
       setIsSubmitting(true);
@@ -108,7 +101,7 @@ export default function Questionnaire() {
       });
 
       setIsSubmitted(true);
-      setForm(initialForm);
+      formElement.reset();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error(error);
@@ -125,9 +118,9 @@ export default function Questionnaire() {
           <p className="smallTag">MARKETING LAB</p>
           <h2>研究アンケート</h2>
           <p>
-            Puku Labでは、使いたくなるアプリを研究しています。
+            Puku Labでは、使いたくなるアプリやコンテンツを研究しています。
             <br />
-            あなたの声を、次の改善や新しいアプリ企画のヒントにします。
+            答えられる範囲で、あなたの声を聞かせてください。
           </p>
         </header>
 
@@ -138,7 +131,7 @@ export default function Questionnaire() {
             <p>
               回答ありがとうございました。
               <br />
-              巻ログの改善や、次のアプリ企画の参考に使わせていただきます。
+              今後の改善や、新しい企画の参考に使わせていただきます。
             </p>
 
             <div className="pageActions">
@@ -158,42 +151,123 @@ export default function Questionnaire() {
         ) : (
           <form className="surveyForm" onSubmit={handleSubmit}>
             <fieldset className="surveyBlock">
-              <legend>01. あなたのコレクションについて</legend>
+              <legend>01. あなたについて</legend>
+
+              <p className="surveyHint">
+                年代・性別は任意です。答えたくない項目は飛ばして大丈夫です。
+              </p>
+
+              <label className="surveyLabel">
+                <span className="questionText">年代</span>
+                <select name="ageRange" defaultValue="">
+                  <option value="">回答しない</option>
+                  <option value="10s">10代</option>
+                  <option value="20s">20代</option>
+                  <option value="30s">30代</option>
+                  <option value="40s">40代</option>
+                  <option value="50s">50代</option>
+                  <option value="60_over">60代以上</option>
+                </select>
+              </label>
+
+              <label className="surveyLabel">
+                <span className="questionText">性別</span>
+                <select name="gender" defaultValue="">
+                  <option value="">回答しない</option>
+                  <option value="male">男性</option>
+                  <option value="female">女性</option>
+                  <option value="other">その他</option>
+                </select>
+              </label>
 
               <label className="surveyLabel">
                 <span className="questionText">
-                  漫画はどれくらい持っていますか？
+                  普段よく使う端末
                   <span className="requiredMark">*</span>
                 </span>
-                <select
-                  value={form.booksOwned}
-                  onChange={(e) => updateField("booksOwned", e.target.value)}
-                >
+                <select name="deviceType" defaultValue="" required>
+                  <option value="">選んでください</option>
+                  <option value="iphone">iPhone</option>
+                  <option value="android">Android</option>
+                  <option value="both_mobile">iPhone / Android 両方</option>
+                  <option value="pc_main">PC中心</option>
+                  <option value="other">その他</option>
+                </select>
+              </label>
+
+              <label className="surveyLabel">
+                <span className="questionText">
+                  新しいアプリを入れるときの決め手
+                  <span className="requiredMark">*</span>
+                </span>
+                <select name="appDecisionFactor" defaultValue="" required>
+                  <option value="">選んでください</option>
+                  <option value="easy_to_use">使いやすさ</option>
+                  <option value="features">機能</option>
+                  <option value="design">見た目・デザイン</option>
+                  <option value="worldview">世界観・雰囲気</option>
+                  <option value="price">価格</option>
+                  <option value="reviews">口コミ・評価</option>
+                  <option value="privacy">安心感・信頼感</option>
+                </select>
+              </label>
+            </fieldset>
+
+            <fieldset className="surveyBlock">
+              <legend>02. 日常の困りごと</legend>
+
+              <div className="surveyLabel">
+                <span className="questionText">
+                  日常や趣味で「少し面倒」と感じるものはありますか？（複数可）
+                </span>
+
+                <div className="checkboxGroup">
+                  {lifeProblemOptions.map((item) => (
+                    <label key={item.value}>
+                      <input
+                        type="checkbox"
+                        name="lifeProblemCategories"
+                        value={item.value}
+                      />
+                      <span>{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <label className="surveyLabel">
+                <span className="questionText">
+                  具体的に「ちょっと不便」と感じていることがあれば教えてください
+                </span>
+                <textarea name="lifeProblemNote" rows={4} />
+              </label>
+            </fieldset>
+
+            <fieldset className="surveyBlock">
+              <legend>03. 漫画・コレクションについて</legend>
+
+              <p className="surveyHint">
+                巻ログ改善の参考にします。漫画をあまり読まない方は飛ばして大丈夫です。
+              </p>
+
+              <label className="surveyLabel">
+                <span className="questionText">漫画はどれくらい持っていますか？</span>
+                <select name="booksOwned" defaultValue="">
                   <option value="">選んでください</option>
                   <option value="under_50">〜50冊</option>
                   <option value="50_200">50〜200冊</option>
                   <option value="200_500">200〜500冊</option>
                   <option value="500_over">500冊以上</option>
+                  <option value="not_read">あまり読まない</option>
                 </select>
               </label>
 
               <div className="surveyLabel">
-                <span className="questionText">
-                  ダブり買いをしたことはありますか？
-                  <span className="requiredMark">*</span>
-                </span>
+                <span className="questionText">ダブり買いをしたことはありますか？</span>
 
                 <div className="radioGroup">
                   <label>
-                    <input
-                      type="radio"
-                      name="duplicateExperience"
-                      value="often"
-                      checked={form.duplicateExperience === "often"}
-                      onChange={(e) =>
-                        updateField("duplicateExperience", e.target.value)
-                      }
-                    />
+                    <input type="radio" name="duplicateExperience" value="often" />
                     <span>よくある</span>
                   </label>
 
@@ -202,24 +276,12 @@ export default function Questionnaire() {
                       type="radio"
                       name="duplicateExperience"
                       value="sometimes"
-                      checked={form.duplicateExperience === "sometimes"}
-                      onChange={(e) =>
-                        updateField("duplicateExperience", e.target.value)
-                      }
                     />
                     <span>たまにある</span>
                   </label>
 
                   <label>
-                    <input
-                      type="radio"
-                      name="duplicateExperience"
-                      value="never"
-                      checked={form.duplicateExperience === "never"}
-                      onChange={(e) =>
-                        updateField("duplicateExperience", e.target.value)
-                      }
-                    />
+                    <input type="radio" name="duplicateExperience" value="never" />
                     <span>ない</span>
                   </label>
                 </div>
@@ -227,13 +289,9 @@ export default function Questionnaire() {
 
               <label className="surveyLabel">
                 <span className="questionText">
-                  いちばん困ることは何ですか？
-                  <span className="requiredMark">*</span>
+                  コレクション管理で困ることがあれば選んでください
                 </span>
-                <select
-                  value={form.biggestProblem}
-                  onChange={(e) => updateField("biggestProblem", e.target.value)}
-                >
+                <select name="biggestProblem" defaultValue="">
                   <option value="">選んでください</option>
                   <option value="forget_owned_books">持っている本を忘れる</option>
                   <option value="duplicate_purchase">ダブり購入</option>
@@ -242,16 +300,13 @@ export default function Questionnaire() {
                     コレクション管理が面倒
                   </option>
                   <option value="storage_problem">置き場所や収納</option>
+                  <option value="no_problem">特に困っていない</option>
                 </select>
               </label>
-            </fieldset>
-
-            <fieldset className="surveyBlock">
-              <legend>02. 巻ログにほしいもの</legend>
 
               <div className="surveyLabel">
                 <span className="questionText">
-                  ほしい機能を選んでください（複数可）
+                  巻ログにあると嬉しい機能を選んでください（複数可）
                 </span>
 
                 <div className="checkboxGroup">
@@ -259,8 +314,8 @@ export default function Questionnaire() {
                     <label key={feature.value}>
                       <input
                         type="checkbox"
-                        checked={form.wantedFeatures.includes(feature.value)}
-                        onChange={() => toggleFeature(feature.value)}
+                        name="wantedFeatures"
+                        value={feature.value}
                       />
                       <span>{feature.label}</span>
                     </label>
@@ -270,158 +325,36 @@ export default function Questionnaire() {
             </fieldset>
 
             <fieldset className="surveyBlock">
-              <legend>03. 次にほしいアプリの研究</legend>
+              <legend>04. Puku Labで気になるもの</legend>
 
               <div className="surveyLabel">
                 <span className="questionText">
-                  欲しいのにストアにないアプリはありますか？
-                  <span className="requiredMark">*</span>
+                  今後のPuku Labで少し気になるものがあれば教えてください（複数可）
                 </span>
 
-                <div className="radioGroup">
-                  <label>
-                    <input
-                      type="radio"
-                      name="missingAppNeed"
-                      value="yes_clear"
-                      checked={form.missingAppNeed === "yes_clear"}
-                      onChange={(e) =>
-                        updateField("missingAppNeed", e.target.value)
-                      }
-                    />
-                    <span>はっきりある</span>
-                  </label>
-
-                  <label>
-                    <input
-                      type="radio"
-                      name="missingAppNeed"
-                      value="yes_maybe"
-                      checked={form.missingAppNeed === "yes_maybe"}
-                      onChange={(e) =>
-                        updateField("missingAppNeed", e.target.value)
-                      }
-                    />
-                    <span>なんとなくある</span>
-                  </label>
-
-                  <label>
-                    <input
-                      type="radio"
-                      name="missingAppNeed"
-                      value="none"
-                      checked={form.missingAppNeed === "none"}
-                      onChange={(e) =>
-                        updateField("missingAppNeed", e.target.value)
-                      }
-                    />
-                    <span>今は特にない</span>
-                  </label>
+                <div className="checkboxGroup">
+                  {pukulabInterestOptions.map((item) => (
+                    <label key={item.value}>
+                      <input
+                        type="checkbox"
+                        name="pukulabInterests"
+                        value={item.value}
+                      />
+                      <span>{item.label}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
-
-              <label className="surveyLabel">
-                <span className="questionText">どんなアプリが欲しいですか？</span>
-                <textarea
-                  rows={5}
-                  value={form.missingAppIdea}
-                  onChange={(e) => updateField("missingAppIdea", e.target.value)}
-                />
-              </label>
-            </fieldset>
-
-            <fieldset className="surveyBlock">
-              <legend>04. 端末と今後の展開</legend>
-
-              <label className="surveyLabel">
-                <span className="questionText">
-                  普段使っている端末は？
-                  <span className="requiredMark">*</span>
-                </span>
-                <select
-                  value={form.deviceType}
-                  onChange={(e) => updateField("deviceType", e.target.value)}
-                >
-                  <option value="">選んでください</option>
-                  <option value="iphone">iPhone</option>
-                  <option value="android">Android</option>
-                  <option value="both">両方</option>
-                </select>
-              </label>
-
-              <div className="surveyLabel">
-                <span className="questionText">
-                  iOS版があれば使いたいですか？
-                  <span className="requiredMark">*</span>
-                </span>
-
-                <div className="radioGroup">
-                  <label>
-                    <input
-                      type="radio"
-                      name="wantIos"
-                      value="strong_yes"
-                      checked={form.wantIos === "strong_yes"}
-                      onChange={(e) => updateField("wantIos", e.target.value)}
-                    />
-                    <span>ぜひ使いたい</span>
-                  </label>
-
-                  <label>
-                    <input
-                      type="radio"
-                      name="wantIos"
-                      value="maybe"
-                      checked={form.wantIos === "maybe"}
-                      onChange={(e) => updateField("wantIos", e.target.value)}
-                    />
-                    <span>内容次第</span>
-                  </label>
-
-                  <label>
-                    <input
-                      type="radio"
-                      name="wantIos"
-                      value="not_needed"
-                      checked={form.wantIos === "not_needed"}
-                      onChange={(e) => updateField("wantIos", e.target.value)}
-                    />
-                    <span>特に必要ない</span>
-                  </label>
-                </div>
-              </div>
-
-              <label className="surveyLabel">
-                <span className="questionText">
-                  新しいアプリを入れるときの決め手は？
-                  <span className="requiredMark">*</span>
-                </span>
-                <select
-                  value={form.appDecisionFactor}
-                  onChange={(e) =>
-                    updateField("appDecisionFactor", e.target.value)
-                  }
-                >
-                  <option value="">選んでください</option>
-                  <option value="design">見た目</option>
-                  <option value="features">機能</option>
-                  <option value="easy_to_use">使いやすさ</option>
-                  <option value="price">価格</option>
-                  <option value="reviews">口コミ・評価</option>
-                </select>
-              </label>
             </fieldset>
 
             <fieldset className="surveyBlock">
               <legend>05. その他</legend>
 
               <label className="surveyLabel">
-                <span className="questionText">ひとことメモ</span>
-                <textarea
-                  rows={5}
-                  value={form.note}
-                  onChange={(e) => updateField("note", e.target.value)}
-                />
+                <span className="questionText">
+                  Puku Labやアプリについて、ひとことあればどうぞ
+                </span>
+                <textarea name="note" rows={5} />
               </label>
             </fieldset>
 
@@ -434,7 +367,7 @@ export default function Questionnaire() {
             <div className="metricPanel">
               <p>研究メモ</p>
               <strong>
-                回答は今後の改善・新アプリ企画の参考に使われます
+                回答は、今後の改善・企画・マーケティング研究の参考に使われます
               </strong>
             </div>
 
