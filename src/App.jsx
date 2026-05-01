@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Secret from "./pages/Secret";
 import Kanlog from "./pages/Kanlog";
 import Game from "./pages/Game";
+import PageAssistNav from "./components/PageAssistNav";
 
 const pageTitleMap = {
   "/": "Puku Lab | ワクワクとドキドキが増えていく研究所",
