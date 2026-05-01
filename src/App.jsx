@@ -40,8 +40,7 @@ const pageDescriptionMap = {
     "Puku Labの実験室ページです。遊び心のある試作やコンテンツを少しずつ育てています。",
   "/about":
     "Puku Labを運営しているぷくりんと、研究所の相棒るのについて紹介しています。",
-  "/secret":
-    "Puku Labの隠しページです。",
+  "/secret": "Puku Labの隠しページです。",
   "/game":
     "Puku Labのゲーム実験室です。ミニゲームや遊びの入口を準備しています。",
 };
@@ -96,6 +95,8 @@ export default function App() {
         <Route path="/secret" element={<Secret />} />
         <Route path="/game" element={<Game />} />
       </Routes>
+
+      <PageAssistNav />
     </>
   );
 }
