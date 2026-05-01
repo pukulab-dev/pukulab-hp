@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./PageAssistNav.css";
 
 export default function PageAssistNav() {
   const location = useLocation();
@@ -9,7 +10,7 @@ export default function PageAssistNav() {
 
   useEffect(() => {
     function handleScroll() {
-      setShowTop(window.scrollY > 260);
+      setShowTop(window.scrollY > 240);
     }
 
     handleScroll();
