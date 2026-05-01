@@ -1,11 +1,12 @@
 .aboutPage {
   min-height: 100vh;
-  padding: 32px 20px 80px;
+  padding: 42px 20px 80px;
   color: var(--chalk);
+  background: transparent;
 }
 
 .aboutHero {
-  margin: 0 auto 24px;
+  margin: 0 auto 26px;
   max-width: 1180px;
 }
 
@@ -14,18 +15,23 @@
   padding: 34px 28px;
   background:
     radial-gradient(circle at top right, rgba(121, 242, 208, 0.08), transparent 24%),
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.012) 0 2px,
+      transparent 2px 38px
+    ),
     linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(243, 240, 223, 0.1);
+  border: 1px solid rgba(243, 240, 223, 0.12);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
-    0 12px 34px rgba(0, 0, 0, 0.16);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+    0 14px 36px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(6px);
 }
 
 .aboutEyebrow {
   margin: 0 0 10px;
   font-size: 12px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: var(--chalk-soft);
 }
 
@@ -38,7 +44,7 @@
 }
 
 .aboutLead {
-  max-width: 820px;
+  max-width: 860px;
   margin: 16px 0 0;
   line-height: 1.9;
   color: rgba(243, 240, 223, 0.88);
@@ -57,21 +63,22 @@
   align-items: center;
   justify-content: center;
   min-height: 42px;
-  padding: 0 16px;
+  padding: 10px 16px;
   border-radius: 999px;
   text-decoration: none;
   color: var(--chalk);
-  border: 1px solid rgba(243, 240, 223, 0.18);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(243, 240, 223, 0.24);
+  background: rgba(121, 242, 208, 0.04);
   transition:
     transform 220ms ease,
     background 220ms ease,
     border-color 220ms ease;
 }
 
-.aboutHeroLink:hover {
+.aboutHeroLink:hover,
+.aboutHeroLink:focus-visible {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(121, 242, 208, 0.07);
   border-color: rgba(243, 240, 223, 0.34);
 }
 
@@ -80,9 +87,17 @@
   margin: 0 auto 18px;
   padding: 26px 24px;
   border-radius: 26px;
-  border: 1px solid rgba(243, 240, 223, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(243, 240, 223, 0.12);
+  background:
+    repeating-linear-gradient(
+      12deg,
+      rgba(255, 255, 255, 0.01) 0 2px,
+      transparent 2px 38px
+    ),
+    rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.018),
+    0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .aboutSectionHeader {
@@ -92,13 +107,14 @@
 .aboutSectionMini {
   margin: 0 0 8px;
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: var(--chalk-soft);
 }
 
 .aboutSection h2 {
   margin: 0;
   font-size: clamp(24px, 2.8vw, 34px);
+  line-height: 1.25;
 }
 
 .aboutProfileGrid,
@@ -125,8 +141,9 @@
   min-height: 100%;
   padding: 20px;
   border-radius: 22px;
-  border: 1px solid rgba(243, 240, 223, 0.1);
+  border: 1px solid rgba(243, 240, 223, 0.12);
   background:
+    radial-gradient(circle at top right, rgba(121, 242, 208, 0.035), transparent 34%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
 }
 
@@ -164,7 +181,7 @@
   border-radius: 20px;
   text-decoration: none;
   color: var(--chalk);
-  border: 1px solid rgba(243, 240, 223, 0.12);
+  border: 1px solid rgba(243, 240, 223, 0.14);
   background:
     radial-gradient(circle at top right, rgba(255, 196, 109, 0.06), transparent 32%),
     rgba(255, 255, 255, 0.03);
@@ -174,7 +191,8 @@
     border-color 220ms ease;
 }
 
-.aboutEntryLink:hover {
+.aboutEntryLink:hover,
+.aboutEntryLink:focus-visible {
   transform: translateY(-2px);
   background:
     radial-gradient(circle at top right, rgba(255, 196, 109, 0.1), transparent 32%),
@@ -190,15 +208,24 @@
   }
 
   .aboutPage {
-    padding: 20px 14px 56px;
+    padding: 22px 14px 56px;
   }
 
   .aboutHeroInner,
   .aboutSection {
     padding: 22px 18px;
+    border-radius: 22px;
   }
 
   .aboutLead {
     font-size: 14px;
+  }
+
+  .aboutHeroLinks {
+    flex-direction: column;
+  }
+
+  .aboutHeroLink {
+    width: 100%;
   }
 }
