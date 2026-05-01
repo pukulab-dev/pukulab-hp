@@ -339,3 +339,68 @@ a {
     padding-bottom: 20px;
   }
 }
+
+.pageAssistNav {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.pageAssistButton {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 240, 223, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(121, 242, 208, 0.08), transparent 34%),
+    rgba(12, 25, 25, 0.82);
+  color: var(--chalk);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    opacity 220ms ease;
+}
+
+.pageAssistButton:hover,
+.pageAssistButton:focus-visible {
+  transform: translateY(-2px);
+  background:
+    radial-gradient(circle at top right, rgba(121, 242, 208, 0.14), transparent 34%),
+    rgba(12, 25, 25, 0.92);
+  border-color: rgba(243, 240, 223, 0.38);
+}
+
+@media (max-width: 760px) {
+  .pageAssistNav {
+    right: 10px;
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .pageAssistButton {
+    min-width: 56px;
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+}
