@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import "./About.css";
 
-const NOTE_URL = "#";
-const X_URL = "#";
+const NOTE_URL = "https://note.com/rich_bison8482";
+const X_URL = "https://x.com/pukurin5573607";
 
 export default function About() {
   return (
@@ -100,10 +100,11 @@ export default function About() {
           </article>
 
           <article className="aboutProjectCard">
-            <h3>旅ログ</h3>
+            <h3>次のアプリ研究</h3>
             <p>
-              計画から思い出までを残していく旅行アプリ。
-              次の研究テーマとして少しずつ準備しています。
+              日々の記録や好きなものの管理を、少し楽しく続けられるような
+              アプリを制作予定です。
+              詳細は形になってから少しずつ公開していきます。
             </p>
           </article>
 
@@ -111,7 +112,7 @@ export default function About() {
             <h3>記事・実験コンテンツ</h3>
             <p>
               note やホームページを通して、
-              開発の裏側や世界観、試作中のアイデアも発信しています。
+              開発の裏側や世界観、制作中に見つけた気づきを発信しています。
             </p>
           </article>
         </div>
@@ -136,7 +137,7 @@ export default function About() {
         <div className="aboutLinkGrid">
           <a
             className="aboutEntryLink"
-            href="https://note.com/rich_bison8482"
+            href={NOTE_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -145,7 +146,7 @@ export default function About() {
 
           <a
             className="aboutEntryLink"
-            href="https://x.com/pukurin5573607"
+            href={X_URL}
             target="_blank"
             rel="noopener noreferrer"
           >
