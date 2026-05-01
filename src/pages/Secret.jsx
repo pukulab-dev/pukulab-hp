@@ -1,26 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Secret.css";
 
-const devLogs = [
-  {
-    date: "2026.04.03",
-    tag: "HP",
-    title: "公開したのに、もう直したくなっている。",
-    body: "公開できた達成感はある。でも整えば整うほど、次に気になる場所も増えていく。",
-  },
-  {
-    date: "2026.04.02",
-    tag: "巻ログ",
-    title: "見た目が良くなると違和感も増える。",
-    body: "前より良くなったはずなのに、まだ触りたくなる。たぶんもっと良くできる予感。",
-  },
-];
-
-const grumbles = [
-  "AIとの意思疎通、たまに日本語の奥深さを思い知らされる。",
-  "1個直すと3個直したくなる現象に名前が欲しい。",
-  "無職おじさんなのに、なぜか毎日やることが多い。",
-];
+import { devLogs, grumbles } from "../data/secretLogs";
 
 export default function Secret() {
   const latestLog = devLogs[0];
@@ -29,7 +10,6 @@ export default function Secret() {
   return (
     <main className="siteFrame innerPageFrame secretPage">
       <section className="chalkboard pageBoard secretBoard">
-
         <header className="pageHead secretHead">
           <p className="smallTag">SECRET ARCHIVE</p>
           <h2>裏研究記録室</h2>
@@ -51,19 +31,21 @@ export default function Secret() {
           </div>
         </section>
 
-        <section className="secretSection">
-          <p className="secretSectionTag">PICK UP</p>
-          <h3>注目ログ</h3>
+        {latestLog ? (
+          <section className="secretSection">
+            <p className="secretSectionTag">DEV LOG</p>
+            <h3>最近の開発ログ</h3>
 
-          <article className="secretCard">
-            <div className="secretCardMeta">
-              <span>{latestLog.date}</span>
-              <span>{latestLog.tag}</span>
-            </div>
-            <h4>{latestLog.title}</h4>
-            <p>{latestLog.body}</p>
-          </article>
-        </section>
+            <article className="secretCard">
+              <div className="secretCardMeta">
+                <span>{latestLog.date}</span>
+                <span>{latestLog.tag}</span>
+              </div>
+              <h4>{latestLog.title}</h4>
+              <p>{latestLog.body}</p>
+            </article>
+          </section>
+        ) : null}
 
         <section className="secretSection">
           <p className="secretSectionTag">GRUMBLE</p>
@@ -88,7 +70,6 @@ export default function Secret() {
             ホームへ戻る
           </Link>
         </div>
-
       </section>
     </main>
   );
