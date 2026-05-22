@@ -12,6 +12,7 @@ import Secret from "./pages/Secret";
 import Kanlog from "./pages/Kanlog";
 import Game from "./pages/Game";
 import Gallery from "./pages/Gallery";
+import GalleryCategory from "./pages/GalleryCategory";
 import PageAssistNav from "./components/PageAssistNav";
 
 const SITE_URL = "https://www.pukulab.com";
@@ -20,7 +21,10 @@ const pageTitleMap = {
   "/": "Puku Lab | ワクワクとドキドキが増えていく研究所",
   "/apps": "アプリ紹介 | Puku Lab",
   "/apps/kanlog": "巻ログ | Puku Lab",
-  "/gallery": "Puku Lab 展示室｜読書と本棚のイラストギャラリー",
+  "/gallery": "Puku Lab 展示室｜ビジュアルアーカイブ",
+  "/gallery/illustrations": "イラスト展示室 | Puku Lab",
+  "/gallery/photo-style": "写真風展示室 | Puku Lab",
+  "/gallery/others": "その他の記録 | Puku Lab",
   "/questionnaire": "アンケート | Puku Lab",
   "/contact": "お問い合わせ | Puku Lab",
   "/experiments": "実験室 | Puku Lab",
@@ -37,7 +41,13 @@ const pageDescriptionMap = {
   "/apps/kanlog":
     "巻ログは、持っている漫画を記録してダブり買いを防ぎながら、自分だけの本棚を育てていく漫画管理アプリです。",
   "/gallery":
-    "Puku Lab展示室は、読書・本棚・漫画管理アプリ「巻ログ」やPuku Labの世界観から生まれたイラストを保管するギャラリーページです。",
+    "Puku Lab展示室は、アプリ・記事・物語・研究所の世界観から生まれたビジュアルを保管するギャラリーページです。",
+  "/gallery/illustrations":
+    "Puku Labのイラスト展示室です。読書少女、本棚、キャラクターイラストなど、Puku Labの世界観から生まれた画像を保管しています。",
+  "/gallery/photo-style":
+    "Puku Labの写真風展示室です。リアル寄りの空気感や、スマホで撮ったような一瞬を意識したビジュアル実験を保管しています。",
+  "/gallery/others":
+    "Puku Labのその他の記録です。ロゴ案、UI風画像、試作ビジュアルなど、分類しきれない実験画像を保管しています。",
   "/questionnaire":
     "Puku Labのアプリや今後の開発の参考にするためのアンケートページです。",
   "/contact":
@@ -94,7 +104,21 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/apps" element={<Apps />} />
         <Route path="/apps/kanlog" element={<Kanlog />} />
+
         <Route path="/gallery" element={<Gallery />} />
+        <Route
+          path="/gallery/illustrations"
+          element={<GalleryCategory category="illustrations" />}
+        />
+        <Route
+          path="/gallery/photo-style"
+          element={<GalleryCategory category="photo-style" />}
+        />
+        <Route
+          path="/gallery/others"
+          element={<GalleryCategory category="others" />}
+        />
+
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/experiments" element={<Experiments />} />
