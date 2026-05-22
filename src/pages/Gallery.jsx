@@ -3,19 +3,22 @@ import "./Gallery.css";
 
 const galleryCards = [
   {
-    title: "読書少女シリーズ",
-    tag: "READING GIRL",
-    text: "紙の本、古書店、図書館、静かな読書時間をテーマにしたイラストを展示していく予定です。",
+    title: "イラスト展示室",
+    tag: "ILLUSTRATIONS",
+    text: "水彩・アニメ調・キャラクター絵など、Puku Labの世界観から生まれたイラストを展示していきます。",
+    to: "/gallery/illustrations",
   },
   {
-    title: "巻ログ世界観",
-    tag: "KANLOG WORLD",
-    text: "漫画、本棚、コレクション管理アプリ「巻ログ」につながるビジュアルを保管していきます。",
+    title: "写真風展示室",
+    tag: "PHOTO STYLE",
+    text: "スマホで撮ったような一瞬や、実在しそうな空気感を意識した写真風ビジュアルを展示していきます。",
+    to: "/gallery/photo-style",
   },
   {
-    title: "研究所の記録",
-    tag: "LAB ARCHIVE",
-    text: "Puku Labの実験、開発、隠し部屋につながるイメージを少しずつ残していきます。",
+    title: "その他の記録",
+    tag: "OTHERS",
+    text: "実験画像、ロゴ案、UI風画像など、分類しきれないPuku Labのビジュアル記録を残していきます。",
+    to: "/gallery/others",
   },
 ];
 
@@ -46,7 +49,7 @@ export default function Gallery() {
 
         <div className="galleryCardGrid">
           {galleryCards.map((card) => (
-            <article className="galleryCard" key={card.title}>
+            <Link className="galleryCard galleryCardLink" to={card.to} key={card.title}>
               <p className="galleryCardTag">{card.tag}</p>
               <div className="galleryPlaceholder" aria-hidden="true">
                 <span className="galleryPlaceholderFrame" />
@@ -56,13 +59,14 @@ export default function Gallery() {
               </div>
               <h2>{card.title}</h2>
               <p>{card.text}</p>
-            </article>
+            </Link>
           ))}
         </div>
 
         <div className="gallerySecretHint">
           <p>
-            一部の記録は、研究所のどこかにだけ残されるかもしれません。
+            pixivにも通常の展示室にも出さない画像は、研究所のどこかにある部屋にだけ展示しています。
+            HP内を探してみてください。
           </p>
         </div>
 
@@ -72,9 +76,6 @@ export default function Gallery() {
           </Link>
           <Link to="/apps" className="galleryButton">
             アプリを見る
-          </Link>
-          <Link to="/secret" className="galleryButton galleryButtonGhost">
-            ひみつを探す
           </Link>
         </div>
       </section>
