@@ -1134,3 +1134,147 @@ button.doodle {
     display: none;
   }
 }
+
+/* ===== Home layout: top 3 / bottom 4 ===== */
+
+.boardGrid.boardGridSeven {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 30px);
+}
+
+.boardGridSeven .homeSlotTopLeft {
+  grid-column: 1 / 5;
+}
+
+.boardGridSeven .homeSlotTopCenter {
+  grid-column: 5 / 9;
+}
+
+.boardGridSeven .homeSlotTopRight {
+  grid-column: 9 / 13;
+}
+
+.boardGridSeven .homeSlotBottom1 {
+  grid-column: 1 / 4;
+}
+
+.boardGridSeven .homeSlotBottom2 {
+  grid-column: 4 / 7;
+}
+
+.boardGridSeven .homeSlotBottom3 {
+  grid-column: 7 / 10;
+}
+
+.boardGridSeven .homeSlotBottom4 {
+  grid-column: 10 / 13;
+}
+
+/* ===== Gallery icon doodle ===== */
+
+.doodleGallery {
+  position: relative;
+  overflow: hidden;
+}
+
+.galleryFrameBody {
+  position: absolute;
+  width: 86px;
+  height: 68px;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  border: 3px solid currentColor;
+  border-radius: 10px;
+  opacity: 0.88;
+}
+
+.galleryFrameInner {
+  position: absolute;
+  width: 58px;
+  height: 40px;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  border: 2px dashed currentColor;
+  border-radius: 7px;
+  opacity: 0.62;
+}
+
+.galleryFrameHook {
+  position: absolute;
+  width: 34px;
+  height: 22px;
+  left: 50%;
+  top: calc(54% - 52px);
+  transform: translateX(-50%);
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  border-radius: 999px 999px 0 0;
+  opacity: 0.7;
+}
+
+.galleryFrameSpark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.76;
+}
+
+.galleryFrameSpark1 {
+  right: 24%;
+  top: 30%;
+}
+
+.galleryFrameSpark2 {
+  left: 24%;
+  bottom: 25%;
+}
+
+.galleryFrameLine {
+  position: absolute;
+  height: 2px;
+  background: currentColor;
+  border-radius: 999px;
+  opacity: 0.68;
+}
+
+.galleryFrameLine1 {
+  width: 32px;
+  left: 50%;
+  top: 56%;
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.galleryFrameLine2 {
+  width: 46px;
+  left: 50%;
+  top: 62%;
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+@media (max-width: 900px) {
+  .boardGrid.boardGridSeven {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .boardGridSeven .homeSlotTopLeft,
+  .boardGridSeven .homeSlotTopCenter,
+  .boardGridSeven .homeSlotTopRight,
+  .boardGridSeven .homeSlotBottom1,
+  .boardGridSeven .homeSlotBottom2,
+  .boardGridSeven .homeSlotBottom3,
+  .boardGridSeven .homeSlotBottom4 {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .boardGrid.boardGridSeven {
+    grid-template-columns: 1fr;
+  }
+}

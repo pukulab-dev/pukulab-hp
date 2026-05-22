@@ -1,0 +1,191 @@
+.galleryBoard {
+  position: relative;
+  overflow: hidden;
+}
+
+.galleryHero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 28px;
+}
+
+.galleryHero h1 {
+  margin: 10px 0 12px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 0.08em;
+}
+
+.galleryLead {
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.9;
+}
+
+.galleryText {
+  margin-top: 12px;
+  line-height: 1.9;
+  opacity: 0.9;
+}
+
+.galleryNotice {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto 34px;
+  padding: 18px 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.galleryNoticeLabel {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  opacity: 0.78;
+}
+
+.galleryNotice p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.galleryCardGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+  margin-top: 28px;
+}
+
+.galleryCard {
+  min-height: 330px;
+  padding: 22px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+}
+
+.galleryCardTag {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  opacity: 0.72;
+}
+
+.galleryCard h2 {
+  margin: 18px 0 10px;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+}
+
+.galleryCard p {
+  line-height: 1.85;
+}
+
+.galleryPlaceholder {
+  position: relative;
+  height: 140px;
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.42);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  overflow: hidden;
+}
+
+.galleryPlaceholderFrame {
+  position: absolute;
+  inset: 22px 28px;
+  border: 2px solid rgba(255, 255, 255, 0.62);
+  border-radius: 14px;
+  transform: rotate(-2deg);
+}
+
+.galleryPlaceholderMoon {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  right: 42px;
+  top: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+.galleryPlaceholderLine {
+  position: absolute;
+  height: 2px;
+  left: 44px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.galleryPlaceholderLine.lineA {
+  width: 78px;
+  bottom: 48px;
+}
+
+.galleryPlaceholderLine.lineB {
+  width: 116px;
+  bottom: 34px;
+}
+
+.gallerySecretHint {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 34px auto 0;
+  text-align: center;
+  opacity: 0.86;
+  line-height: 1.8;
+}
+
+.galleryActions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.galleryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.galleryButton:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.galleryButtonGhost {
+  border-style: dashed;
+  opacity: 0.86;
+}
+
+@media (max-width: 840px) {
+  .galleryCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryCard {
+    min-height: auto;
+  }
+}
