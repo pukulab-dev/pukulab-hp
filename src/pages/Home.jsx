@@ -56,11 +56,13 @@ export default function Home() {
           <p className="leadText">ワクワクとドキドキが増えていく研究所</p>
         </header>
 
-        <div className="boardGrid">
+        <div className="boardGrid boardGridSeven">
           {/* FLASK */}
           <button
             type="button"
-            className={`doodle doodleFlask doodlePrimary ${flaskBurst ? "active" : ""}`}
+            className={`doodle doodleFlask doodlePrimary homeSlotTopLeft ${
+              flaskBurst ? "active" : ""
+            }`}
             onClick={handleFlaskTap}
           >
             <span className="doodleLabel">FLASK / APPS</span>
@@ -84,18 +86,25 @@ export default function Home() {
             </span>
           </button>
 
-          {/* SURVEY */}
-          <Link className="doodle doodleCylinder" to="/questionnaire">
-            <span className="doodleLabel">QUESTIONNAIRE / SURVEY</span>
-            <span className="doodleHint">アンケートに答える</span>
+          {/* GALLERY */}
+          <Link
+            className="doodle doodleGallery doodleFeatured homeSlotTopCenter"
+            to="/gallery"
+          >
+            <span className="doodleLabel">GALLERY / ARCHIVE</span>
+            <span className="doodleHint">展示室を見る</span>
 
-            <span className="cylinderBody" />
-            <span className="cylinderLiquid" />
-            <span className="cylinderMarks" />
+            <span className="galleryFrameBody" />
+            <span className="galleryFrameInner" />
+            <span className="galleryFrameHook" />
+            <span className="galleryFrameSpark galleryFrameSpark1" />
+            <span className="galleryFrameSpark galleryFrameSpark2" />
+            <span className="galleryFrameLine galleryFrameLine1" />
+            <span className="galleryFrameLine galleryFrameLine2" />
           </Link>
 
           {/* GAME */}
-          <Link className="doodle doodleGame doodleFeatured" to="/game">
+          <Link className="doodle doodleGame homeSlotTopRight" to="/game">
             <span className="doodleLabel">GAME / COMING SOON</span>
             <span className="doodleHint">ミニゲーム実験室は準備中</span>
 
@@ -110,7 +119,7 @@ export default function Home() {
           </Link>
 
           {/* ABOUT */}
-          <Link className="doodle doodleAbout" to="/about">
+          <Link className="doodle doodleAbout homeSlotBottom1" to="/about">
             <span className="doodleLabel">NAME TAG / ABOUT</span>
             <span className="doodleHint">研究所と自己紹介を見る</span>
 
@@ -124,8 +133,21 @@ export default function Home() {
             <span className="aboutCardSpark aboutCardSpark2" />
           </Link>
 
+          {/* SURVEY */}
+          <Link
+            className="doodle doodleCylinder homeSlotBottom2"
+            to="/questionnaire"
+          >
+            <span className="doodleLabel">LAB VOICE / SURVEY</span>
+            <span className="doodleHint">研究所に声を届ける</span>
+
+            <span className="cylinderBody" />
+            <span className="cylinderLiquid" />
+            <span className="cylinderMarks" />
+          </Link>
+
           {/* CONTACT */}
-          <Link className="doodle doodleClip" to="/contact">
+          <Link className="doodle doodleClip homeSlotBottom3" to="/contact">
             <span className="doodleLabel">CLIP BOARD / CONTACT</span>
             <span className="doodleHint">お問い合わせはこちら</span>
 
@@ -137,7 +159,7 @@ export default function Home() {
           {/* ATOM */}
           <button
             type="button"
-            className="doodle doodleAtom"
+            className="doodle doodleAtom homeSlotBottom4"
             onClick={() => setDiscoverCount((c) => Math.min(c + 1, 5))}
           >
             <span className="doodleLabel">TAP THE ATOM</span>
@@ -160,8 +182,7 @@ export default function Home() {
             <span className="secretDoor disabled">LOCKED</span>
           )}
         </footer>
-
-       </section>
+      </section>
     </main>
   );
 }

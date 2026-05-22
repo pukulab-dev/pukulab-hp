@@ -11,12 +11,16 @@ import About from "./pages/About";
 import Secret from "./pages/Secret";
 import Kanlog from "./pages/Kanlog";
 import Game from "./pages/Game";
+import Gallery from "./pages/Gallery";
 import PageAssistNav from "./components/PageAssistNav";
+
+const SITE_URL = "https://www.pukulab.com";
 
 const pageTitleMap = {
   "/": "Puku Lab | ワクワクとドキドキが増えていく研究所",
   "/apps": "アプリ紹介 | Puku Lab",
   "/apps/kanlog": "巻ログ | Puku Lab",
+  "/gallery": "Puku Lab 展示室｜読書と本棚のイラストギャラリー",
   "/questionnaire": "アンケート | Puku Lab",
   "/contact": "お問い合わせ | Puku Lab",
   "/experiments": "実験室 | Puku Lab",
@@ -32,6 +36,8 @@ const pageDescriptionMap = {
     "Puku Labで開発しているアプリを紹介しています。巻ログを中心に、これから育っていくプロジェクトもまとめています。",
   "/apps/kanlog":
     "巻ログは、持っている漫画を記録してダブり買いを防ぎながら、自分だけの本棚を育てていく漫画管理アプリです。",
+  "/gallery":
+    "Puku Lab展示室は、読書・本棚・漫画管理アプリ「巻ログ」やPuku Labの世界観から生まれたイラストを保管するギャラリーページです。",
   "/questionnaire":
     "Puku Labのアプリや今後の開発の参考にするためのアンケートページです。",
   "/contact":
@@ -64,13 +70,13 @@ function SeoTracker() {
 
     const canonicalTag = document.querySelector('link[rel="canonical"]');
     if (canonicalTag) {
-      canonicalTag.setAttribute("href", `https://pukulab.com${pathname}`);
+      canonicalTag.setAttribute("href", `${SITE_URL}${pathname}`);
     }
 
     if (window.gtag) {
       window.gtag("event", "page_view", {
         page_title: title,
-        page_location: `https://pukulab.com${pathname}`,
+        page_location: `${SITE_URL}${pathname}`,
         page_path: pathname,
       });
     }
@@ -88,6 +94,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/apps" element={<Apps />} />
         <Route path="/apps/kanlog" element={<Kanlog />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/experiments" element={<Experiments />} />
