@@ -102,9 +102,11 @@ export default function Kanlog() {
           <h1 className="kanlog-title">
             漫画・ラノベの
             <br />
-            コレクションを、
+            コレクションを
             <br />
-            スマホの中の本棚へ。
+            スマホの中の
+            <br />
+            本棚へ
           </h1>
 
           <p className="kanlog-lead">

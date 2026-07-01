@@ -279,6 +279,10 @@
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.62);
 }
 
+.kanlog-title span {
+  display: block;
+}
+
 .kanlog-lead {
   max-width: 620px;
   margin-top: 22px;
