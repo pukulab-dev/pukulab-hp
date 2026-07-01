@@ -1,223 +1,375 @@
 import { useNavigate } from "react-router-dom";
 import "./kanlog.css";
 
-import homeImg from "../assets/Screenshot_home.png";
-import shelfImg from "../assets/Screenshot_hondana.png";
-import detailImg from "../assets/Screenshot_book.png";
+import homeImg from "../assets/kanlog-home.png";
+import shelfImg from "../assets/kanlog-shelf.png";
+import detailImg from "../assets/kanlog-detail.png";
+import personalityImg from "../assets/kanlog-personality.png";
 
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.pukulab.makilog";
 
+const problemCards = [
+  "本棚に漫画やラノベが増えて、何を持っているか分からなくなる",
+  "何巻まで買ったか、どこが抜けているか忘れやすい",
+  "書店で「この巻、持ってたっけ？」と迷ってしまう",
+  "コレクションを見返せる場所がほしい",
+];
+
+const registerFeatures = [
+  {
+    title: "バーコード読み込み",
+    text: "手元の本を読み込んで、コレクション登録を始めやすく。",
+  },
+  {
+    title: "まとめて登録",
+    text: "巻数が多い作品も、まとめて登録しながら本棚を育てられます。",
+  },
+  {
+    title: "キーワード検索",
+    text: "バーコードが使えないときも、作品名から探して登録できます。",
+  },
+];
+
+const screenShots = [
+  {
+    image: homeImg,
+    title: "漫画部屋の入口",
+    label: "HOME",
+    text: "登録したコレクションと一緒に、あなたの部屋が少しずつ育っていきます。",
+    alt: "巻ログのホーム画面。漫画やラノベのコレクション管理を始める入口",
+  },
+  {
+    image: shelfImg,
+    title: "コレクションを見える化",
+    label: "SHELF",
+    text: "持っている漫画やラノベを、本棚のように見返しやすく整理できます。",
+    alt: "巻ログの本棚画面。登録した漫画やラノベを一覧で管理できる画面",
+  },
+  {
+    image: detailImg,
+    title: "所持巻を確認",
+    label: "DETAIL",
+    text: "何巻まで持っているか、どこが抜けているかを確認しやすく。",
+    alt: "巻ログの作品詳細画面。所持巻や抜け巻を確認できる画面",
+  },
+  {
+    image: personalityImg,
+    title: "相棒を自分好みに",
+    label: "RUNO",
+    text: "コレクション管理の相棒るのの性格を、自分好みに選べます。",
+    alt: "巻ログのるの性格変更画面。相棒キャラの性格を選べる画面",
+  },
+];
+
+const utilityFeatures = [
+  "所持巻の確認",
+  "抜け巻チェック",
+  "ダブり買い防止",
+  "本棚・棚分け管理",
+  "写真保存",
+  "るのの一言",
+];
+
+const futurePlans = [
+  "登録コレクションをもとにした新刊チェック",
+  "AIによるおすすめ判定",
+  "好みや所持傾向の見える化",
+  "もっと楽しい部屋づくり",
+];
+
 export default function Kanlog() {
   const navigate = useNavigate();
 
+  function scrollToSection(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+
   return (
     <main className="kanlog-page">
-      <div className="kanlog-board">
-        <aside className="kanlog-left">
-          <p className="kanlog-eyebrow">KANLOG / MANGA MANAGEMENT APP</p>
+      <section className="kanlog-hero">
+        <div className="kanlog-heroOverlay" aria-hidden="true" />
+
+        <div className="kanlog-heroText">
+          <p className="kanlog-eyebrow">KANLOG / COLLECTION MANAGEMENT APP</p>
+
           <h1 className="kanlog-title">
-            巻ログ｜
+            漫画・ラノベの
             <br />
-            漫画の巻数管理
+            コレクションを、
             <br />
-            ダブり防止
+            スマホの中の本棚へ。
           </h1>
+
           <p className="kanlog-lead">
-            るのと始める漫画管理。持っている漫画の巻数を記録して、ダブり買いを防ぎながら、
-            自分だけの本棚を育てていく漫画管理アプリです。何巻まで買ったか分からなくなりやすい人でも、
-            持っている巻や抜け巻きを見返しやすく整理できるようにしています。
+            巻ログは、持っている漫画やラノベを登録して、
+            自分だけのコレクションを管理できるアプリです。
+            本を登録するほど部屋や本棚が育ち、
+            相棒るのと一緒に楽しくコレクションを増やしていけます。
           </p>
 
-          <div className="kanlog-tags">
-            <span>巻数管理</span>
-            <span>ダブり防止</span>
-            <span>一覧整理</span>
-            <span>育成要素</span>
+          <div className="kanlog-heroTags" aria-label="巻ログの特徴">
+            <span>コレクション管理</span>
+            <span>本棚育成</span>
+            <span>バーコード登録</span>
+            <span>相棒るの</span>
           </div>
 
-          <section className="kanlog-panel">
-            <p className="kanlog-label">CURRENT STATUS</p>
-            <h2>現在の状況</h2>
-            <p>
-              巻ログは Google Play で配信中です。紙の漫画を集めている人が、
-              「うっかり同じ巻を買ってしまった」を減らせるように、
-              巻数管理やダブり防止をしやすい形に整えています。
-            </p>
-          </section>
+          <div className="kanlog-heroActions">
+            <a
+              className="kanlog-button primary"
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Google Playで巻ログを見る"
+            >
+              Google Playで見る
+            </a>
 
-          <section className="kanlog-panel kanlog-cta-panel">
-            <p className="kanlog-label">GET APP</p>
-            <h2>Google Play で配信中</h2>
-            <p>
-              巻ログは Google Play からダウンロードできます。
-              漫画の巻数管理やダブり防止をしたい人は、
-              ぜひチェックしてもらえるとうれしいです。
-            </p>
-
-            <div className="kanlog-store-actions">
-              <a
-                className="storeButton primary"
-                href={PLAY_STORE_URL}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Google Play で漫画管理アプリ巻ログを見る"
-              >
-                Google Play で見る
-              </a>
-
-              <button
-                type="button"
-                className="storeButton ghost"
-                onClick={() => navigate("/questionnaire")}
-              >
-                アンケートを見る
-              </button>
-            </div>
-          </section>
-
-          <div className="kanlog-actions">
-            <button type="button" onClick={() => navigate("/contact")}>
-              巻ログについて問い合わせる
-            </button>
             <button
               type="button"
-              className="ghost"
-              onClick={() => navigate("/apps")}
+              className="kanlog-button ghost"
+              onClick={() => scrollToSection("kanlog-features")}
             >
-              アプリ一覧へ戻る
+              できることを見る
             </button>
           </div>
-        </aside>
+        </div>
 
-        <section className="kanlog-right">
-          <div className="kanlog-top">
-            <section className="kanlog-panel">
-              <p className="kanlog-label">APP PREVIEW</p>
+        <div className="kanlog-heroVisual" aria-label="巻ログの画面イメージ">
+          <div className="kanlog-phoneStack">
+            <img
+              className="kanlog-phoneImage main"
+              src={homeImg}
+              alt="巻ログのホーム画面"
+            />
+            <img
+              className="kanlog-phoneImage sub"
+              src={shelfImg}
+              alt="巻ログの本棚画面"
+            />
+          </div>
+        </div>
+      </section>
 
-              <div className="preview-row">
-                <article className="preview-card">
-                  <span>HOME</span>
-                  <strong>巻ログ</strong>
-                  <p>本棚を育てる漫画管理アプリ</p>
-                </article>
+      <section className="kanlog-section kanlog-problem">
+        <div className="kanlog-sectionHead">
+          <p className="kanlog-label">COLLECTION PROBLEM</p>
+          <h2>本が増えるほど、管理はむずかしくなる。</h2>
+          <p>
+            集めるのは楽しい。けれど、漫画やラノベが増えてくると、
+            何を持っているか分からなくなることもあります。
+          </p>
+        </div>
 
-                <article className="preview-card active">
-                  <span>SHELF</span>
-                  <strong>本棚一覧</strong>
-                  <p>持っている巻を見やすく整理して確認</p>
-                </article>
+        <div className="kanlog-problemGrid">
+          {problemCards.map((item) => (
+            <article className="kanlog-problemCard" key={item}>
+              <span aria-hidden="true">?</span>
+              <p>{item}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-                <article className="preview-card">
-                  <span>DETAIL</span>
-                  <strong>作品詳細</strong>
-                  <p>抜け巻や所持巻をすぐ確認できる</p>
-                </article>
-              </div>
-            </section>
+      <section className="kanlog-section kanlog-concept" id="kanlog-features">
+        <div className="kanlog-conceptText">
+          <p className="kanlog-label">WHAT IS KANLOG?</p>
+          <h2>巻ログは、コレクションを育てるアプリです。</h2>
+          <p>
+            持っている本を登録して、スマホの中に自分だけの本棚を作る。
+            登録したコレクションを見返すことで、所持巻や抜け巻も確認しやすくなります。
+          </p>
+          <p>
+            ただ記録するだけではなく、本を増やすほど部屋や本棚が育っていく。
+            それが巻ログのいちばん楽しいところです。
+          </p>
+        </div>
 
-            <section className="kanlog-panel">
-              <p className="kanlog-label">ABOUT</p>
-              <h2>どんなアプリ？</h2>
-              <p>
-                巻ログは、紙漫画を中心にコレクション管理をしやすくするための漫画管理アプリです。
-                何巻まで持っているか、まだ買っていない巻はどこか、同じ巻をうっかり買って
-                しまわないかを、楽しく確認できるようにしています。
-              </p>
-              <p>
-                ただ記録するだけではなく、部屋や世界観を少しずつ育てていく楽しさも加えながら、
-                「集める・残す・眺める」が気持ちいい体験を目指しています。
-                漫画の巻数管理やダブり防止を、少し愛着の湧く形で続けられるようにしたアプリです。
-              </p>
-            </section>
+        <div className="kanlog-conceptCard">
+          <p className="kanlog-cardMini">APP CORE</p>
+          <strong>登録する</strong>
+          <span>→</span>
+          <strong>本棚が育つ</strong>
+          <span>→</span>
+          <strong>コレクションが見える</strong>
+        </div>
+      </section>
+
+      <section className="kanlog-section kanlog-register">
+        <div className="kanlog-sectionHead">
+          <p className="kanlog-label">EASY REGISTER</p>
+          <h2>たくさんあっても、登録しやすい。</h2>
+          <p>
+            コレクション管理で最初に大変なのは、本の登録。
+            巻ログではバーコード読み込みやまとめて登録に対応しているので、
+            手元の本を少しずつスマホの本棚へ移していけます。
+          </p>
+        </div>
+
+        <div className="kanlog-featureGrid">
+          {registerFeatures.map((feature) => (
+            <article className="kanlog-featureCard" key={feature.title}>
+              <h3>{feature.title}</h3>
+              <p>{feature.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="kanlog-section kanlog-room">
+        <div className="kanlog-roomInner">
+          <div>
+            <p className="kanlog-label">ROOM GROWTH</p>
+            <h2>本を登録するほど、あなたの部屋が育っていく。</h2>
+            <p>
+              巻ログでは、コレクションを増やすことがそのまま部屋の成長につながります。
+              ただの記録ではなく、自分の漫画部屋を少しずつ育てていく感覚で、
+              コレクション管理を楽しめます。
+            </p>
           </div>
 
-          <div className="kanlog-middle">
-            <section className="kanlog-panel">
-              <p className="kanlog-label">FEATURES</p>
-              <h2>主な機能</h2>
-              <ul>
-                <li>所持している漫画の巻数を記録</li>
-                <li>買っていない巻を見つけやすく整理</li>
-                <li>ダブり買い防止の確認</li>
-                <li>コレクションを見返しやすい一覧表示</li>
-                <li>お気に入りの表紙やレシートなど撮影した写真の保存</li>
-              </ul>
-            </section>
-
-            <section className="kanlog-panel">
-              <p className="kanlog-label">FOR WHO</p>
-              <h2>こんな人に向いています</h2>
-              <ul>
-                <li>紙の漫画をたくさん持っている人</li>
-                <li>何巻まで買ったか忘れやすい人</li>
-                <li>同じ巻をうっかりダブって買いたくない人</li>
-                <li>本棚やコレクションを見るのが好きな人</li>
-                <li>管理アプリでも世界観や遊び心を楽しみたい人</li>
-              </ul>
-            </section>
-
-            <section className="kanlog-panel">
-              <p className="kanlog-label">NEXT</p>
-              <h2>今後追加していきたいこと</h2>
-              <ul>
-                <li>世界観の強化</li>
-                <li>登録作品数の増加</li>
-                <li>保存できる写真数の増加</li>
-                <li>新刊情報</li>
-                <li>クラウド機能</li>
-              </ul>
-            </section>
+          <div className="kanlog-roomBadge">
+            <span>COLLECTION</span>
+            <strong>+</strong>
+            <span>ROOM</span>
+            <strong>+</strong>
+            <span>RUNO</span>
           </div>
+        </div>
+      </section>
 
-          <section className="kanlog-panel kanlog-screens-panel">
-            <p className="kanlog-label">APP SCREEN IMAGE</p>
-            <div className="kanlog-screens-head">
-              <div>
-                <h2>アプリ画面イメージ</h2>
-                <p className="kanlog-screens-copy">
-                  実際の画面はこんな雰囲気です。漫画の巻数管理や本棚整理を、
-                  見返しやすく続けやすい形にしています。
-                </p>
+      <section className="kanlog-section kanlog-runo">
+        <div className="kanlog-runoText">
+          <p className="kanlog-label">PARTNER RUNO</p>
+          <h2>コレクション管理の相棒、るの。</h2>
+          <p>
+            巻ログには、あなたのコレクション管理をそばで見守る相棒「るの」がいます。
+            さらに、るのの性格は自分好みに変更可能。
+          </p>
+          <p>
+            いつものるの、オタク友達るの、クールなるの、妹系るの、ツンデレるのなど、
+            気分や好みに合わせて一緒にコレクション管理を楽しめます。
+          </p>
+
+          <div className="kanlog-runoCopy">
+            巻ログを最大限楽しむなら、るのも自分好みに。
+          </div>
+        </div>
+
+        <div className="kanlog-runoImageWrap">
+          <img
+            src={personalityImg}
+            alt="巻ログのるの性格変更画面"
+            className="kanlog-runoImage"
+          />
+        </div>
+      </section>
+
+      <section className="kanlog-section kanlog-utility">
+        <div className="kanlog-sectionHead">
+          <p className="kanlog-label">USEFUL FEATURES</p>
+          <h2>育てるだけじゃなく、ちゃんと便利。</h2>
+          <p>
+            登録したコレクションをもとに、持っている巻や抜けている巻を確認。
+            書店で迷ったときも、巻ログを見れば
+            「この巻、持ってたっけ？」を確認しやすくなります。
+          </p>
+        </div>
+
+        <div className="kanlog-utilityGrid">
+          {utilityFeatures.map((feature) => (
+            <span key={feature}>{feature}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="kanlog-section kanlog-screens">
+        <div className="kanlog-sectionHead">
+          <p className="kanlog-label">APP SCREENS</p>
+          <h2>コレクション管理が、少し楽しくなる画面たち。</h2>
+          <p>
+            本を登録する、見返す、部屋を育てる、るのを自分好みにする。
+            巻ログでは、コレクション管理を続けたくなる体験を目指しています。
+          </p>
+        </div>
+
+        <div className="kanlog-screenGrid">
+          {screenShots.map((screen) => (
+            <article className="kanlog-screenCard" key={screen.title}>
+              <div className="kanlog-screenImageWrap">
+                <img src={screen.image} alt={screen.alt} />
               </div>
-            </div>
+              <p className="kanlog-screenLabel">{screen.label}</p>
+              <h3>{screen.title}</h3>
+              <p>{screen.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-            <div className="screen-row">
-              <article className="screen-card">
-                <div className="screen-imageWrap">
-                  <img src={homeImg} alt="巻ログのホーム画面。漫画管理アプリのトップ画面" />
-                </div>
-                <h3>ホーム画面</h3>
-                <p>生活と本棚をつなぐ入口になる画面。</p>
-              </article>
+      <section className="kanlog-section kanlog-future">
+        <div className="kanlog-futureText">
+          <p className="kanlog-label">NEXT UPDATE IDEA</p>
+          <h2>コレクション管理から、その先へ。</h2>
+          <p>
+            巻ログは、登録したコレクションをもとに、
+            今後さらに便利で楽しい機能へ広げていく予定です。
+            新刊チェックやAIによるおすすめ判定など、
+            自分だけの本棚データベースとして育てていけるアプリを目指しています。
+          </p>
+        </div>
 
-              <article className="screen-card">
-                <div className="screen-imageWrap">
-                  <img
-                    src={shelfImg}
-                    alt="巻ログの本棚一覧画面。所持している漫画の巻数を整理して確認できる画面"
-                  />
-                </div>
-                <h3>本棚一覧</h3>
-                <p>持っている巻や抜け巻きを見返しやすく整理。</p>
-              </article>
+        <div className="kanlog-futureList">
+          {futurePlans.map((plan) => (
+            <span key={plan}>{plan}</span>
+          ))}
+        </div>
+      </section>
 
-              <article className="screen-card">
-                <div className="screen-imageWrap">
-                  <img
-                    src={detailImg}
-                    alt="巻ログの作品詳細画面。何巻まで持っているか確認しやすい画面"
-                  />
-                </div>
-                <h3>作品詳細</h3>
-                <p>
-                  何巻まで持っているかをひと目で確認。追加も簡単に出来るようにしてあります
-                </p>
-              </article>
-            </div>
-          </section>
-        </section>
-      </div>
+      <section className="kanlog-section kanlog-finalCta">
+        <p className="kanlog-label">START YOUR COLLECTION</p>
+        <h2>あなたの本棚も、今日から育ててみませんか。</h2>
+        <p>
+          まずは手元の漫画やラノベを登録して、
+          スマホの中に自分だけの本棚を作るところから。
+          相棒るのと一緒に、コレクション管理を始めてみませんか。
+        </p>
+
+        <div className="kanlog-finalActions">
+          <a
+            className="kanlog-button primary"
+            href={PLAY_STORE_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Google Playで巻ログを見る"
+          >
+            Google Playで巻ログを見る
+          </a>
+
+          <button
+            type="button"
+            className="kanlog-button ghost"
+            onClick={() => navigate("/questionnaire")}
+          >
+            アンケートに答える
+          </button>
+
+          <button
+            type="button"
+            className="kanlog-button text"
+            onClick={() => navigate("/apps")}
+          >
+            アプリ一覧へ戻る
+          </button>
+        </div>
+      </section>
     </main>
   );
 }
