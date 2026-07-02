@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { galleryItems } from "../data/galleryItems";
 import "./Gallery.css";
 
-const PIXIV_URL = "";
+const PIXIV_URL = "https://www.pixiv.net/users/126319212";
 
 const photoStyleCount = galleryItems.filter(
   (item) => item.category === "photo-style"
@@ -68,8 +68,8 @@ export default function Gallery() {
           <span className="galleryNoticeLabel">HP LIMITED LOG</span>
           <p>
             現在は写真風ビジュアル実験から公開中です。
-            Puku Labを知らない人でも、AI画像や雰囲気のあるイラストを探して
-            ふらっと入ってこられる展示室として育てています。
+            AIで試したビジュアルの別案や、pixivでは見せきれない制作ログを
+            Puku Lab側にも少しずつ残していきます。
           </p>
         </div>
 
@@ -119,16 +119,14 @@ export default function Gallery() {
             写真風実験室を見る
           </Link>
 
-          {PIXIV_URL ? (
-            <a
-              href={PIXIV_URL}
-              className="galleryButton"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              pixivを見る
-            </a>
-          ) : null}
+          <a
+            href={PIXIV_URL}
+            className="galleryButton"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            pixivを見る
+          </a>
 
           <Link to="/apps/kanlog" className="galleryButton">
             巻ログを見る
