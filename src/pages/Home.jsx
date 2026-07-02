@@ -88,7 +88,7 @@ export default function Home() {
         </header>
 
         <div className="boardGrid boardGridEight">
-          {/* FLASK */}
+          {/* APPS */}
           <button
             type="button"
             className={`doodle doodleFlask doodlePrimary homeSlotTop1 ${
@@ -128,50 +128,54 @@ export default function Home() {
 
           {/* GALLERY */}
           <Link
-            className="doodle doodleGallery doodleGalleryLab doodleFeatured homeSlotTop2"
+            className="doodle doodleMicroscope doodleFeatured homeSlotTop2"
             to="/gallery"
           >
-            <span className="doodleLabel">VISUAL LAB / GALLERY</span>
+            <span className="doodleLabel">MICROSCOPE / GALLERY</span>
             <span className="doodleBadge">OPEN</span>
-            <span className="doodleHint">AIビジュアル実験を見る</span>
+            <span className="doodleHint">AIビジュアル実験を観察する</span>
 
-            <span className="galleryLabFrame" />
-            <span className="galleryLabPicture" />
-            <span className="galleryLabMoon" />
-            <span className="galleryLabMountain mountainA" />
-            <span className="galleryLabMountain mountainB" />
-            <span className="galleryLabSpark sparkA" />
-            <span className="galleryLabSpark sparkB" />
+            <span className="microEye" />
+            <span className="microTube" />
+            <span className="microLens" />
+            <span className="microArm" />
+            <span className="microStage" />
+            <span className="microSlide" />
+            <span className="microBase" />
+            <span className="microSpark sparkA" />
+            <span className="microSpark sparkB" />
           </Link>
 
           {/* GAME */}
-          <Link className="doodle doodleGame homeSlotTop3" to="/game">
-            <span className="doodleLabel">GAME / COMING SOON</span>
+          <Link className="doodle doodleGamePad homeSlotTop3" to="/game">
+            <span className="doodleLabel">GAME PAD / PLAY TEST</span>
             <span className="doodleBadge">SOON</span>
             <span className="doodleHint">準備中の遊び場</span>
 
-            <span className="gameMonitor" />
-            <span className="gameStand" />
-            <span className="gameBase" />
-            <span className="gamePad gamePadLeft" />
-            <span className="gamePad gamePadRight" />
-            <span className="gameSpark spark1" />
-            <span className="gameSpark spark2" />
-            <span className="gameSpark spark3" />
+            <span className="padBody" />
+            <span className="padGrip padGripLeft" />
+            <span className="padGrip padGripRight" />
+            <span className="padDpad" />
+            <span className="padButton padButtonA" />
+            <span className="padButton padButtonB" />
+            <span className="padButton padButtonC" />
+            <span className="padCable" />
+            <span className="padSpark sparkA" />
+            <span className="padSpark sparkB" />
           </Link>
 
           {/* WORKS */}
-          <Link className="doodle doodleWorks homeSlotTop4" to="/works">
-            <span className="doodleLabel">WORKS / SUPPORT</span>
+          <Link className="doodle doodleDesignDesk homeSlotTop4" to="/works">
+            <span className="doodleLabel">DESIGN DESK / WORKS</span>
             <span className="doodleBadge">NEW</span>
             <span className="doodleHint">HP制作・運営相談</span>
 
-            <span className="worksMonitor" />
-            <span className="worksScreenGlow" />
-            <span className="worksToolHead" />
-            <span className="worksToolHandle" />
-            <span className="worksCursor" />
-            <span className="worksStar" />
+            <span className="designPaper" />
+            <span className="designRuler" />
+            <span className="designPencil" />
+            <span className="designPencilTip" />
+            <span className="designSpark sparkA" />
+            <span className="designSpark sparkB" />
           </Link>
 
           {/* ABOUT */}
@@ -194,7 +198,7 @@ export default function Home() {
             className="doodle doodleCylinder homeSlotBottom2"
             to="/questionnaire"
           >
-            <span className="doodleLabel">LAB VOICE / SURVEY</span>
+            <span className="doodleLabel">BEAKER / SURVEY</span>
             <span className="doodleHint">研究所に声を届ける</span>
 
             <span className="cylinderBody" />
@@ -203,16 +207,19 @@ export default function Home() {
           </Link>
 
           {/* CONTACT */}
-          <Link className="doodle doodleClip homeSlotBottom3" to="/contact">
-            <span className="doodleLabel">CLIP BOARD / CONTACT</span>
-            <span className="doodleHint">メモを送る</span>
+          <Link className="doodle doodleMail homeSlotBottom3" to="/contact">
+            <span className="doodleLabel">LETTER / CONTACT</span>
+            <span className="doodleHint">研究所へメモを送る</span>
 
-            <span className="clipBody" />
-            <span className="clipHead" />
-            <span className="clipLines" />
+            <span className="mailBody" />
+            <span className="mailFlap" />
+            <span className="mailLine lineA" />
+            <span className="mailLine lineB" />
+            <span className="mailSpark sparkA" />
+            <span className="mailSpark sparkB" />
           </Link>
 
-          {/* ATOM */}
+          {/* SECRET */}
           <button
             type="button"
             className={`doodle doodleAtom homeSlotBottom4 ${
