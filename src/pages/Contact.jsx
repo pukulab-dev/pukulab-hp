@@ -1,22 +1,72 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || "";
+
+const categoryOptions = [
+  {
+    value: "works",
+    label: "HP制作・運営相談",
+  },
+  {
+    value: "app",
+    label: "アプリについて",
+  },
+  {
+    value: "bug",
+    label: "バグ報告",
+  },
+  {
+    value: "idea",
+    label: "改善案・アイデア",
+  },
+  {
+    value: "collaboration",
+    label: "コラボ・お仕事相談",
+  },
+  {
+    value: "other",
+    label: "その他",
+  },
+];
 
 const initialForm = {
   name: "",
   email: "",
-  category: "app",
+  category: "works",
   message: "",
 };
 
+function getCategoryFromQuery(type) {
+  const allowedCategories = categoryOptions.map((item) => item.value);
+
+  if (allowedCategories.includes(type)) {
+    return type;
+  }
+
+  return "works";
+}
+
 export default function Contact() {
-  const [form, setForm] = useState(initialForm);
+  const [searchParams] = useSearchParams();
+  const [form, setForm] = useState(() => ({
+    ...initialForm,
+    category: getCategoryFromQuery(searchParams.get("type")),
+  }));
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const isSubmitting = status === "submitting";
   const isSent = status === "sent";
+
+  useEffect(() => {
+    const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
+
+    setForm((prev) => ({
+      ...prev,
+      category: categoryFromQuery,
+    }));
+  }, [searchParams]);
 
   function updateField(key, value) {
     setForm((prev) => ({
@@ -47,6 +97,7 @@ export default function Contact() {
       category: form.category,
       message: form.message.trim(),
       source: "Puku Lab Contact",
+      page_url: window.location.href,
       submitted_at: new Date().toISOString(),
     };
 
@@ -67,7 +118,10 @@ export default function Contact() {
       }
 
       setStatus("sent");
-      setForm(initialForm);
+      setForm({
+        ...initialForm,
+        category: getCategoryFromQuery(searchParams.get("type")),
+      });
     } catch (error) {
       console.error(error);
       setStatus("idle");
@@ -81,10 +135,11 @@ export default function Contact() {
     <main className="siteFrame innerPageFrame">
       <section className="chalkboard pageBoard">
         <header className="pageHead">
-          <p className="smallTag">CONTACT DESK</p>
-          <h2>アプリについてのお問い合わせ</h2>
+          <p className="smallTag">CONTACT DESK / LAB MEMO</p>
+          <h2>お問い合わせ</h2>
           <p>
-            改善案・バグ報告・マーケ相談など、気軽にどうぞ。
+            アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、
+            Puku Labへの連絡はこちらからどうぞ。
             <br />
             研究所宛てのメモとして、大切に確認します。
           </p>
@@ -145,11 +200,11 @@ export default function Contact() {
                 value={form.category}
                 onChange={(event) => updateField("category", event.target.value)}
               >
-                <option value="app">アプリについて</option>
-                <option value="bug">バグ報告</option>
-                <option value="idea">改善案・アイデア</option>
-                <option value="business">相談・お仕事</option>
-                <option value="other">その他</option>
+                {categoryOptions.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </label>
 
@@ -157,9 +212,10 @@ export default function Contact() {
               お問い合わせ内容
               <textarea
                 name="message"
-                rows={5}
+                rows={6}
                 value={form.message}
                 onChange={(event) => updateField("message", event.target.value)}
+                placeholder="相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"
                 required
               />
             </label>
@@ -173,7 +229,7 @@ export default function Contact() {
             <div className="metricPanel">
               <p>CONTACT MEMO</p>
               <strong>
-                いただいた内容は、返信・改善・今後の開発の参考に使います
+                HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています
               </strong>
             </div>
 
@@ -181,6 +237,10 @@ export default function Contact() {
               <button className="navButton" type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "送信中..." : "研究所へ届ける"}
               </button>
+
+              <Link className="navButton ghost" to="/works">
+                制作相談室へ戻る
+              </Link>
 
               <Link className="navButton ghost" to="/">
                 ホームへ戻る

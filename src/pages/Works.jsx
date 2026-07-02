@@ -114,9 +114,9 @@ export default function Works() {
           </p>
 
           <div className="pageActions worksActions">
-            <Link className="navButton" to="/contact">
+            <Link className="navButton" to="/contact?type=works">
               相談してみる
-            </Link>
+           </Link>
             <Link className="navButton ghost" to="/">
               ホームへ戻る
             </Link>
