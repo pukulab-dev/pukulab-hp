@@ -106,14 +106,6 @@ export default function Gallery() {
           ))}
         </div>
 
-        <div className="gallerySecretHint">
-          <p>
-            pixivに出さなかった別案や、制作途中で眠っていた画像も、
-            このHP側では実験ログとして残していきます。
-            完成品はpixiv、裏側や別パターンはPuku Lab展示室、という形で行き来できる場所を目指しています。
-          </p>
-        </div>
-
         <div className="galleryActions">
           <Link to="/gallery/photo-style" className="galleryButton">
             写真風実験室を見る
