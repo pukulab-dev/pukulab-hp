@@ -73,21 +73,6 @@ export default function Gallery() {
           </p>
         </div>
 
-        <div className="galleryQuickActions" aria-label="ギャラリー主要リンク">
-          <Link to="/gallery/photo-style" className="galleryButton">
-            写真風実験室を見る
-          </Link>
-
-          <a
-            href={PIXIV_URL}
-            className="galleryButton"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            pixivを見る
-          </a>
-        </div>
-
         <div className="galleryCardGrid">
           {galleryCards.map((card) => (
             <Link
