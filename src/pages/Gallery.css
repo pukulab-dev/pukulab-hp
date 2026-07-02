@@ -389,3 +389,30 @@
     width: 100%;
   }
 }
+
+.galleryQuickActions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: -12px 0 30px;
+}
+
+.galleryQuickActions .galleryButton {
+  min-width: 170px;
+  padding: 11px 18px;
+}
+
+@media (max-width: 900px) {
+  .galleryQuickActions {
+    align-items: stretch;
+    flex-direction: column;
+    margin: -8px 0 26px;
+  }
+
+  .galleryQuickActions .galleryButton {
+    width: 100%;
+  }
+}
