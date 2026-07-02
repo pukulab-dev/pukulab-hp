@@ -13,6 +13,7 @@ import Kanlog from "./pages/Kanlog";
 import Game from "./pages/Game";
 import Gallery from "./pages/Gallery";
 import GalleryCategory from "./pages/GalleryCategory";
+import Works from "./pages/Works";
 import PageAssistNav from "./components/PageAssistNav";
 
 const SITE_URL = "https://www.pukulab.com";
@@ -21,42 +22,46 @@ const pageTitleMap = {
   "/": "Puku Lab | ワクワクとドキドキが増えていく研究所",
   "/apps": "アプリ紹介 | Puku Lab",
   "/apps/kanlog": "巻ログ | Puku Lab",
-  "/gallery": "Puku Lab 展示室｜ビジュアルアーカイブ",
-  "/gallery/illustrations": "イラスト展示室 | Puku Lab",
-  "/gallery/photo-style": "写真風展示室 | Puku Lab",
-  "/gallery/others": "その他の記録 | Puku Lab",
+  "/gallery": "AIビジュアル実験室 | Puku Lab",
+  "/gallery/illustrations": "イラスト実験室 | Puku Lab",
+  "/gallery/photo-style": "写真風実験室 | Puku Lab",
+  "/gallery/others": "没案・試作ログ | Puku Lab",
+  "/works": "制作相談室 | Puku Lab",
   "/questionnaire": "アンケート | Puku Lab",
   "/contact": "お問い合わせ | Puku Lab",
   "/experiments": "実験室 | Puku Lab",
   "/about": "この研究所について | Puku Lab",
-  "/secret": "CHALK CODE | Puku Lab",
+  "/secret": "ひみつの休憩室 | Puku Lab",
   "/game": "ゲーム | Puku Lab",
 };
 
 const pageDescriptionMap = {
   "/":
-    "Puku Labは、アプリ・記事・実験コンテンツをつなぐ個人開発の研究所です。ワクワクとドキドキが少しずつ増えていくものを作っています。",
+    "Puku Labは、黒板の中の2D研究室でアプリ・AI画像・遊びの実験を育てている個人開発の研究所です。ワクワクとドキドキが少しずつ増えていくものを作っています。",
   "/apps":
     "Puku Labで開発しているアプリを紹介しています。巻ログを中心に、これから育っていくプロジェクトもまとめています。",
   "/apps/kanlog":
-    "巻ログは、持っている漫画を記録してダブり買いを防ぎながら、自分だけの本棚を育てていく漫画管理アプリです。",
+    "巻ログは、持っている漫画やラノベを登録して、自分だけのコレクションと本棚を育てていく漫画・ラノベ管理アプリです。",
   "/gallery":
-    "Puku Lab展示室は、アプリ・記事・物語・研究所の世界観から生まれたビジュアルを保管するギャラリーページです。",
+    "AIを使って作ったイラストや写真風ビジュアルを、実験結果として展示しているPuku LabのAIビジュアル実験室です。",
   "/gallery/illustrations":
-    "Puku Labのイラスト展示室です。読書少女、本棚、キャラクターイラストなど、Puku Labの世界観から生まれた画像を保管しています。",
+    "Puku Labのイラスト実験室です。水彩・アニメ調・キャラクター絵など、AIで試したビジュアル表現を展示していきます。",
   "/gallery/photo-style":
-    "Puku Labの写真風展示室です。リアル寄りの空気感や、スマホで撮ったような一瞬を意識したビジュアル実験を保管しています。",
+    "Puku Labの写真風実験室です。リアル寄りの空気感や、写真風AIビジュアルの実験結果を保管しています。",
   "/gallery/others":
-    "Puku Labのその他の記録です。ロゴ案、UI風画像、試作ビジュアルなど、分類しきれない実験画像を保管しています。",
+    "Puku Labの没案・試作ログです。ロゴ案、UI風画像、試作ビジュアルなど、分類しきれない実験画像を保管しています。",
+  "/works":
+    "Puku Labの制作相談室です。HP制作、LP制作、運営導線づくり、AIを使った画像や文章づくりをサポートします。",
   "/questionnaire":
     "Puku Labのアプリや今後の開発の参考にするためのアンケートページです。",
   "/contact":
-    "Puku Labへのお問い合わせページです。感想やご相談、連絡はこちらからどうぞ。",
+    "Puku Labへのお問い合わせページです。感想やご相談、HP制作・アプリ制作まわりの連絡はこちらからどうぞ。",
   "/experiments":
     "Puku Labの実験室ページです。遊び心のある試作やコンテンツを少しずつ育てています。",
   "/about":
     "Puku Labを運営しているぷくりんと、研究所の相棒るのについて紹介しています。",
-  "/secret": "Puku Labの隠しページです。",
+  "/secret":
+    "Puku Labのすみっこにある、見つけた人だけのひみつの休憩室です。",
   "/game":
     "Puku Labのゲーム実験室です。ミニゲームや遊びの入口を準備しています。",
 };
@@ -69,7 +74,7 @@ function SeoTracker() {
     const title = pageTitleMap[pathname] || "Puku Lab";
     const description =
       pageDescriptionMap[pathname] ||
-      "Puku Labは、アプリ・記事・実験コンテンツをつなぐ個人開発の研究所です。";
+      "Puku Labは、黒板の中の2D研究室でアプリ・AI画像・遊びの実験を育てている個人開発の研究所です。";
 
     document.title = title;
 
@@ -119,6 +124,7 @@ export default function App() {
           element={<GalleryCategory category="others" />}
         />
 
+        <Route path="/works" element={<Works />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/experiments" element={<Experiments />} />

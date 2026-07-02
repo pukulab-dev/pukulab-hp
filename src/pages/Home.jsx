@@ -30,6 +30,15 @@ export default function Home() {
     }, 900);
   };
 
+  const handleSecretTap = () => {
+    if (isSecretUnlocked) {
+      navigate("/secret");
+      return;
+    }
+
+    setDiscoverCount((count) => Math.min(count + 1, 5));
+  };
+
   return (
     <main className="siteFrame">
       <section className="chalkboard homeBoard">
@@ -78,11 +87,11 @@ export default function Home() {
           </div>
         </header>
 
-        <div className="boardGrid boardGridSeven">
+        <div className="boardGrid boardGridEight">
           {/* FLASK */}
           <button
             type="button"
-            className={`doodle doodleFlask doodlePrimary homeSlotTopLeft ${
+            className={`doodle doodleFlask doodlePrimary homeSlotTop1 ${
               flaskBurst ? "active" : ""
             }`}
             onClick={handleFlaskTap}
@@ -105,38 +114,38 @@ export default function Home() {
             <span className="flaskTinyStar" aria-hidden="true" />
 
             <span className="bubbleField">
-              {flaskBubbles.map((b) => (
-                <span key={b} className={`bubble bubble${b}`} />
+              {flaskBubbles.map((bubble) => (
+                <span key={bubble} className={`bubble bubble${bubble}`} />
               ))}
             </span>
 
             <span className="smokeField">
-              {smokeClouds.map((c) => (
-                <span key={c} className={`smoke smoke${c}`} />
+              {smokeClouds.map((cloud) => (
+                <span key={cloud} className={`smoke smoke${cloud}`} />
               ))}
             </span>
           </button>
 
           {/* GALLERY */}
           <Link
-            className="doodle doodleGallery doodleFeatured homeSlotTopCenter"
+            className="doodle doodleGallery doodleGalleryLab doodleFeatured homeSlotTop2"
             to="/gallery"
           >
-            <span className="doodleLabel">GALLERY / ARCHIVE</span>
+            <span className="doodleLabel">VISUAL LAB / GALLERY</span>
             <span className="doodleBadge">OPEN</span>
             <span className="doodleHint">AIビジュアル実験を見る</span>
 
-            <span className="galleryFrameBody" />
-            <span className="galleryFrameInner" />
-            <span className="galleryFrameHook" />
-            <span className="galleryFrameSpark galleryFrameSpark1" />
-            <span className="galleryFrameSpark galleryFrameSpark2" />
-            <span className="galleryFrameLine galleryFrameLine1" />
-            <span className="galleryFrameLine galleryFrameLine2" />
+            <span className="galleryLabFrame" />
+            <span className="galleryLabPicture" />
+            <span className="galleryLabMoon" />
+            <span className="galleryLabMountain mountainA" />
+            <span className="galleryLabMountain mountainB" />
+            <span className="galleryLabSpark sparkA" />
+            <span className="galleryLabSpark sparkB" />
           </Link>
 
           {/* GAME */}
-          <Link className="doodle doodleGame homeSlotTopRight" to="/game">
+          <Link className="doodle doodleGame homeSlotTop3" to="/game">
             <span className="doodleLabel">GAME / COMING SOON</span>
             <span className="doodleBadge">SOON</span>
             <span className="doodleHint">準備中の遊び場</span>
@@ -149,6 +158,20 @@ export default function Home() {
             <span className="gameSpark spark1" />
             <span className="gameSpark spark2" />
             <span className="gameSpark spark3" />
+          </Link>
+
+          {/* WORKS */}
+          <Link className="doodle doodleWorks homeSlotTop4" to="/works">
+            <span className="doodleLabel">WORKS / SUPPORT</span>
+            <span className="doodleBadge">NEW</span>
+            <span className="doodleHint">HP制作・運営相談</span>
+
+            <span className="worksMonitor" />
+            <span className="worksScreenGlow" />
+            <span className="worksToolHead" />
+            <span className="worksToolHandle" />
+            <span className="worksCursor" />
+            <span className="worksStar" />
           </Link>
 
           {/* ABOUT */}
@@ -195,11 +218,13 @@ export default function Home() {
             className={`doodle doodleAtom homeSlotBottom4 ${
               isSecretUnlocked ? "secretReady" : ""
             }`}
-            onClick={() => setDiscoverCount((c) => Math.min(c + 1, 5))}
+            onClick={handleSecretTap}
           >
             <span className="doodleLabel">SECRET ATOM</span>
             <span className="doodleHint">
-              {isSecretUnlocked ? "ひみつの休憩室へ" : `ひみつ反応 ${discoverCount}/5`}
+              {isSecretUnlocked
+                ? "ひみつの休憩室へ"
+                : `ひみつ反応 ${discoverCount}/5`}
             </span>
 
             <span className="atomCore" />

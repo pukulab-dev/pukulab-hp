@@ -1803,3 +1803,331 @@ button.doodle {
     height: 82px;
   }
 }
+
+/* =========================================================
+   Works入口追加 + Galleryアイコン差し替え
+========================================================= */
+
+.boardGrid.boardGridEight {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 26px);
+}
+
+.boardGridEight .homeSlotTop1 {
+  grid-column: 1 / 4;
+}
+
+.boardGridEight .homeSlotTop2 {
+  grid-column: 4 / 7;
+}
+
+.boardGridEight .homeSlotTop3 {
+  grid-column: 7 / 10;
+}
+
+.boardGridEight .homeSlotTop4 {
+  grid-column: 10 / 13;
+}
+
+.boardGridEight .homeSlotBottom1 {
+  grid-column: 1 / 4;
+}
+
+.boardGridEight .homeSlotBottom2 {
+  grid-column: 4 / 7;
+}
+
+.boardGridEight .homeSlotBottom3 {
+  grid-column: 7 / 10;
+}
+
+.boardGridEight .homeSlotBottom4 {
+  grid-column: 10 / 13;
+}
+
+/* Gallery：額縁＋展示物っぽく変更 */
+
+.doodleGalleryLab {
+  background:
+    radial-gradient(circle at 72% 28%, rgba(255, 196, 109, 0.08), transparent 26%),
+    radial-gradient(circle at 28% 72%, rgba(121, 242, 208, 0.08), transparent 28%),
+    rgba(121, 242, 208, 0.012);
+}
+
+.galleryLabFrame,
+.galleryLabPicture,
+.galleryLabMoon,
+.galleryLabMountain,
+.galleryLabSpark {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.galleryLabFrame {
+  width: 128px;
+  height: 92px;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  border: 3px solid rgba(243, 240, 223, 0.86);
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 8px rgba(255, 255, 255, 0.025),
+    0 0 16px rgba(121, 242, 208, 0.08);
+}
+
+.galleryLabFrame::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 18px;
+  left: 50%;
+  top: -20px;
+  transform: translateX(-50%);
+  border: 3px solid rgba(243, 240, 223, 0.78);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.galleryLabPicture {
+  width: 98px;
+  height: 62px;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  border: 2px dashed rgba(243, 240, 223, 0.62);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 76% 28%, rgba(255, 196, 109, 0.16), transparent 14%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+}
+
+.galleryLabMoon {
+  width: 14px;
+  height: 14px;
+  right: calc(50% - 38px);
+  top: calc(54% - 24px);
+  border: 2px solid rgba(255, 196, 109, 0.78);
+  border-radius: 999px;
+  animation: galleryTwinkle 2.2s ease-in-out infinite;
+}
+
+.galleryLabMountain {
+  height: 3px;
+  background: rgba(243, 240, 223, 0.72);
+  border-radius: 999px;
+}
+
+.galleryLabMountain.mountainA {
+  width: 44px;
+  left: calc(50% - 42px);
+  top: calc(54% + 14px);
+  transform: rotate(-12deg);
+}
+
+.galleryLabMountain.mountainB {
+  width: 54px;
+  left: calc(50% - 6px);
+  top: calc(54% + 12px);
+  transform: rotate(10deg);
+}
+
+.galleryLabSpark {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 2px solid rgba(121, 242, 208, 0.78);
+  animation: sparkFloat 1800ms ease-in-out infinite;
+}
+
+.galleryLabSpark.sparkA {
+  left: 24%;
+  top: 37%;
+}
+
+.galleryLabSpark.sparkB {
+  right: 24%;
+  bottom: 27%;
+  animation-delay: 520ms;
+}
+
+.doodleGalleryLab:hover .galleryLabFrame,
+.doodleGalleryLab:focus-visible .galleryLabFrame {
+  transform: translate(-50%, -52%) rotate(1deg);
+  box-shadow:
+    0 0 0 8px rgba(255, 255, 255, 0.035),
+    0 0 22px rgba(121, 242, 208, 0.14);
+}
+
+/* Works：制作相談室アイコン */
+
+.doodleWorks {
+  background:
+    radial-gradient(circle at 76% 24%, rgba(255, 196, 109, 0.08), transparent 28%),
+    radial-gradient(circle at 26% 74%, rgba(121, 242, 208, 0.08), transparent 30%),
+    rgba(255, 196, 109, 0.01);
+}
+
+.worksMonitor,
+.worksScreenGlow,
+.worksToolHead,
+.worksToolHandle,
+.worksCursor,
+.worksStar {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.worksMonitor {
+  width: 118px;
+  height: 78px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid rgba(243, 240, 223, 0.86);
+  border-radius: 16px;
+}
+
+.worksMonitor::before {
+  content: "";
+  position: absolute;
+  width: 54px;
+  height: 8px;
+  left: 50%;
+  bottom: -18px;
+  transform: translateX(-50%);
+  background: rgba(243, 240, 223, 0.82);
+  border-radius: 999px;
+}
+
+.worksMonitor::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 18px;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  background: rgba(243, 240, 223, 0.82);
+  border-radius: 4px;
+}
+
+.worksScreenGlow {
+  width: 84px;
+  height: 44px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(121, 242, 208, 0.48);
+  border-radius: 10px;
+  box-shadow:
+    0 0 14px rgba(121, 242, 208, 0.13),
+    inset 0 0 12px rgba(121, 242, 208, 0.08);
+  animation: screenGlow 2400ms ease-in-out infinite;
+}
+
+.worksToolHandle {
+  width: 62px;
+  height: 8px;
+  right: calc(50% - 70px);
+  top: calc(50% + 42px);
+  transform: rotate(-38deg);
+  background: rgba(255, 196, 109, 0.78);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(255, 196, 109, 0.12);
+}
+
+.worksToolHead {
+  width: 28px;
+  height: 18px;
+  right: calc(50% - 88px);
+  top: calc(50% + 16px);
+  transform: rotate(-38deg);
+  border: 3px solid rgba(243, 240, 223, 0.84);
+  border-radius: 8px;
+}
+
+.worksCursor {
+  width: 0;
+  height: 0;
+  left: calc(50% - 40px);
+  top: calc(50% - 12px);
+  border-left: 14px solid rgba(243, 240, 223, 0.82);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  transform: rotate(-16deg);
+}
+
+.worksStar {
+  width: 22px;
+  height: 22px;
+  left: calc(50% + 58px);
+  top: calc(50% - 48px);
+  background: rgba(255, 196, 109, 0.9);
+  clip-path: polygon(
+    50% 0%,
+    61% 34%,
+    98% 35%,
+    68% 55%,
+    79% 91%,
+    50% 69%,
+    21% 91%,
+    32% 55%,
+    2% 35%,
+    39% 34%
+  );
+  filter: drop-shadow(0 0 8px rgba(255, 196, 109, 0.22));
+  animation: starTwinkle 2.1s ease-in-out infinite;
+}
+
+.doodleWorks:hover .worksMonitor,
+.doodleWorks:focus-visible .worksMonitor {
+  transform: translate(-50%, -53%);
+}
+
+.doodleWorks:hover .worksToolHandle,
+.doodleWorks:focus-visible .worksToolHandle,
+.doodleWorks:hover .worksToolHead,
+.doodleWorks:focus-visible .worksToolHead {
+  transform: rotate(-30deg) translateY(-2px);
+}
+
+/* 8アイコン用レスポンシブ */
+
+@media (max-width: 900px) {
+  .boardGrid.boardGridEight {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .boardGridEight .homeSlotTop1,
+  .boardGridEight .homeSlotTop2,
+  .boardGridEight .homeSlotTop3,
+  .boardGridEight .homeSlotTop4,
+  .boardGridEight .homeSlotBottom1,
+  .boardGridEight .homeSlotBottom2,
+  .boardGridEight .homeSlotBottom3,
+  .boardGridEight .homeSlotBottom4 {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .boardGrid.boardGridEight {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes galleryTwinkle {
+  0%,
+  100% {
+    opacity: 0.56;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
