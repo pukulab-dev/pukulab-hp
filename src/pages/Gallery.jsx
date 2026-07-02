@@ -2,36 +2,44 @@ import { Link } from "react-router-dom";
 import { galleryItems } from "../data/galleryItems";
 import "./Gallery.css";
 
+const PIXIV_URL = "";
+
 const photoStyleCount = galleryItems.filter(
   (item) => item.category === "photo-style"
 ).length;
 
 const galleryCards = [
   {
-    title: "写真風展示室",
+    title: "写真風実験室",
     tag: "PHOTO STYLE",
     status: "展示中",
     count: `${photoStyleCount} items`,
-    text: "本を読む時間、静かな部屋、窓辺の光。実在しそうな空気感を意識した写真風ビジュアルを展示しています。",
+    text: "読書時間、静かな部屋、窓辺の光。AIで作った写真風ビジュアル実験を展示しています。",
     to: "/gallery/photo-style",
+    iconClass: "photo",
+    iconLabel: "PHOTO",
     isOpen: true,
   },
   {
-    title: "イラスト展示室",
+    title: "イラスト実験室",
     tag: "ILLUSTRATIONS",
-    status: "準備中",
-    count: "coming soon",
-    text: "読書・本棚・キャラクター絵など、Puku Labの世界観から生まれたイラストを今後追加予定です。",
+    status: "追加予定",
+    count: "pixiv別案予定",
+    text: "水彩・アニメ調・キャラクター絵など、pixiv投稿作品の別案やHP限定イラストを追加予定です。",
     to: "/gallery/illustrations",
+    iconClass: "illust",
+    iconLabel: "ILLUST",
     isOpen: false,
   },
   {
-    title: "その他の記録",
-    tag: "OTHERS",
+    title: "没案・試作ログ",
+    tag: "ARCHIVE LOG",
     status: "準備中",
     count: "archive plan",
-    text: "ロゴ案、UI風画像、試作ビジュアルなど、分類しきれないPuku Labの制作記録を今後保管していきます。",
+    text: "没にした画像、同じテーマのフォトリアル版、ロゴ案、UI風画像などを保管していく予定です。",
     to: "/gallery/others",
+    iconClass: "archive",
+    iconLabel: "LOG",
     isOpen: false,
   },
 ];
@@ -41,26 +49,27 @@ export default function Gallery() {
     <main className="siteFrame">
       <section className="chalkboard galleryBoard">
         <div className="galleryHero">
-          <p className="smallTag">GALLERY / ARCHIVE</p>
-          <h1>Puku Lab 展示室</h1>
+          <p className="smallTag">AI VISUAL LAB / ARCHIVE</p>
+          <h1>AIビジュアル実験室</h1>
 
           <p className="galleryLead">
-            Puku Labで生まれたビジュアルを保管する展示室です。
+            AIを使って作ったイラストや写真風ビジュアルを、
+            実験結果として展示している部屋です。
           </p>
 
           <p className="galleryText">
-            まずは、読書時間や静かな部屋の空気感をテーマにした
-            写真風展示室から公開しています。
-            イラストや試作ビジュアルも、今後少しずつ追加予定です。
+            pixivでは完成作品を中心に公開し、この展示室では
+            pixivに出していない別案、没にした画像、同じテーマのフォトリアル版なども
+            少しずつ保管していきます。
           </p>
         </div>
 
         <div className="galleryNotice">
-          <span className="galleryNoticeLabel">NOW OPEN</span>
+          <span className="galleryNoticeLabel">HP LIMITED LOG</span>
           <p>
-            現在は写真風展示室を中心に展示中です。
-            Puku Labの世界観や、読書・本棚・アプリづくりから生まれた画像を、
-            カテゴリごとに少しずつ増やしていきます。
+            現在は写真風ビジュアル実験から公開中です。
+            Puku Labを知らない人でも、AI画像や雰囲気のあるイラストを探して
+            ふらっと入ってこられる展示室として育てています。
           </p>
         </div>
 
@@ -73,13 +82,17 @@ export default function Gallery() {
               to={card.to}
               key={card.title}
             >
-              <p className="galleryCardTag">{card.tag}</p>
+              <div className="galleryCardTop">
+                <p className="galleryCardTag">{card.tag}</p>
+                <span className="galleryStatusBadge">{card.status}</span>
+              </div>
 
-              <div className="galleryPlaceholder" aria-hidden="true">
-                <span className="galleryPlaceholderFrame" />
-                <span className="galleryPlaceholderMoon" />
-                <span className="galleryPlaceholderLine lineA" />
-                <span className="galleryPlaceholderLine lineB" />
+              <div
+                className={`galleryIconBox ${card.iconClass}`}
+                aria-hidden="true"
+              >
+                <span className="galleryIconShape" />
+                <span className="galleryIconLabel">{card.iconLabel}</span>
               </div>
 
               <div className="galleryCardMeta">
@@ -95,20 +108,33 @@ export default function Gallery() {
 
         <div className="gallerySecretHint">
           <p>
-            通常の展示室に出す前の試作画像や、制作途中の記録は、
-            研究所のどこかにある部屋にだけ残していく予定です。
-            HP内を探してみてください。
+            pixivに出さなかった別案や、制作途中で眠っていた画像も、
+            このHP側では実験ログとして残していきます。
+            完成品はpixiv、裏側や別パターンはPuku Lab展示室、という形で行き来できる場所を目指しています。
           </p>
         </div>
 
         <div className="galleryActions">
           <Link to="/gallery/photo-style" className="galleryButton">
-            写真風展示室を見る
+            写真風実験室を見る
           </Link>
+
+          {PIXIV_URL ? (
+            <a
+              href={PIXIV_URL}
+              className="galleryButton"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              pixivを見る
+            </a>
+          ) : null}
+
           <Link to="/apps/kanlog" className="galleryButton">
             巻ログを見る
           </Link>
-          <Link to="/" className="galleryButton">
+
+          <Link to="/" className="galleryButton galleryButtonGhost">
             ホームへ戻る
           </Link>
         </div>
