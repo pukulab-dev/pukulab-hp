@@ -14,10 +14,10 @@ export default function Home() {
 
   const statusText = useMemo(() => {
     if (isSecretUnlocked) {
-      return "隠しページ解放：ようこそ CHALK CODE へ";
+      return "ひみつの休憩室が開きました。ようこそ。";
     }
 
-    return `研究ログ解析中... ${discoverCount}/5`;
+    return `ひみつ反応チェック中... ${discoverCount}/5`;
   }, [discoverCount, isSecretUnlocked]);
 
   const handleFlaskTap = () => {
@@ -38,6 +38,11 @@ export default function Home() {
           <span className="chalkNote note2">idea?</span>
           <span className="chalkNote note3">lab log</span>
           <span className="chalkNote note4">play test</span>
+
+          <span className="chalkStar star1" />
+          <span className="chalkStar star2" />
+          <span className="chalkStar star3" />
+
           <span className="chalkCircle circle1" />
           <span className="chalkCircle circle2" />
           <span className="chalkArrow arrow1" />
@@ -50,10 +55,27 @@ export default function Home() {
           <span className="chalkDust dust3" />
         </div>
 
-        <header className="boardHeader">
-          <p className="smallTag">WAKU WAKU / DOKI DOKI INSTITUTE</p>
-          <h1>Puku Lab</h1>
-          <p className="leadText">ワクワクとドキドキが増えていく研究所</p>
+        <header className="boardHeader cuteBoardHeader">
+          <div className="homeMascot" aria-hidden="true">
+            <span className="homeMascotNeck" />
+            <span className="homeMascotBody" />
+            <span className="homeMascotLiquid" />
+            <span className="homeMascotEye eyeLeft" />
+            <span className="homeMascotEye eyeRight" />
+            <span className="homeMascotMouth" />
+            <span className="homeMascotStar" />
+            <span className="homeMascotBubble bubbleOne" />
+            <span className="homeMascotBubble bubbleTwo" />
+          </div>
+
+          <div className="homeTitleText">
+            <p className="smallTag">WAKU WAKU / DOKI DOKI INSTITUTE</p>
+            <h1>Puku Lab</h1>
+            <p className="leadText">ワクワクとドキドキが増えていく研究所</p>
+            <p className="homeTinyMemo">
+              黒板の中の2D研究室で、アプリ・AI画像・遊びの実験を育てています。
+            </p>
+          </div>
         </header>
 
         <div className="boardGrid boardGridSeven">
@@ -66,12 +88,21 @@ export default function Home() {
             onClick={handleFlaskTap}
           >
             <span className="doodleLabel">FLASK / APPS</span>
-            <span className="doodleHint">アプリ紹介を見る</span>
+            <span className="doodleBadge">START</span>
+            <span className="doodleHint">フラスコをタップしてアプリへ</span>
 
             <span className="flaskNeck" />
             <span className="flaskBody" />
             <span className="flaskLiquid" />
             <span className="flaskShine" />
+
+            <span className="flaskFace" aria-hidden="true">
+              <span className="flaskEye flaskEyeLeft" />
+              <span className="flaskEye flaskEyeRight" />
+              <span className="flaskMouth" />
+            </span>
+
+            <span className="flaskTinyStar" aria-hidden="true" />
 
             <span className="bubbleField">
               {flaskBubbles.map((b) => (
@@ -92,7 +123,8 @@ export default function Home() {
             to="/gallery"
           >
             <span className="doodleLabel">GALLERY / ARCHIVE</span>
-            <span className="doodleHint">展示室を見る</span>
+            <span className="doodleBadge">OPEN</span>
+            <span className="doodleHint">AIビジュアル実験を見る</span>
 
             <span className="galleryFrameBody" />
             <span className="galleryFrameInner" />
@@ -106,7 +138,8 @@ export default function Home() {
           {/* GAME */}
           <Link className="doodle doodleGame homeSlotTopRight" to="/game">
             <span className="doodleLabel">GAME / COMING SOON</span>
-            <span className="doodleHint">ミニゲーム実験室は準備中</span>
+            <span className="doodleBadge">SOON</span>
+            <span className="doodleHint">準備中の遊び場</span>
 
             <span className="gameMonitor" />
             <span className="gameStand" />
@@ -121,7 +154,7 @@ export default function Home() {
           {/* ABOUT */}
           <Link className="doodle doodleAbout homeSlotBottom1" to="/about">
             <span className="doodleLabel">NAME TAG / ABOUT</span>
-            <span className="doodleHint">研究所と自己紹介を見る</span>
+            <span className="doodleHint">研究所のことを見る</span>
 
             <span className="aboutCardBody" />
             <span className="aboutCardClip" />
@@ -149,7 +182,7 @@ export default function Home() {
           {/* CONTACT */}
           <Link className="doodle doodleClip homeSlotBottom3" to="/contact">
             <span className="doodleLabel">CLIP BOARD / CONTACT</span>
-            <span className="doodleHint">お問い合わせはこちら</span>
+            <span className="doodleHint">メモを送る</span>
 
             <span className="clipBody" />
             <span className="clipHead" />
@@ -159,11 +192,15 @@ export default function Home() {
           {/* ATOM */}
           <button
             type="button"
-            className="doodle doodleAtom homeSlotBottom4"
+            className={`doodle doodleAtom homeSlotBottom4 ${
+              isSecretUnlocked ? "secretReady" : ""
+            }`}
             onClick={() => setDiscoverCount((c) => Math.min(c + 1, 5))}
           >
-            <span className="doodleLabel">TAP THE ATOM</span>
-            <span className="doodleHint">ひみつを探す</span>
+            <span className="doodleLabel">SECRET ATOM</span>
+            <span className="doodleHint">
+              {isSecretUnlocked ? "ひみつの休憩室へ" : `ひみつ反応 ${discoverCount}/5`}
+            </span>
 
             <span className="atomCore" />
             <span className="atomOrbit orbit1" />
@@ -176,7 +213,7 @@ export default function Home() {
           <p>{statusText}</p>
           {isSecretUnlocked ? (
             <Link className="secretDoor" to="/secret">
-              CHALK CODE
+              SECRET LOUNGE
             </Link>
           ) : (
             <span className="secretDoor disabled">LOCKED</span>
