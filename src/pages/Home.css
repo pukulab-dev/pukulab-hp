@@ -2934,4 +2934,367 @@ button.doodle {
   .doodleFlask.active .floatBubble {
     animation: none !important;
   }
+}/* =========================================================
+   Full SVG Lab Icons
+   8つのホームアイコンをinline SVGで統一
+========================================================= */
+
+.labSvgWrap {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: min(70%, 178px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition:
+    transform 240ms ease,
+    filter 240ms ease,
+    opacity 240ms ease;
+}
+
+.labSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.055))
+    drop-shadow(0 0 16px rgba(121, 242, 208, 0.065));
+}
+
+.labSvgStroke {
+  fill: none;
+  stroke: rgba(243, 240, 223, 0.9);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labSvgMainStroke {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.08));
+}
+
+.labSvgStroke.soft {
+  stroke-width: 5;
+  stroke: rgba(243, 240, 223, 0.72);
+}
+
+.labSvgMintStroke {
+  fill: none;
+  stroke: rgba(121, 242, 208, 0.86);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labSvgAccentStroke {
+  fill: none;
+  stroke: rgba(255, 196, 109, 0.84);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labSvgAccentStroke.thin {
+  stroke-width: 3;
+  opacity: 0.72;
+}
+
+.labSvgSoftFill {
+  fill: rgba(255, 255, 255, 0.018);
+}
+
+.labSvgMint {
+  fill: rgba(121, 242, 208, 0.82);
+  filter: drop-shadow(0 0 10px rgba(121, 242, 208, 0.15));
+}
+
+.labSvgAccent {
+  fill: rgba(255, 196, 109, 0.84);
+  filter: drop-shadow(0 0 10px rgba(255, 196, 109, 0.15));
+}
+
+.labSvgChalk {
+  fill: rgba(243, 240, 223, 0.94);
+}
+
+.labSvgEye {
+  fill: rgba(243, 240, 223, 0.96);
+}
+
+.labSvgMouth {
+  fill: none;
+  stroke: rgba(243, 240, 223, 0.96);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labSvgMouth.subtle,
+.secretMouth {
+  stroke-width: 4;
+}
+
+.labSvgShine {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.23);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.labSvgStar {
+  fill: rgba(255, 196, 109, 0.9);
+  filter: drop-shadow(0 0 8px rgba(255, 196, 109, 0.25));
+  transform-origin: center;
+  animation: starTwinkle 2.15s ease-in-out infinite;
+}
+
+.labSvgStar.small {
+  opacity: 0.84;
+  animation-duration: 2.7s;
+}
+
+.labSvgStarRay {
+  fill: none;
+  stroke: rgba(255, 196, 109, 0.82);
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+.labSvgBubble,
+.labSvgButton,
+.labSvgFloatBubble,
+.labSvgElectron {
+  transform-origin: center;
+}
+
+.labSvgFloatBubble,
+.labSvgElectron {
+  animation: svgBubbleFloat 2.8s ease-in-out infinite;
+}
+
+.labSvgFloatBubble.delay,
+.labSvgElectron.delay {
+  animation-delay: 0.7s;
+}
+
+.labSvgLiquid {
+  transform-origin: 90px 132px;
+}
+
+.labSvgPencil,
+.labSvgRuler,
+.labSvgCable {
+  transition: transform 240ms ease;
+  transform-origin: center;
+}
+
+.labSvgAtomOrbit {
+  stroke-width: 4;
+  opacity: 0.86;
+  transform-origin: 90px 92px;
+}
+
+.orbitTiltA {
+  transform: rotate(58deg);
+}
+
+.orbitTiltB {
+  transform: rotate(-58deg);
+}
+
+.labSecretCore {
+  transition:
+    fill 240ms ease,
+    filter 240ms ease;
+}
+
+.secretEye,
+.secretMouth {
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.doodle:hover .labSvgWrap,
+.doodle:focus-visible .labSvgWrap {
+  transform: translate(-50%, -55%) scale(1.045) rotate(-1deg);
+  filter: drop-shadow(0 0 14px rgba(121, 242, 208, 0.14));
+}
+
+.doodle:hover .labSvgLiquid,
+.doodle:focus-visible .labSvgLiquid {
+  animation: svgLiquidWobble 1.4s ease-in-out infinite;
+}
+
+.doodle:hover .labSvgStar,
+.doodle:focus-visible .labSvgStar {
+  animation-duration: 0.95s;
+}
+
+.doodleFlask.active .labSvgWrap {
+  animation: svgFlaskPop 720ms ease-out;
+}
+
+.doodleFlask.active .labSvgLiquid {
+  animation: svgLiquidPop 720ms ease-out;
+}
+
+.doodleFlask.active .labSvgFloatBubble {
+  animation: svgBubbleBurst 720ms ease-out;
+}
+
+.doodleMicroscope:hover .labSvg-microscope .labSvgMainStroke,
+.doodleMicroscope:focus-visible .labSvg-microscope .labSvgMainStroke {
+  stroke: rgba(255, 248, 222, 0.96);
+}
+
+.doodleGamePad:hover .labSvgButton,
+.doodleGamePad:focus-visible .labSvgButton {
+  animation: svgButtonPop 660ms ease-out;
+}
+
+.doodleDesignDesk:hover .labSvgPencil,
+.doodleDesignDesk:focus-visible .labSvgPencil {
+  transform: translateY(-5px) rotate(4deg);
+}
+
+.doodleDesignDesk:hover .labSvgRuler,
+.doodleDesignDesk:focus-visible .labSvgRuler {
+  transform: translateY(2px) rotate(-3deg);
+}
+
+.doodleMail:hover .labSvg-contact,
+.doodleMail:focus-visible .labSvg-contact {
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.075))
+    drop-shadow(0 0 18px rgba(255, 196, 109, 0.08));
+}
+
+.doodleAtom:hover .labSvgElectron,
+.doodleAtom:focus-visible .labSvgElectron {
+  animation-duration: 1.1s;
+}
+
+.doodleAtom.secretReady .labSecretCore {
+  fill: rgba(121, 242, 208, 0.95);
+  filter:
+    drop-shadow(0 0 14px rgba(121, 242, 208, 0.42))
+    drop-shadow(0 0 28px rgba(255, 196, 109, 0.16));
+}
+
+.doodleAtom.secretReady .labSvgAtomOrbit {
+  stroke: rgba(255, 196, 109, 0.78);
+}
+
+.doodleAtom.secretReady .secretEye,
+.doodleAtom.secretReady .secretMouth,
+.doodleAtom:hover .secretEye,
+.doodleAtom:hover .secretMouth,
+.doodleAtom:focus-visible .secretEye,
+.doodleAtom:focus-visible .secretMouth {
+  opacity: 1;
+}
+
+@keyframes svgLiquidWobble {
+  0%,
+  100% {
+    transform: scaleY(1) translateY(0);
+  }
+
+  50% {
+    transform: scaleY(1.06) translateY(-2px);
+  }
+}
+
+@keyframes svgLiquidPop {
+  0% {
+    transform: scaleY(1);
+  }
+
+  38% {
+    transform: scaleY(1.18) translateY(-4px);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes svgFlaskPop {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  36% {
+    transform: translate(-50%, -57%) scale(1.08) rotate(-2deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes svgBubbleFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.94);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes svgBubbleBurst {
+  0% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.75;
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-28px) scale(1.12);
+    opacity: 0;
+  }
+}
+
+@keyframes svgButtonPop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  48% {
+    transform: translateY(-3px) scale(1.12);
+  }
+}
+
+@media (max-width: 760px) {
+  .labSvgWrap {
+    top: 50%;
+    width: min(63%, 152px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labSvgStar,
+  .labSvgFloatBubble,
+  .labSvgElectron,
+  .doodle:hover .labSvgLiquid,
+  .doodle:focus-visible .labSvgLiquid,
+  .doodleFlask.active .labSvgWrap,
+  .doodleFlask.active .labSvgLiquid,
+  .doodleFlask.active .labSvgFloatBubble,
+  .doodleGamePad:hover .labSvgButton,
+  .doodleGamePad:focus-visible .labSvgButton {
+    animation: none !important;
+  }
 }
