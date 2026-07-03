@@ -300,6 +300,48 @@ a {
   animation: pulseOrb 1600ms ease-in-out infinite;
 }
 
+.siteFooter {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  padding: 18px 20px 22px;
+  color: rgba(243, 240, 223, 0.48);
+  background:
+    linear-gradient(180deg, rgba(15, 32, 35, 0), rgba(15, 32, 35, 0.72)),
+    #0f2023;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.siteFooter p {
+  margin: 0;
+}
+
+.siteFooterBrand {
+  color: rgba(243, 240, 223, 0.62);
+  font-weight: 700;
+}
+
+.siteFooterText {
+  color: rgba(243, 240, 223, 0.42);
+}
+
+.siteFooterCopy {
+  color: rgba(243, 240, 223, 0.52);
+}
+
+.siteFooterText::before,
+.siteFooterCopy::before {
+  content: "•";
+  margin-right: 12px;
+  color: rgba(121, 242, 208, 0.36);
+}
+
 @keyframes pulseOrb {
   0%,
   100% {
@@ -337,6 +379,19 @@ a {
   .innerPageFrame {
     padding-top: 16px;
     padding-bottom: 20px;
+  }
+
+  .siteFooter {
+    flex-direction: column;
+    gap: 5px;
+    padding: 16px 12px 18px;
+    font-size: 10px;
+  }
+
+  .siteFooterText::before,
+  .siteFooterCopy::before {
+    content: "";
+    margin-right: 0;
   }
 }
 
