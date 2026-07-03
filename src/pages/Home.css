@@ -3298,3 +3298,339 @@ button.doodle {
     animation: none !important;
   }
 }
+/* =========================================================
+   Puku Lab Home：控えめアニメーション追加
+   対象：APPSフラスコ / GALLERY顕微鏡 / SURVEYビーカー / SECRET原子
+   使い方：Home.css の末尾に追記
+========================================================= */
+
+/* APPS：フラスコの液体・泡・星をゆっくり動かす */
+.doodleFlask .labSvgWrap-flask {
+  animation: pukuIconBreath 6.4s ease-in-out infinite;
+}
+
+.doodleFlask .labSvgLiquid {
+  animation: pukuLiquidCalm 4.8s ease-in-out infinite;
+  transform-origin: 90px 132px;
+}
+
+.doodleFlask .labSvgFloatBubble {
+  animation: pukuBubbleRiseSoft 3.9s ease-in-out infinite;
+}
+
+.doodleFlask .labSvgFloatBubble.delay {
+  animation-delay: 1.2s;
+}
+
+.doodleFlask .labSvgStar,
+.doodleFlask .labSvgStarRay {
+  animation: pukuStarTwinkleSoft 2.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.doodleFlask:hover .labSvgLiquid,
+.doodleFlask:focus-visible .labSvgLiquid {
+  animation: pukuLiquidCheer 1.35s ease-in-out infinite;
+}
+
+/* GALLERY：顕微鏡のレンズと観察光を少しだけ動かす */
+.doodleMicroscope .labSvgWrap-microscope {
+  animation: pukuMicroScopeBreath 7.2s ease-in-out infinite;
+}
+
+.doodleMicroscope .labSvg-microscope rect:first-of-type {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pukuLensPeek 4.6s ease-in-out infinite;
+}
+
+.doodleMicroscope .labSvg-microscope .labSvgMintStroke {
+  animation: pukuObserveGlow 3.4s ease-in-out infinite;
+}
+
+.doodleMicroscope:hover .labSvg-microscope rect:first-of-type,
+.doodleMicroscope:focus-visible .labSvg-microscope rect:first-of-type {
+  animation-duration: 1.8s;
+}
+
+/* SURVEY：ビーカーの液体と泡をゆっくり動かす */
+.doodleCylinder .labSvgWrap-survey {
+  animation: pukuSurveyBreath 6.8s ease-in-out infinite;
+}
+
+.doodleCylinder .labSvg-survey .labSvgLiquid {
+  animation: pukuSurveyLiquidCalm 4.2s ease-in-out infinite;
+  transform-origin: 90px 132px;
+}
+
+.doodleCylinder .labSvg-survey .labSvgFloatBubble {
+  animation: pukuSurveyBubbleFloat 3.3s ease-in-out infinite;
+}
+
+.doodleCylinder .labSvg-survey .labSvgFloatBubble.delay {
+  animation-delay: 0.95s;
+}
+
+.doodleCylinder:hover .labSvg-survey .labSvgMouth,
+.doodleCylinder:focus-visible .labSvg-survey .labSvgMouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pukuSmileBounceTiny 1.2s ease-in-out infinite;
+}
+
+/* SECRET：原子の軌道をゆっくり回して、解放時は少し発光 */
+.doodleAtom .labSvgAtomOrbit {
+  transform-origin: 90px 92px;
+}
+
+.doodleAtom .labSvgAtomOrbit:not(.orbitTiltA):not(.orbitTiltB) {
+  animation: pukuAtomOrbitFlat 18s linear infinite;
+}
+
+.doodleAtom .labSvgAtomOrbit.orbitTiltA {
+  animation: pukuAtomOrbitTiltA 22s linear infinite;
+}
+
+.doodleAtom .labSvgAtomOrbit.orbitTiltB {
+  animation: pukuAtomOrbitTiltB 16s linear infinite;
+}
+
+.doodleAtom .labSvgElectron {
+  animation: pukuElectronPulse 2.8s ease-in-out infinite;
+}
+
+.doodleAtom .labSvgElectron.delay {
+  animation-delay: 1s;
+}
+
+.doodleAtom.secretReady .labSvgAtomOrbit {
+  animation-duration: 7s;
+  filter: drop-shadow(0 0 8px rgba(255, 196, 109, 0.28));
+}
+
+.doodleAtom.secretReady .labSecretCore {
+  animation: pukuSecretCoreGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes pukuIconBreath {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -53%) rotate(-0.8deg) scale(1.015);
+  }
+}
+
+@keyframes pukuLiquidCalm {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.86;
+  }
+
+  50% {
+    transform: translateY(-2px) scaleY(1.045);
+    opacity: 0.96;
+  }
+}
+
+@keyframes pukuLiquidCheer {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+
+  50% {
+    transform: translateY(-4px) scaleY(1.1);
+  }
+}
+
+@keyframes pukuBubbleRiseSoft {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.48;
+  }
+
+  50% {
+    transform: translateY(-10px) scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+@keyframes pukuStarTwinkleSoft {
+  0%,
+  100% {
+    transform: scale(0.94) rotate(-5deg);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scale(1.12) rotate(6deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pukuMicroScopeBreath {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -52%) rotate(0.7deg) scale(1.01);
+  }
+}
+
+@keyframes pukuLensPeek {
+  0%,
+  100% {
+    transform: rotate(-12deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-8deg) translateY(-2px);
+  }
+}
+
+@keyframes pukuObserveGlow {
+  0%,
+  100% {
+    opacity: 0.78;
+    filter: drop-shadow(0 0 6px rgba(121, 242, 208, 0.1));
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(121, 242, 208, 0.28));
+  }
+}
+
+@keyframes pukuSurveyBreath {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -52.5%) rotate(0.6deg) scale(1.012);
+  }
+}
+
+@keyframes pukuSurveyLiquidCalm {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.82;
+  }
+
+  50% {
+    transform: translateY(-3px) scaleY(1.06);
+    opacity: 0.94;
+  }
+}
+
+@keyframes pukuSurveyBubbleFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.94);
+    opacity: 0.52;
+  }
+
+  50% {
+    transform: translateY(-9px) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes pukuSmileBounceTiny {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-1.5px) scale(1.04);
+  }
+}
+
+@keyframes pukuAtomOrbitFlat {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pukuAtomOrbitTiltA {
+  from {
+    transform: rotate(58deg);
+  }
+
+  to {
+    transform: rotate(418deg);
+  }
+}
+
+@keyframes pukuAtomOrbitTiltB {
+  from {
+    transform: rotate(-58deg);
+  }
+
+  to {
+    transform: rotate(302deg);
+  }
+}
+
+@keyframes pukuElectronPulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.66;
+  }
+
+  50% {
+    transform: scale(1.16);
+    opacity: 1;
+  }
+}
+
+@keyframes pukuSecretCoreGlow {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 0 12px rgba(121, 242, 208, 0.34))
+      drop-shadow(0 0 24px rgba(255, 196, 109, 0.12));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 18px rgba(121, 242, 208, 0.58))
+      drop-shadow(0 0 36px rgba(255, 196, 109, 0.22));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodleFlask .labSvgWrap-flask,
+  .doodleFlask .labSvgLiquid,
+  .doodleFlask .labSvgFloatBubble,
+  .doodleFlask .labSvgStar,
+  .doodleFlask .labSvgStarRay,
+  .doodleMicroscope .labSvgWrap-microscope,
+  .doodleMicroscope .labSvg-microscope rect:first-of-type,
+  .doodleMicroscope .labSvg-microscope .labSvgMintStroke,
+  .doodleCylinder .labSvgWrap-survey,
+  .doodleCylinder .labSvg-survey .labSvgLiquid,
+  .doodleCylinder .labSvg-survey .labSvgFloatBubble,
+  .doodleCylinder:hover .labSvg-survey .labSvgMouth,
+  .doodleCylinder:focus-visible .labSvg-survey .labSvgMouth,
+  .doodleAtom .labSvgAtomOrbit,
+  .doodleAtom .labSvgElectron,
+  .doodleAtom.secretReady .labSecretCore {
+    animation: none !important;
+  }
+}
