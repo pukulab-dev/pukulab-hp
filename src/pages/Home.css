@@ -2713,3 +2713,225 @@ button.doodle {
     top: 50%;
   }
 }
+
+/* =========================================================
+   SVG Flask Trial
+   APPSアイコンだけSVG化する試験版
+========================================================= */
+
+.labIconSvgWrap {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: min(68%, 174px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition:
+    transform 240ms ease,
+    filter 240ms ease,
+    opacity 240ms ease;
+}
+
+.labIconSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.05))
+    drop-shadow(0 0 14px rgba(121, 242, 208, 0.06));
+}
+
+.labIconStroke {
+  fill: none;
+  stroke: rgba(243, 240, 223, 0.9);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labIconFlaskOutline {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.08));
+}
+
+.labIconLiquid {
+  fill: rgba(121, 242, 208, 0.78);
+  filter:
+    drop-shadow(0 0 10px rgba(121, 242, 208, 0.16))
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.1));
+  transform-origin: 90px 132px;
+}
+
+.labIconEye {
+  fill: rgba(243, 240, 223, 0.95);
+}
+
+.labIconMouth {
+  fill: none;
+  stroke: rgba(243, 240, 223, 0.95);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.labIconShine {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.labIconStar {
+  fill: rgba(255, 196, 109, 0.9);
+  filter: drop-shadow(0 0 8px rgba(255, 196, 109, 0.24));
+  transform-origin: 133px 51px;
+  animation: starTwinkle 2.1s ease-in-out infinite;
+}
+
+.labIconStarRay {
+  fill: none;
+  stroke: rgba(255, 196, 109, 0.82);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform-origin: center;
+  opacity: 0.9;
+}
+
+.labIconBubble {
+  transform-origin: center;
+}
+
+.mintBubble {
+  fill: rgba(121, 242, 208, 0.82);
+}
+
+.chalkBubble {
+  fill: rgba(243, 240, 223, 0.92);
+}
+
+.floatBubble {
+  fill: rgba(121, 242, 208, 0.72);
+  animation: svgBubbleFloat 2.8s ease-in-out infinite;
+}
+
+.floatBubble.bubbleE {
+  animation-delay: 0.7s;
+  fill: rgba(255, 196, 109, 0.68);
+}
+
+.doodleFlask:hover .labIconSvgWrap,
+.doodleFlask:focus-visible .labIconSvgWrap {
+  transform: translate(-50%, -54%) scale(1.045) rotate(-1deg);
+  filter: drop-shadow(0 0 14px rgba(121, 242, 208, 0.14));
+}
+
+.doodleFlask:hover .labIconLiquid,
+.doodleFlask:focus-visible .labIconLiquid {
+  animation: svgLiquidWobble 1.4s ease-in-out infinite;
+}
+
+.doodleFlask:hover .labIconStar,
+.doodleFlask:focus-visible .labIconStar {
+  animation-duration: 0.9s;
+}
+
+.doodleFlask.active .labIconSvgWrap {
+  animation: svgFlaskPop 720ms ease-out;
+}
+
+.doodleFlask.active .labIconLiquid {
+  animation: svgLiquidPop 720ms ease-out;
+}
+
+.doodleFlask.active .floatBubble {
+  animation: svgBubbleBurst 720ms ease-out;
+}
+
+@keyframes svgLiquidWobble {
+  0%,
+  100% {
+    transform: scaleY(1) translateY(0);
+  }
+
+  50% {
+    transform: scaleY(1.06) translateY(-2px);
+  }
+}
+
+@keyframes svgLiquidPop {
+  0% {
+    transform: scaleY(1);
+  }
+
+  38% {
+    transform: scaleY(1.18) translateY(-4px);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes svgFlaskPop {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  36% {
+    transform: translate(-50%, -55%) scale(1.08) rotate(-2deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes svgBubbleFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.94);
+    opacity: 0.58;
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes svgBubbleBurst {
+  0% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.75;
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-28px) scale(1.12);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .labIconSvgWrap {
+    top: 50%;
+    width: min(62%, 150px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labIconStar,
+  .floatBubble,
+  .doodleFlask:hover .labIconLiquid,
+  .doodleFlask:focus-visible .labIconLiquid,
+  .doodleFlask.active .labIconSvgWrap,
+  .doodleFlask.active .labIconLiquid,
+  .doodleFlask.active .floatBubble {
+    animation: none !important;
+  }
+}

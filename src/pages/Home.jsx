@@ -2,8 +2,52 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home.css";
 
-const flaskBubbles = ["a", "b", "c", "d", "e", "f"];
-const smokeClouds = ["1", "2", "3"];
+function LabFlaskIcon() {
+  return (
+    <span className="labIconSvgWrap" aria-hidden="true">
+      <svg
+        className="labIconSvg"
+        viewBox="0 0 180 180"
+        role="img"
+        focusable="false"
+      >
+        <path
+          className="labIconStroke labIconFlaskOutline"
+          d="M67 25H113M73 25V52L42 112C31 133 46 153 70 153H110C134 153 149 133 138 112L107 52V25"
+        />
+
+        <path
+          className="labIconLiquid"
+          d="M46 121C57 112 70 117 82 121C99 126 112 117 131 116V135C131 145 123 151 110 151H70C57 151 49 145 46 135V121Z"
+        />
+
+        <circle className="labIconBubble mintBubble bubbleA" cx="112" cy="116" r="5" />
+        <circle className="labIconBubble chalkBubble bubbleB" cx="123" cy="130" r="4" />
+        <circle className="labIconBubble mintBubble bubbleC" cx="72" cy="112" r="4" />
+
+        <circle className="labIconEye" cx="75" cy="79" r="5" />
+        <circle className="labIconEye" cx="105" cy="79" r="5" />
+        <path className="labIconMouth" d="M78 94C85 102 95 102 102 94" />
+
+        <path
+          className="labIconShine"
+          d="M58 68V106"
+        />
+
+        <path
+          className="labIconStar"
+          d="M133 34L139 47L153 50L141 58L143 72L133 63L121 72L124 58L112 50L126 47Z"
+        />
+        <path className="labIconStarRay rayA" d="M134 18V26" />
+        <path className="labIconStarRay rayB" d="M158 36L150 42" />
+        <path className="labIconStarRay rayC" d="M111 34L118 41" />
+
+        <circle className="labIconBubble floatBubble bubbleD" cx="93" cy="47" r="4" />
+        <circle className="labIconBubble floatBubble bubbleE" cx="104" cy="59" r="3" />
+      </svg>
+    </span>
+  );
+}
 
 export default function Home() {
   const navigate = useNavigate();
@@ -100,30 +144,7 @@ export default function Home() {
             <span className="doodleBadge">START</span>
             <span className="doodleHint">フラスコをタップしてアプリへ</span>
 
-            <span className="flaskNeck" />
-            <span className="flaskBody" />
-            <span className="flaskLiquid" />
-            <span className="flaskShine" />
-
-            <span className="flaskFace" aria-hidden="true">
-              <span className="flaskEye flaskEyeLeft" />
-              <span className="flaskEye flaskEyeRight" />
-              <span className="flaskMouth" />
-            </span>
-
-            <span className="flaskTinyStar" aria-hidden="true" />
-
-            <span className="bubbleField">
-              {flaskBubbles.map((bubble) => (
-                <span key={bubble} className={`bubble bubble${bubble}`} />
-              ))}
-            </span>
-
-            <span className="smokeField">
-              {smokeClouds.map((cloud) => (
-                <span key={cloud} className={`smoke smoke${cloud}`} />
-              ))}
-            </span>
+            <LabFlaskIcon />
           </button>
 
           {/* GALLERY */}
