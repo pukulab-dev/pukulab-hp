@@ -26,7 +26,7 @@ const pageTitleMap = {
   "/gallery/illustrations": "イラスト実験室 | Puku Lab",
   "/gallery/photo-style": "写真風実験室 | Puku Lab",
   "/gallery/others": "没案・試作ログ | Puku Lab",
-  "/works": "制作相談室 | Puku Lab",
+  "/works": "HP制作・LP制作・運営導線サポート | Puku Lab制作相談室",
   "/questionnaire": "アンケート | Puku Lab",
   "/contact": "お問い合わせ | Puku Lab",
   "/experiments": "実験室 | Puku Lab",
@@ -51,7 +51,7 @@ const pageDescriptionMap = {
   "/gallery/others":
     "Puku Labの没案・試作ログです。ロゴ案、UI風画像、試作ビジュアルなど、分類しきれない実験画像を保管しています。",
   "/works":
-    "Puku Labの制作相談室です。HP制作、LP制作、運営導線づくり、AIを使った画像や文章づくりをサポートします。",
+    "個人開発者・創作者・小さなお店向けに、HP制作、LP制作、アプリ紹介ページ、SNS・note・pixivの導線整理をサポートします。料金目安と制作実績も掲載しています。",
   "/questionnaire":
     "Puku Labのアプリや今後の開発の参考にするためのアンケートページです。",
   "/contact":

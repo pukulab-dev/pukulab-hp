@@ -22,12 +22,12 @@ const targetUsers = [
 
 const productCards = [
   {
-    title: "個人活動用ホームページ",
+    title: "個人活動用ホームページ制作",
     label: "HOME PAGE",
     text: "活動内容、プロフィール、リンク、問い合わせ先をまとめた小さな拠点を作ります。",
   },
   {
-    title: "アプリ・サービス紹介LP",
+    title: "アプリ・サービス紹介LP制作",
     label: "APP / SERVICE LP",
     text: "アプリやWebサービスの魅力、使い方、導線を1ページで伝える紹介ページを作ります。",
   },
@@ -52,7 +52,7 @@ const serviceCards = [
   {
     title: "LP制作",
     label: "LANDING PAGE",
-    text: "アプリ、サービス、イベント、企画などを分かりやすく伝える紹介ページを整えます。",
+    text: "アプリ、サービス、イベント、企画などを分かりやすく伝えるランディングページを整えます。",
   },
   {
     title: "運営導線サポート",
@@ -111,9 +111,9 @@ const worksCases = [
     text: "黒板内の2D研究室をテーマに、アプリ・AI画像・制作相談をつなぐ拠点として制作。",
   },
   {
-    title: "巻ログ 紹介LP",
-    label: "APP LP",
-    text: "漫画・ラノベ管理アプリの魅力を、コレクション管理と本棚育成の世界観で整理。",
+    title: "Puku Lab 制作相談室",
+    label: "WORKS LP",
+    text: "HP制作・LP制作・料金目安・問い合わせ導線をまとめた、Puku Labの営業用LPとして制作。",
   },
   {
     title: "AIビジュアル実験室",
@@ -124,6 +124,19 @@ const worksCases = [
     title: "外部制作実績",
     label: "COMING SOON",
     text: "これから制作相談やサポート事例が増えたら、ここに少しずつ追加していきます。",
+  },
+];
+
+const appCases = [
+  {
+    title: "巻ログ",
+    label: "APP / GOOGLE PLAY",
+    text: "漫画・ラノベ管理アプリを企画・制作し、Google Play公開まで実施。機能設計、UI、世界観づくりまで含めた個人開発アプリです。",
+  },
+  {
+    title: "巻ログ 紹介LP",
+    label: "APP LP / ROUTE",
+    text: "アプリの魅力、画面説明、Google Playへの導線、相棒るのの世界観を整理したアプリ紹介LPとして制作。",
   },
 ];
 
@@ -278,12 +291,33 @@ export default function Works() {
             <h3>制作実績</h3>
             <p>
               現在は自分のプロジェクトを中心に制作しています。
-              外部制作実績は、これから少しずつ追加していく予定です。
+              Puku Lab自体も、HP制作・LP制作・導線設計の実績として育てています。
             </p>
           </div>
 
           <div className="worksCaseGrid">
             {worksCases.map((item) => (
+              <article className="worksCaseCard" key={item.title}>
+                <p>{item.label}</p>
+                <h4>{item.title}</h4>
+                <span>{item.text}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="worksSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">APP CASE</p>
+            <h3>アプリ開発・LP実績</h3>
+            <p>
+              Webページだけでなく、実際に公開しているアプリと、
+              その紹介LP・HP導線まで含めて制作しています。
+            </p>
+          </div>
+
+          <div className="worksCaseGrid worksAppCaseGrid">
+            {appCases.map((item) => (
               <article className="worksCaseCard" key={item.title}>
                 <p>{item.label}</p>
                 <h4>{item.title}</h4>
