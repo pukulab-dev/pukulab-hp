@@ -1,6 +1,48 @@
 import { Link } from "react-router-dom";
 import "./Works.css";
 
+const targetUsers = [
+  {
+    title: "個人開発者",
+    text: "アプリやWebサービスの紹介ページ、Google PlayやSNSへの導線を整えたい人。",
+  },
+  {
+    title: "創作者・発信者",
+    text: "X、note、pixiv、作品ページなどをつなぐ活動拠点がほしい人。",
+  },
+  {
+    title: "小さなお店・個人活動",
+    text: "大きな制作会社に頼むほどではないけど、ちゃんと見せるHPがほしい人。",
+  },
+  {
+    title: "世界観を整理したい人",
+    text: "文章、画像、見せ方、導線まで含めて一緒に考えてほしい人。",
+  },
+];
+
+const productCards = [
+  {
+    title: "個人活動用ホームページ",
+    label: "HOME PAGE",
+    text: "活動内容、プロフィール、リンク、問い合わせ先をまとめた小さな拠点を作ります。",
+  },
+  {
+    title: "アプリ・サービス紹介LP",
+    label: "APP / SERVICE LP",
+    text: "アプリやWebサービスの魅力、使い方、導線を1ページで伝える紹介ページを作ります。",
+  },
+  {
+    title: "作品・ポートフォリオページ",
+    label: "PORTFOLIO",
+    text: "イラスト、写真、文章、制作物などを見やすくまとめるページを整えます。",
+  },
+  {
+    title: "SNS・note・pixiv導線整理",
+    label: "ROUTE DESIGN",
+    text: "バラバラになりがちな発信場所をつなぎ、見に来た人が迷わない導線を作ります。",
+  },
+];
+
 const serviceCards = [
   {
     title: "HP制作",
@@ -24,11 +66,84 @@ const serviceCards = [
   },
 ];
 
+const pricePlans = [
+  {
+    title: "既存ページの見直し・文章整理",
+    price: "3万〜8万円",
+    text: "今あるページの構成、文章、導線を見直して、伝わりやすく整えます。",
+  },
+  {
+    title: "1ページLP制作 ライト",
+    price: "8万〜15万円",
+    text: "文章と構成を絞った、シンプルな紹介ページを制作します。",
+  },
+  {
+    title: "1ページLP制作 標準",
+    price: "15万〜28万円",
+    text: "構成、文章、デザイン、導線までしっかり整えるLP制作です。",
+  },
+  {
+    title: "小規模HP制作 3〜5ページ",
+    price: "18万〜35万円",
+    text: "トップ、紹介、実績、問い合わせなどを含む小さなホームページ制作です。",
+  },
+  {
+    title: "アプリ・サービス紹介LP",
+    price: "12万〜25万円",
+    text: "アプリ画面や機能説明を整理し、ダウンロードや問い合わせにつなげます。",
+  },
+  {
+    title: "運営導線サポート",
+    price: "月2万〜5万円",
+    text: "SNS、note、pixiv、アプリ、HPの導線や更新方針を一緒に整えます。",
+  },
+  {
+    title: "AI制作サポート",
+    price: "2万〜8万円",
+    text: "AI画像、文章案、世界観づくり、告知用素材の方向性を一緒に作ります。",
+  },
+];
+
+const worksCases = [
+  {
+    title: "Puku Lab 公式サイト",
+    label: "OFFICIAL SITE",
+    text: "黒板内の2D研究室をテーマに、アプリ・AI画像・制作相談をつなぐ拠点として制作。",
+  },
+  {
+    title: "巻ログ 紹介LP",
+    label: "APP LP",
+    text: "漫画・ラノベ管理アプリの魅力を、コレクション管理と本棚育成の世界観で整理。",
+  },
+  {
+    title: "AIビジュアル実験室",
+    label: "GALLERY",
+    text: "AIで作ったビジュアル実験を展示し、pixivやPuku Lab内への回遊導線を設計。",
+  },
+  {
+    title: "外部制作実績",
+    label: "COMING SOON",
+    text: "これから制作相談やサポート事例が増えたら、ここに少しずつ追加していきます。",
+  },
+];
+
 const processSteps = [
-  "相談する",
-  "方向性を決める",
-  "小さく作る",
-  "公開後に育てる",
+  {
+    title: "相談する",
+    text: "作りたいもの、困っていること、見せたい世界観を聞かせてください。",
+  },
+  {
+    title: "方向性を決める",
+    text: "ページ構成、必要な内容、導線、料金目安を一緒に整理します。",
+  },
+  {
+    title: "小さく作る",
+    text: "最初から作り込みすぎず、公開できる形まで丁寧に作ります。",
+  },
+  {
+    title: "公開後に育てる",
+    text: "反応を見ながら、文章・導線・見せ方を少しずつ改善していきます。",
+  },
 ];
 
 export default function Works() {
@@ -45,9 +160,10 @@ export default function Works() {
 
         <section className="worksHero">
           <div className="worksHeroIcon" aria-hidden="true">
-            <span className="worksHeroMonitor" />
+            <span className="worksHeroPaper" />
             <span className="worksHeroScreen" />
-            <span className="worksHeroTool" />
+            <span className="worksHeroPencil" />
+            <span className="worksHeroRuler" />
             <span className="worksHeroStar" />
             <span className="worksHeroBubble bubbleA" />
             <span className="worksHeroBubble bubbleB" />
@@ -64,13 +180,63 @@ export default function Works() {
               個人開発、創作活動、小さなお店、イベント告知など、
               まずは小さな拠点を作りたい時に相談できる制作室です。
             </p>
+
+            <div className="worksHeroActions">
+              <Link className="navButton" to="/contact?type=works">
+                相談してみる
+              </Link>
+              <a className="navButton ghost" href="#works-price">
+                料金目安を見る
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="worksSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">FOR YOU</p>
+            <h3>こんな人に向いています</h3>
+            <p>
+              大きな制作会社に頼むほどではないけれど、
+              自分の活動やサービスをちゃんと見せる場所がほしい人向けです。
+            </p>
+          </div>
+
+          <div className="worksTargetGrid">
+            {targetUsers.map((item) => (
+              <article className="worksTargetCard" key={item.title}>
+                <h4>{item.title}</h4>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="worksSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">WHAT WE MAKE</p>
+            <h3>制作できるもの</h3>
+            <p>
+              HP単体だけでなく、SNS・note・pixiv・アプリストアなど、
+              活動全体の入口と出口をつなぐことを大切にしています。
+            </p>
+          </div>
+
+          <div className="worksProductGrid">
+            {productCards.map((card) => (
+              <article className="worksProductCard" key={card.title}>
+                <p>{card.label}</p>
+                <h4>{card.title}</h4>
+                <span>{card.text}</span>
+              </article>
+            ))}
           </div>
         </section>
 
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">MENU</p>
-            <h3>できること</h3>
+            <h3>お手伝いできること</h3>
           </div>
 
           <div className="worksServiceGrid">
@@ -84,6 +250,49 @@ export default function Works() {
           </div>
         </section>
 
+        <section className="worksSection worksPriceSection" id="works-price">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">PRICE GUIDE</p>
+            <h3>料金の目安</h3>
+            <p>
+              料金は内容・ページ数・素材の有無によって変わります。
+              下記は相談前にイメージしやすくするための目安です。
+              正式なお見積もりと請求書の金額は、作業範囲を確認してから決定します。
+            </p>
+          </div>
+
+          <div className="worksPriceGrid">
+            {pricePlans.map((plan) => (
+              <article className="worksPriceCard" key={plan.title}>
+                <h4>{plan.title}</h4>
+                <strong>{plan.price}</strong>
+                <p>{plan.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="worksSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">WORKS</p>
+            <h3>制作実績</h3>
+            <p>
+              現在は自分のプロジェクトを中心に制作しています。
+              外部制作実績は、これから少しずつ追加していく予定です。
+            </p>
+          </div>
+
+          <div className="worksCaseGrid">
+            {worksCases.map((item) => (
+              <article className="worksCaseCard" key={item.title}>
+                <p>{item.label}</p>
+                <h4>{item.title}</h4>
+                <span>{item.text}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">FLOW</p>
@@ -92,9 +301,10 @@ export default function Works() {
 
           <div className="worksFlow">
             {processSteps.map((step, index) => (
-              <div className="worksFlowStep" key={step}>
+              <div className="worksFlowStep" key={step.title}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{step}</strong>
+                <strong>{step.title}</strong>
+                <p>{step.text}</p>
               </div>
             ))}
           </div>
@@ -116,7 +326,7 @@ export default function Works() {
           <div className="pageActions worksActions">
             <Link className="navButton" to="/contact?type=works">
               相談してみる
-           </Link>
+            </Link>
             <Link className="navButton ghost" to="/">
               ホームへ戻る
             </Link>
