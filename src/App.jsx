@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
 
@@ -26,6 +26,9 @@ const PLAY_STORE_URL =
 
 const defaultDescription =
   "Puku Labは、黒板の中の2D研究室でアプリ・AI画像・遊びの実験を育てている個人開発の研究所です。";
+
+const notFoundDescription =
+  "指定されたページは見つかりませんでした。Puku Labのホーム、アプリ紹介、制作相談室、ギャラリーから目的のページを探してみてください。";
 
 const organizationData = {
   "@context": "https://schema.org",
@@ -255,10 +258,10 @@ const pageMetaMap = {
 function getPageMeta(pathname) {
   return (
     pageMetaMap[pathname] || {
-      title: "Puku Lab",
-      description: defaultDescription,
+      title: "ページが見つかりません | Puku Lab",
+      description: notFoundDescription,
       image: DEFAULT_OGP_IMAGE,
-      robots: "index, follow",
+      robots: "noindex, follow",
     }
   );
 }
@@ -402,6 +405,46 @@ function SiteFooter() {
   );
 }
 
+function NotFound() {
+  return (
+    <main className="siteFrame innerPageFrame">
+      <section className="chalkboard pageBoard">
+        <header className="pageHead">
+          <p className="smallTag">404 / LOST IN THE LAB</p>
+          <h2>ページが見つかりません</h2>
+          <p>
+            指定されたページは、まだ研究所の中にないみたいです。
+            <br />
+            目的の部屋に近い入口から、もう一度探してみてください。
+          </p>
+        </header>
+
+        <div className="metricPanel">
+          <p>ROUTE MEMO</p>
+          <strong>
+            アプリ、制作相談室、ギャラリーなどの正式な入口へ案内します。
+          </strong>
+        </div>
+
+        <div className="pageActions">
+          <Link className="navButton" to="/">
+            ホームへ戻る
+          </Link>
+          <Link className="navButton ghost" to="/apps/kanlog">
+            巻ログを見る
+          </Link>
+          <Link className="navButton ghost" to="/works">
+            制作相談室へ
+          </Link>
+          <Link className="navButton ghost" to="/gallery">
+            ギャラリーへ
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 export default function App() {
   return (
     <>
@@ -433,6 +476,8 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/secret" element={<Secret />} />
         <Route path="/game" element={<Game />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <SiteFooter />
