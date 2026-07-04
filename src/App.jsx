@@ -100,6 +100,16 @@ function SeoTracker() {
   return null;
 }
 
+function SiteFooter() {
+  return (
+    <footer className="siteFooter" aria-label="サイト情報">
+      <p className="siteFooterBrand">Puku Lab</p>
+      <p className="siteFooterText">Small Web & App Lab</p>
+      <p className="siteFooterCopy">© 2026 Puku Lab</p>
+    </footer>
+  );
+}
+
 export default function App() {
   return (
     <>
@@ -133,6 +143,7 @@ export default function App() {
         <Route path="/game" element={<Game />} />
       </Routes>
 
+      <SiteFooter />
       <PageAssistNav />
     </>
   );
