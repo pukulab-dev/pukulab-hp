@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pukulab-hp.vercel.app/sitemap.xml
+Sitemap: https://www.pukulab.com/sitemap.xml
