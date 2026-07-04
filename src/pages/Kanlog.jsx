@@ -6,6 +6,12 @@ import shelfImg from "../assets/kanlog-shelf.png";
 import detailImg from "../assets/kanlog-detail.png";
 import personalityImg from "../assets/kanlog-personality.png";
 
+import promoRegisterImg from "../assets/kanlog-promo-register.png";
+import promoCustomizeImg from "../assets/kanlog-promo-customize.png";
+import promoPersonalityImg from "../assets/kanlog-promo-personality.png";
+import promoCollectionImg from "../assets/kanlog-promo-collection.png";
+import promoRoomGrowthImg from "../assets/kanlog-promo-room-growth.png";
+
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.pukulab.makilog";
 
@@ -59,6 +65,44 @@ const screenShots = [
     label: "RUNO",
     text: "コレクション管理の相棒るのの性格を、自分好みに選べます。",
     alt: "巻ログのるの性格変更画面。相棒キャラの性格を選べる画面",
+  },
+];
+
+const promoVisuals = [
+  {
+    image: promoCollectionImg,
+    title: "漫画・ラノベをコレクション管理",
+    label: "COLLECTION",
+    text: "紙の本を登録して、自分だけの本棚として見返せる。",
+    alt: "巻ログの紹介画像。漫画とラノベをコレクション管理できることを説明している",
+  },
+  {
+    image: promoRegisterImg,
+    title: "作品ごとに登録・まとめて管理",
+    label: "REGISTER",
+    text: "まとめて追加も、あとから修正も、複数所持の管理もできる。",
+    alt: "巻ログの紹介画像。作品ごとに登録してまとめて管理できることを説明している",
+  },
+  {
+    image: promoCustomizeImg,
+    title: "管理もカスタムもしっかり",
+    label: "CUSTOM",
+    text: "所持巻や抜け巻の確認から、背表紙デザインのカスタムまで。",
+    alt: "巻ログの紹介画像。所持巻チェックや背表紙デザインを説明している",
+  },
+  {
+    image: promoPersonalityImg,
+    title: "相棒の性格を選べる",
+    label: "RUNO",
+    text: "お気に入りのるのと一緒に、コレクション管理をもっと楽しく。",
+    alt: "巻ログの紹介画像。相棒キャラるのの性格を選べることを説明している",
+  },
+  {
+    image: promoRoomGrowthImg,
+    title: "登録するほど部屋が育つ",
+    label: "ROOM",
+    text: "本棚や家具が増えて、コレクション管理が少しずつにぎやかに。",
+    alt: "巻ログの紹介画像。本を登録するほど部屋が育つことを説明している",
   },
 ];
 
@@ -288,6 +332,33 @@ export default function Kanlog() {
         <div className="kanlog-utilityGrid">
           {utilityFeatures.map((feature) => (
             <span key={feature}>{feature}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="kanlog-section kanlog-promoVisuals">
+        <div className="kanlog-sectionHead">
+          <p className="kanlog-label">PROMO VISUALS</p>
+          <h2>画像で見る、巻ログでできること。</h2>
+          <p>
+            Google Play向けに作った紹介画像を、LPにもまとめました。
+            登録、カスタム、相棒るの、部屋育成まで、巻ログの魅力をひと目で確認できます。
+          </p>
+        </div>
+
+        <div className="kanlog-promoGrid" aria-label="巻ログの紹介画像一覧">
+          {promoVisuals.map((visual) => (
+            <article className="kanlog-promoCard" key={visual.title}>
+              <div className="kanlog-promoImageWrap">
+                <img src={visual.image} alt={visual.alt} loading="lazy" />
+              </div>
+
+              <div className="kanlog-promoText">
+                <p className="kanlog-promoLabel">{visual.label}</p>
+                <h3>{visual.title}</h3>
+                <p>{visual.text}</p>
+              </div>
+            </article>
           ))}
         </div>
       </section>
