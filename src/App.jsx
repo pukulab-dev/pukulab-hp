@@ -459,6 +459,20 @@ function SeoTracker() {
   return null;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 function SiteFooter() {
   return (
     <footer className="siteFooter" aria-label="サイト情報">
@@ -513,6 +527,7 @@ export default function App() {
   return (
     <>
       <SeoTracker />
+      <ScrollToTop />
 
       <Routes>
         <Route path="/" element={<Home />} />
