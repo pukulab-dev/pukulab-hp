@@ -1128,3 +1128,125 @@
     transform: none;
   }
 }
+
+/* =========================================================
+   Promo Visuals
+   Google Play用紹介画像をLP内で中央・適正サイズ表示
+========================================================= */
+
+.kanlog-promoVisuals {
+  width: min(1240px, 100%);
+}
+
+.kanlog-promoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 28px);
+  align-items: start;
+}
+
+.kanlog-promoCard {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 241, 211, 0.88));
+  border: 1px solid rgba(116, 73, 38, 0.16);
+  box-shadow: 0 16px 30px rgba(79, 44, 21, 0.12);
+}
+
+.kanlog-promoImageWrap {
+  width: 100%;
+  min-width: 0;
+  padding: clamp(14px, 2vw, 22px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255, 196, 109, 0.16), transparent 34%),
+    radial-gradient(circle at 86% 80%, rgba(49, 88, 72, 0.12), transparent 34%),
+    rgba(255, 250, 236, 0.72);
+  border-bottom: 1px solid rgba(116, 73, 38, 0.12);
+}
+
+.kanlog-promoImageWrap img {
+  display: block;
+  width: min(100%, 520px);
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 16px 30px rgba(55, 31, 16, 0.18);
+}
+
+.kanlog-promoText {
+  padding: 18px 20px 22px;
+}
+
+.kanlog-promoLabel {
+  margin: 0;
+  color: rgba(109, 71, 39, 0.72);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  font-weight: 900;
+}
+
+.kanlog-promoText h3 {
+  margin: 8px 0 0;
+  color: #3b2417;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.35;
+}
+
+.kanlog-promoText p:not(.kanlog-promoLabel) {
+  margin-top: 10px;
+  color: rgba(55, 34, 21, 0.78);
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 650;
+}
+
+@media (max-width: 900px) {
+  .kanlog-promoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .kanlog-promoImageWrap img {
+    width: min(100%, 560px);
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .kanlog-promoVisuals {
+    padding-inline: 18px;
+  }
+
+  .kanlog-promoImageWrap {
+    padding: 12px;
+  }
+
+  .kanlog-promoImageWrap img {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .kanlog-promoText {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .kanlog-promoVisuals {
+    padding-inline: 14px;
+  }
+
+  .kanlog-promoText h3 {
+    font-size: 20px;
+  }
+
+  .kanlog-promoText p:not(.kanlog-promoLabel) {
+    font-size: 14px;
+  }
+}
