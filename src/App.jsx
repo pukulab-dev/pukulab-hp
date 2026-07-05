@@ -165,32 +165,96 @@ const pageMetaMap = {
   },
 
   "/works": {
-    title: "HP制作・LP制作・運営導線サポート | Puku Lab制作相談室",
+    title: "HP制作・LP制作・個人向けホームページ制作 | Puku Lab制作相談室",
     description:
-      "個人開発者・創作者・小さなお店向けに、HP制作、LP制作、アプリ紹介ページ、SNS・note・pixivの導線整理をサポートします。料金目安と制作実績も掲載しています。",
+      "個人開発者・創作者・小さなお店向けに、ホームページ制作、LP制作、アプリ紹介ページ、ポートフォリオ制作、SNS導線整理をサポートします。全国オンライン対応。料金目安と制作実績も掲載しています。",
     image: DEFAULT_OGP_IMAGE,
     robots: "index, follow",
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      name: "HP制作・LP制作・運営導線サポート",
-      serviceType: [
-        "ホームページ制作",
-        "LP制作",
-        "アプリ紹介ページ制作",
-        "SNS導線整理",
-        "運営導線サポート",
-      ],
-      url: `${SITE_URL}/works`,
-      areaServed: "JP",
-      description:
-        "個人開発者・創作者・小さなお店向けに、HP制作、LP制作、アプリ紹介ページ、SNS・note・pixivの導線整理をサポートします。",
-      provider: {
-        "@type": "Organization",
-        name: "Puku Lab",
-        url: SITE_URL,
+    structuredData: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "個人向けホームページ制作・LP制作",
+        serviceType: [
+          "ホームページ制作",
+          "LP制作",
+          "個人向けホームページ制作",
+          "小規模ホームページ制作",
+          "アプリ紹介ページ制作",
+          "ポートフォリオ制作",
+          "SNS導線整理",
+          "運営導線サポート",
+        ],
+        url: `${SITE_URL}/works`,
+        areaServed: {
+          "@type": "Country",
+          name: "日本",
+        },
+        description:
+          "Puku Labは、個人開発者・創作者・小さなお店向けに、ホームページ制作、LP制作、アプリ紹介ページ制作、SNS導線整理をサポートします。",
+        provider: {
+          "@type": "Organization",
+          name: "Puku Lab",
+          url: SITE_URL,
+        },
       },
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "個人でもホームページ制作を相談できますか？",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "はい。個人開発者、創作者、個人活動、小さなお店など、大きな制作会社に頼むほどではない規模のホームページ制作やLP制作を想定しています。",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "アプリ紹介ページやサービス紹介LPも作れますか？",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "対応できます。アプリの特徴、画面説明、料金、Google Playや問い合わせへの導線を整理し、1ページで伝わる紹介LPとして制作します。",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "文章や構成がまだ決まっていなくても相談できますか？",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "大丈夫です。作りたいものがふわっとしている段階でも、誰に何を届けたいか、どのページが必要か、どんな導線にするかを一緒に整理します。",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "遠方からでも依頼できますか？",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "はい。ホームページ制作やLP制作はオンラインで全国から相談できます。やり取りしながら、必要な情報やページ構成を一緒に整理します。",
+            },
+          },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Puku Lab",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "制作相談室",
+            item: `${SITE_URL}/works`,
+          },
+        ],
+      },
+    ],
   },
 
   "/questionnaire": {

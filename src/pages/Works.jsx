@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 import "./Works.css";
 
+const keywordBadges = [
+  "ホームページ制作",
+  "LP制作",
+  "個人向けHP",
+  "小規模サイト",
+  "アプリ紹介ページ",
+  "ポートフォリオ制作",
+  "SNS導線整理",
+  "全国オンライン対応",
+];
+
 const targetUsers = [
   {
     title: "個人開発者",
@@ -24,17 +35,17 @@ const productCards = [
   {
     title: "個人活動用ホームページ制作",
     label: "HOME PAGE",
-    text: "活動内容、プロフィール、リンク、問い合わせ先をまとめた小さな拠点を作ります。",
+    text: "活動内容、プロフィール、サービス内容、リンク、問い合わせ先をまとめた小さな拠点を作ります。",
   },
   {
     title: "アプリ・サービス紹介LP制作",
     label: "APP / SERVICE LP",
-    text: "アプリやWebサービスの魅力、使い方、導線を1ページで伝える紹介ページを作ります。",
+    text: "アプリやWebサービスの魅力、使い方、料金、ダウンロード導線を1ページで伝える紹介ページを作ります。",
   },
   {
     title: "作品・ポートフォリオページ",
     label: "PORTFOLIO",
-    text: "イラスト、写真、文章、制作物などを見やすくまとめるページを整えます。",
+    text: "イラスト、写真、文章、制作物などを見やすくまとめるポートフォリオページを整えます。",
   },
   {
     title: "SNS・note・pixiv導線整理",
@@ -63,6 +74,25 @@ const serviceCards = [
     title: "AI制作サポート",
     label: "AI CREATIVE",
     text: "AIを使った画像案、文章案、世界観づくり、更新ネタづくりまで一緒に整理します。",
+  },
+];
+
+const seoSupportCards = [
+  {
+    title: "検索される言葉をページ内に整理",
+    text: "HP制作、LP制作、アプリ紹介ページ、個人向けホームページなど、探している人が使いそうな言葉を自然に入れます。",
+  },
+  {
+    title: "問い合わせまでの導線を設計",
+    text: "見に来た人が、料金・制作内容・実績・相談先を迷わず確認できるようにページ構成を整えます。",
+  },
+  {
+    title: "SNSや外部サービスと接続",
+    text: "X、note、pixiv、Google Play、作品ページなどをつなぎ、活動全体の入口と出口を作ります。",
+  },
+  {
+    title: "公開後も育てやすい形にする",
+    text: "作って終わりではなく、反応を見ながら文章や導線を改善しやすいホームページにします。",
   },
 ];
 
@@ -159,15 +189,39 @@ const processSteps = [
   },
 ];
 
+const faqItems = [
+  {
+    question: "個人でもホームページ制作を相談できますか？",
+    answer:
+      "はい。個人開発者、創作者、個人活動、小さなお店など、大きな制作会社に頼むほどではない規模のホームページ制作やLP制作を想定しています。",
+  },
+  {
+    question: "アプリ紹介ページやサービス紹介LPも作れますか？",
+    answer:
+      "対応できます。アプリの特徴、画面説明、料金、Google Playや問い合わせへの導線を整理し、1ページで伝わる紹介LPとして制作します。",
+  },
+  {
+    question: "文章や構成がまだ決まっていなくても相談できますか？",
+    answer:
+      "大丈夫です。作りたいものがふわっとしている段階でも、誰に何を届けたいか、どのページが必要か、どんな導線にするかを一緒に整理します。",
+  },
+  {
+    question: "遠方からでも依頼できますか？",
+    answer:
+      "はい。ホームページ制作やLP制作はオンラインで全国から相談できます。やり取りしながら、必要な情報やページ構成を一緒に整理します。",
+  },
+];
+
 export default function Works() {
   return (
     <main className="siteFrame innerPageFrame worksPage">
       <section className="chalkboard pageBoard worksBoard">
         <header className="pageHead worksHead">
           <p className="smallTag">WORKS / SUPPORT LAB</p>
-          <h2>制作相談室</h2>
+          <h1>HP制作・LP制作の制作相談室</h1>
           <p>
-            黒板の中の2D研究室から、HP制作・LP制作・運営導線づくりをお手伝いします。
+            黒板の中の2D研究室から、個人開発者・創作者・小さなお店向けに、
+            ホームページ制作、LP制作、アプリ紹介ページ、運営導線づくりをお手伝いします。
           </p>
         </header>
 
@@ -184,7 +238,7 @@ export default function Works() {
 
           <div className="worksHeroText">
             <p className="worksMiniLabel">SMALL WEB SUPPORT</p>
-            <h3>小さく作って、少しずつ育てる。</h3>
+            <h2>小さく作って、少しずつ育てる。</h2>
             <p>
               Puku Labでは、ただページを作るだけではなく、
               「何を見せるか」「どこへ案内するか」「どう続けるか」まで含めて考えます。
@@ -205,10 +259,27 @@ export default function Works() {
           </div>
         </section>
 
+        <section className="worksSeoIntro" aria-label="制作相談室の対応内容">
+          <p className="worksSectionTag">SEO / SEARCH WORDS</p>
+          <h2>個人向けホームページ制作・小規模LP制作を、相談しやすい形で。</h2>
+          <p>
+            Puku Labの制作相談室では、ホームページ制作、LP制作、アプリ紹介ページ制作、
+            ポートフォリオ制作、SNS導線整理などをまとめて相談できます。
+            オンラインで全国の個人開発者・創作者・小さなお店の
+            Web制作をサポートします。
+          </p>
+
+          <div className="worksKeywordList" aria-label="対応キーワード">
+            {keywordBadges.map((keyword) => (
+              <span key={keyword}>{keyword}</span>
+            ))}
+          </div>
+        </section>
+
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">FOR YOU</p>
-            <h3>こんな人に向いています</h3>
+            <h2>こんな人に向いています</h2>
             <p>
               大きな制作会社に頼むほどではないけれど、
               自分の活動やサービスをちゃんと見せる場所がほしい人向けです。
@@ -218,7 +289,7 @@ export default function Works() {
           <div className="worksTargetGrid">
             {targetUsers.map((item) => (
               <article className="worksTargetCard" key={item.title}>
-                <h4>{item.title}</h4>
+                <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </article>
             ))}
@@ -228,7 +299,7 @@ export default function Works() {
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">WHAT WE MAKE</p>
-            <h3>制作できるもの</h3>
+            <h2>制作できるもの</h2>
             <p>
               HP単体だけでなく、SNS・note・pixiv・アプリストアなど、
               活動全体の入口と出口をつなぐことを大切にしています。
@@ -239,8 +310,28 @@ export default function Works() {
             {productCards.map((card) => (
               <article className="worksProductCard" key={card.title}>
                 <p>{card.label}</p>
-                <h4>{card.title}</h4>
+                <h3>{card.title}</h3>
                 <span>{card.text}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="worksSection worksSearchSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">SEARCH SUPPORT</p>
+            <h2>検索で見つけてもらうために整えること</h2>
+            <p>
+              SEOは魔法ではありません。けれど、ページの目的・見出し・文章・導線を整理することで、
+              「探している人」に伝わりやすいページへ近づけられます。
+            </p>
+          </div>
+
+          <div className="worksSeoGrid">
+            {seoSupportCards.map((card) => (
+              <article className="worksSeoCard" key={card.title}>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
               </article>
             ))}
           </div>
@@ -249,14 +340,14 @@ export default function Works() {
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">MENU</p>
-            <h3>お手伝いできること</h3>
+            <h2>お手伝いできること</h2>
           </div>
 
           <div className="worksServiceGrid">
             {serviceCards.map((card) => (
               <article className="worksServiceCard" key={card.title}>
                 <p>{card.label}</p>
-                <h4>{card.title}</h4>
+                <h3>{card.title}</h3>
                 <span>{card.text}</span>
               </article>
             ))}
@@ -266,7 +357,7 @@ export default function Works() {
         <section className="worksSection worksPriceSection" id="works-price">
           <div className="worksSectionHead">
             <p className="worksSectionTag">PRICE GUIDE</p>
-            <h3>料金の目安</h3>
+            <h2>料金の目安</h2>
             <p>
               料金は内容・ページ数・素材の有無によって変わります。
               下記は相談前にイメージしやすくするための目安です。
@@ -277,7 +368,7 @@ export default function Works() {
           <div className="worksPriceGrid">
             {pricePlans.map((plan) => (
               <article className="worksPriceCard" key={plan.title}>
-                <h4>{plan.title}</h4>
+                <h3>{plan.title}</h3>
                 <strong>{plan.price}</strong>
                 <p>{plan.text}</p>
               </article>
@@ -288,7 +379,7 @@ export default function Works() {
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">WORKS</p>
-            <h3>制作実績</h3>
+            <h2>制作実績</h2>
             <p>
               現在は自分のプロジェクトを中心に制作しています。
               Puku Lab自体も、HP制作・LP制作・導線設計の実績として育てています。
@@ -299,7 +390,7 @@ export default function Works() {
             {worksCases.map((item) => (
               <article className="worksCaseCard" key={item.title}>
                 <p>{item.label}</p>
-                <h4>{item.title}</h4>
+                <h3>{item.title}</h3>
                 <span>{item.text}</span>
               </article>
             ))}
@@ -309,7 +400,7 @@ export default function Works() {
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">APP CASE</p>
-            <h3>アプリ開発・LP実績</h3>
+            <h2>アプリ開発・LP実績</h2>
             <p>
               Webページだけでなく、実際に公開しているアプリと、
               その紹介LP・HP導線まで含めて制作しています。
@@ -320,7 +411,7 @@ export default function Works() {
             {appCases.map((item) => (
               <article className="worksCaseCard" key={item.title}>
                 <p>{item.label}</p>
-                <h4>{item.title}</h4>
+                <h3>{item.title}</h3>
                 <span>{item.text}</span>
               </article>
             ))}
@@ -330,7 +421,7 @@ export default function Works() {
         <section className="worksSection">
           <div className="worksSectionHead">
             <p className="worksSectionTag">FLOW</p>
-            <h3>進め方</h3>
+            <h2>進め方</h2>
           </div>
 
           <div className="worksFlow">
@@ -349,9 +440,28 @@ export default function Works() {
           </p>
         </section>
 
+        <section className="worksSection worksFaqSection">
+          <div className="worksSectionHead">
+            <p className="worksSectionTag">FAQ</p>
+            <h2>よくある質問</h2>
+            <p>
+              ホームページ制作やLP制作の相談前に、気になりやすいことをまとめました。
+            </p>
+          </div>
+
+          <div className="worksFaqList">
+            {faqItems.map((item) => (
+              <details className="worksFaqItem" key={item.question}>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         <section className="worksCta">
           <p className="worksSectionTag">CONTACT</p>
-          <h3>HP制作や運営まわりで困っていたら</h3>
+          <h2>HP制作や運営まわりで困っていたら</h2>
           <p>
             「まだふわっとしている」くらいの段階でも大丈夫です。
             どんなページにしたいか、何を届けたいかを一緒に整理します。

@@ -490,3 +490,186 @@
     left: 16%;
   }
 }
+
+/* =========================================================
+   Works SEO Text Update
+========================================================= */
+
+.worksHead h1 {
+  margin: 8px 0 0;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.08;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.worksHeroText h2,
+.worksSectionHead h2,
+.worksCta h2 {
+  margin: 8px 0 0;
+  color: var(--chalk);
+  font-size: clamp(1.6rem, 3.2vw, 2.55rem);
+  line-height: 1.18;
+}
+
+.worksTargetCard h3,
+.worksProductCard h3,
+.worksServiceCard h3,
+.worksPriceCard h3,
+.worksCaseCard h3,
+.worksSeoCard h3 {
+  margin: 0;
+  color: var(--chalk);
+  font-size: 1.22rem;
+  line-height: 1.35;
+}
+
+.worksSeoIntro {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(30px, 4vw, 46px);
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px dashed rgba(121, 242, 208, 0.24);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(121, 242, 208, 0.1), transparent 34%),
+    radial-gradient(circle at 16% 78%, rgba(255, 196, 109, 0.08), transparent 34%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.worksSeoIntro h2 {
+  margin: 8px 0 0;
+  color: var(--chalk);
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  line-height: 1.2;
+}
+
+.worksSeoIntro p {
+  margin: 12px 0 0;
+  max-width: 980px;
+  color: var(--chalk-soft);
+  line-height: 1.85;
+}
+
+.worksKeywordList {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.worksKeywordList span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid rgba(121, 242, 208, 0.28);
+  border-radius: 999px;
+  color: rgba(218, 255, 244, 0.94);
+  background: rgba(121, 242, 208, 0.055);
+  font-size: 0.84rem;
+  line-height: 1;
+}
+
+.worksSearchSection {
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 28px;
+  border: 1px solid rgba(121, 242, 208, 0.16);
+  background:
+    radial-gradient(circle at 90% 18%, rgba(121, 242, 208, 0.08), transparent 30%),
+    rgba(255, 255, 255, 0.018);
+}
+
+.worksSeoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 20px);
+}
+
+.worksSeoCard {
+  position: relative;
+  min-height: 170px;
+  padding: 18px;
+  border: 1px solid rgba(243, 240, 223, 0.14);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 196, 109, 0.07), transparent 30%),
+    rgba(255, 255, 255, 0.028);
+  overflow: hidden;
+}
+
+.worksSeoCard::before {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(121, 242, 208, 0.72);
+  box-shadow: 0 0 10px rgba(121, 242, 208, 0.18);
+}
+
+.worksSeoCard p {
+  margin: 10px 0 0;
+  color: var(--chalk-soft);
+  line-height: 1.7;
+  font-size: 0.94rem;
+}
+
+.worksFaqSection {
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 28px;
+  border: 1px dashed rgba(243, 240, 223, 0.18);
+  background:
+    radial-gradient(circle at 14% 20%, rgba(121, 242, 208, 0.08), transparent 32%),
+    rgba(255, 255, 255, 0.02);
+}
+
+.worksFaqList {
+  display: grid;
+  gap: 12px;
+}
+
+.worksFaqItem {
+  border: 1px solid rgba(243, 240, 223, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.026);
+  overflow: hidden;
+}
+
+.worksFaqItem summary {
+  cursor: pointer;
+  padding: 16px 18px;
+  color: var(--chalk);
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.worksFaqItem summary::marker {
+  color: rgba(121, 242, 208, 0.9);
+}
+
+.worksFaqItem p {
+  margin: 0;
+  padding: 0 18px 18px;
+  color: var(--chalk-soft);
+  line-height: 1.8;
+}
+
+@media (max-width: 1080px) {
+  .worksSeoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .worksSeoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .worksKeywordList span {
+    width: 100%;
+    justify-content: center;
+  }
+}
