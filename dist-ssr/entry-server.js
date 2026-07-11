@@ -2852,6 +2852,16 @@ function GalleryCategory({ category }) {
 		})
 	});
 }
+var keywordBadges = [
+	"ホームページ制作",
+	"LP制作",
+	"個人向けHP",
+	"小規模サイト",
+	"アプリ紹介ページ",
+	"ポートフォリオ制作",
+	"SNS導線整理",
+	"全国オンライン対応"
+];
 var targetUsers = [
 	{
 		title: "個人開発者",
@@ -2874,17 +2884,17 @@ var productCards = [
 	{
 		title: "個人活動用ホームページ制作",
 		label: "HOME PAGE",
-		text: "活動内容、プロフィール、リンク、問い合わせ先をまとめた小さな拠点を作ります。"
+		text: "活動内容、プロフィール、サービス内容、リンク、問い合わせ先をまとめた小さな拠点を作ります。"
 	},
 	{
 		title: "アプリ・サービス紹介LP制作",
 		label: "APP / SERVICE LP",
-		text: "アプリやWebサービスの魅力、使い方、導線を1ページで伝える紹介ページを作ります。"
+		text: "アプリやWebサービスの魅力、使い方、料金、ダウンロード導線を1ページで伝える紹介ページを作ります。"
 	},
 	{
 		title: "作品・ポートフォリオページ",
 		label: "PORTFOLIO",
-		text: "イラスト、写真、文章、制作物などを見やすくまとめるページを整えます。"
+		text: "イラスト、写真、文章、制作物などを見やすくまとめるポートフォリオページを整えます。"
 	},
 	{
 		title: "SNS・note・pixiv導線整理",
@@ -2912,6 +2922,24 @@ var serviceCards = [
 		title: "AI制作サポート",
 		label: "AI CREATIVE",
 		text: "AIを使った画像案、文章案、世界観づくり、更新ネタづくりまで一緒に整理します。"
+	}
+];
+var seoSupportCards = [
+	{
+		title: "検索される言葉をページ内に整理",
+		text: "HP制作、LP制作、アプリ紹介ページ、個人向けホームページなど、探している人が使いそうな言葉を自然に入れます。"
+	},
+	{
+		title: "問い合わせまでの導線を設計",
+		text: "見に来た人が、料金・制作内容・実績・相談先を迷わず確認できるようにページ構成を整えます。"
+	},
+	{
+		title: "SNSや外部サービスと接続",
+		text: "X、note、pixiv、Google Play、作品ページなどをつなぎ、活動全体の入口と出口を作ります。"
+	},
+	{
+		title: "公開後も育てやすい形にする",
+		text: "作って終わりではなく、反応を見ながら文章や導線を改善しやすいホームページにします。"
 	}
 ];
 var pricePlans = [
@@ -3000,6 +3028,24 @@ var processSteps = [
 		text: "反応を見ながら、文章・導線・見せ方を少しずつ改善していきます。"
 	}
 ];
+var faqItems = [
+	{
+		question: "個人でもホームページ制作を相談できますか？",
+		answer: "はい。個人開発者、創作者、個人活動、小さなお店など、大きな制作会社に頼むほどではない規模のホームページ制作やLP制作を想定しています。"
+	},
+	{
+		question: "アプリ紹介ページやサービス紹介LPも作れますか？",
+		answer: "対応できます。アプリの特徴、画面説明、料金、Google Playや問い合わせへの導線を整理し、1ページで伝わる紹介LPとして制作します。"
+	},
+	{
+		question: "文章や構成がまだ決まっていなくても相談できますか？",
+		answer: "大丈夫です。作りたいものがふわっとしている段階でも、誰に何を届けたいか、どのページが必要か、どんな導線にするかを一緒に整理します。"
+	},
+	{
+		question: "遠方からでも依頼できますか？",
+		answer: "はい。ホームページ制作やLP制作はオンラインで全国から相談できます。やり取りしながら、必要な情報やページ構成を一緒に整理します。"
+	}
+];
 function Works() {
 	return /* @__PURE__ */ jsx("main", {
 		className: "siteFrame innerPageFrame worksPage",
@@ -3013,8 +3059,8 @@ function Works() {
 							className: "smallTag",
 							children: "WORKS / SUPPORT LAB"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "制作相談室" }),
-						/* @__PURE__ */ jsx("p", { children: "黒板の中の2D研究室から、HP制作・LP制作・運営導線づくりをお手伝いします。" })
+						/* @__PURE__ */ jsx("h1", { children: "HP制作・LP制作の制作相談室" }),
+						/* @__PURE__ */ jsx("p", { children: "黒板の中の2D研究室から、個人開発者・創作者・小さなお店向けに、 ホームページ制作、LP制作、アプリ紹介ページ、運営導線づくりをお手伝いします。" })
 					]
 				}),
 				/* @__PURE__ */ jsxs("section", {
@@ -3038,7 +3084,7 @@ function Works() {
 								className: "worksMiniLabel",
 								children: "SMALL WEB SUPPORT"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "小さく作って、少しずつ育てる。" }),
+							/* @__PURE__ */ jsx("h2", { children: "小さく作って、少しずつ育てる。" }),
 							/* @__PURE__ */ jsx("p", { children: "Puku Labでは、ただページを作るだけではなく、 「何を見せるか」「どこへ案内するか」「どう続けるか」まで含めて考えます。" }),
 							/* @__PURE__ */ jsx("p", { children: "個人開発、創作活動、小さなお店、イベント告知など、 まずは小さな拠点を作りたい時に相談できる制作室です。" }),
 							/* @__PURE__ */ jsxs("div", {
@@ -3057,6 +3103,23 @@ function Works() {
 					})]
 				}),
 				/* @__PURE__ */ jsxs("section", {
+					className: "worksSeoIntro",
+					"aria-label": "制作相談室の対応内容",
+					children: [
+						/* @__PURE__ */ jsx("p", {
+							className: "worksSectionTag",
+							children: "SEO / SEARCH WORDS"
+						}),
+						/* @__PURE__ */ jsx("h2", { children: "個人向けホームページ制作・小規模LP制作を、相談しやすい形で。" }),
+						/* @__PURE__ */ jsx("p", { children: "Puku Labの制作相談室では、ホームページ制作、LP制作、アプリ紹介ページ制作、 ポートフォリオ制作、SNS導線整理などをまとめて相談できます。 オンラインで全国の個人開発者・創作者・小さなお店の Web制作をサポートします。" }),
+						/* @__PURE__ */ jsx("div", {
+							className: "worksKeywordList",
+							"aria-label": "対応キーワード",
+							children: keywordBadges.map((keyword) => /* @__PURE__ */ jsx("span", { children: keyword }, keyword))
+						})
+					]
+				}),
+				/* @__PURE__ */ jsxs("section", {
 					className: "worksSection",
 					children: [/* @__PURE__ */ jsxs("div", {
 						className: "worksSectionHead",
@@ -3065,14 +3128,14 @@ function Works() {
 								className: "worksSectionTag",
 								children: "FOR YOU"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "こんな人に向いています" }),
+							/* @__PURE__ */ jsx("h2", { children: "こんな人に向いています" }),
 							/* @__PURE__ */ jsx("p", { children: "大きな制作会社に頼むほどではないけれど、 自分の活動やサービスをちゃんと見せる場所がほしい人向けです。" })
 						]
 					}), /* @__PURE__ */ jsx("div", {
 						className: "worksTargetGrid",
 						children: targetUsers.map((item) => /* @__PURE__ */ jsxs("article", {
 							className: "worksTargetCard",
-							children: [/* @__PURE__ */ jsx("h4", { children: item.title }), /* @__PURE__ */ jsx("p", { children: item.text })]
+							children: [/* @__PURE__ */ jsx("h3", { children: item.title }), /* @__PURE__ */ jsx("p", { children: item.text })]
 						}, item.title))
 					})]
 				}),
@@ -3085,7 +3148,7 @@ function Works() {
 								className: "worksSectionTag",
 								children: "WHAT WE MAKE"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "制作できるもの" }),
+							/* @__PURE__ */ jsx("h2", { children: "制作できるもの" }),
 							/* @__PURE__ */ jsx("p", { children: "HP単体だけでなく、SNS・note・pixiv・アプリストアなど、 活動全体の入口と出口をつなぐことを大切にしています。" })
 						]
 					}), /* @__PURE__ */ jsx("div", {
@@ -3094,9 +3157,29 @@ function Works() {
 							className: "worksProductCard",
 							children: [
 								/* @__PURE__ */ jsx("p", { children: card.label }),
-								/* @__PURE__ */ jsx("h4", { children: card.title }),
+								/* @__PURE__ */ jsx("h3", { children: card.title }),
 								/* @__PURE__ */ jsx("span", { children: card.text })
 							]
+						}, card.title))
+					})]
+				}),
+				/* @__PURE__ */ jsxs("section", {
+					className: "worksSection worksSearchSection",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "worksSectionHead",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "worksSectionTag",
+								children: "SEARCH SUPPORT"
+							}),
+							/* @__PURE__ */ jsx("h2", { children: "検索で見つけてもらうために整えること" }),
+							/* @__PURE__ */ jsx("p", { children: "SEOは魔法ではありません。けれど、ページの目的・見出し・文章・導線を整理することで、 「探している人」に伝わりやすいページへ近づけられます。" })
+						]
+					}), /* @__PURE__ */ jsx("div", {
+						className: "worksSeoGrid",
+						children: seoSupportCards.map((card) => /* @__PURE__ */ jsxs("article", {
+							className: "worksSeoCard",
+							children: [/* @__PURE__ */ jsx("h3", { children: card.title }), /* @__PURE__ */ jsx("p", { children: card.text })]
 						}, card.title))
 					})]
 				}),
@@ -3107,14 +3190,14 @@ function Works() {
 						children: [/* @__PURE__ */ jsx("p", {
 							className: "worksSectionTag",
 							children: "MENU"
-						}), /* @__PURE__ */ jsx("h3", { children: "お手伝いできること" })]
+						}), /* @__PURE__ */ jsx("h2", { children: "お手伝いできること" })]
 					}), /* @__PURE__ */ jsx("div", {
 						className: "worksServiceGrid",
 						children: serviceCards.map((card) => /* @__PURE__ */ jsxs("article", {
 							className: "worksServiceCard",
 							children: [
 								/* @__PURE__ */ jsx("p", { children: card.label }),
-								/* @__PURE__ */ jsx("h4", { children: card.title }),
+								/* @__PURE__ */ jsx("h3", { children: card.title }),
 								/* @__PURE__ */ jsx("span", { children: card.text })
 							]
 						}, card.title))
@@ -3130,7 +3213,7 @@ function Works() {
 								className: "worksSectionTag",
 								children: "PRICE GUIDE"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "料金の目安" }),
+							/* @__PURE__ */ jsx("h2", { children: "料金の目安" }),
 							/* @__PURE__ */ jsx("p", { children: "料金は内容・ページ数・素材の有無によって変わります。 下記は相談前にイメージしやすくするための目安です。 正式なお見積もりと請求書の金額は、作業範囲を確認してから決定します。" })
 						]
 					}), /* @__PURE__ */ jsx("div", {
@@ -3138,7 +3221,7 @@ function Works() {
 						children: pricePlans.map((plan) => /* @__PURE__ */ jsxs("article", {
 							className: "worksPriceCard",
 							children: [
-								/* @__PURE__ */ jsx("h4", { children: plan.title }),
+								/* @__PURE__ */ jsx("h3", { children: plan.title }),
 								/* @__PURE__ */ jsx("strong", { children: plan.price }),
 								/* @__PURE__ */ jsx("p", { children: plan.text })
 							]
@@ -3154,7 +3237,7 @@ function Works() {
 								className: "worksSectionTag",
 								children: "WORKS"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "制作実績" }),
+							/* @__PURE__ */ jsx("h2", { children: "制作実績" }),
 							/* @__PURE__ */ jsx("p", { children: "現在は自分のプロジェクトを中心に制作しています。 Puku Lab自体も、HP制作・LP制作・導線設計の実績として育てています。" })
 						]
 					}), /* @__PURE__ */ jsx("div", {
@@ -3163,7 +3246,7 @@ function Works() {
 							className: "worksCaseCard",
 							children: [
 								/* @__PURE__ */ jsx("p", { children: item.label }),
-								/* @__PURE__ */ jsx("h4", { children: item.title }),
+								/* @__PURE__ */ jsx("h3", { children: item.title }),
 								/* @__PURE__ */ jsx("span", { children: item.text })
 							]
 						}, item.title))
@@ -3178,7 +3261,7 @@ function Works() {
 								className: "worksSectionTag",
 								children: "APP CASE"
 							}),
-							/* @__PURE__ */ jsx("h3", { children: "アプリ開発・LP実績" }),
+							/* @__PURE__ */ jsx("h2", { children: "アプリ開発・LP実績" }),
 							/* @__PURE__ */ jsx("p", { children: "Webページだけでなく、実際に公開しているアプリと、 その紹介LP・HP導線まで含めて制作しています。" })
 						]
 					}), /* @__PURE__ */ jsx("div", {
@@ -3187,7 +3270,7 @@ function Works() {
 							className: "worksCaseCard",
 							children: [
 								/* @__PURE__ */ jsx("p", { children: item.label }),
-								/* @__PURE__ */ jsx("h4", { children: item.title }),
+								/* @__PURE__ */ jsx("h3", { children: item.title }),
 								/* @__PURE__ */ jsx("span", { children: item.text })
 							]
 						}, item.title))
@@ -3201,7 +3284,7 @@ function Works() {
 							children: [/* @__PURE__ */ jsx("p", {
 								className: "worksSectionTag",
 								children: "FLOW"
-							}), /* @__PURE__ */ jsx("h3", { children: "進め方" })]
+							}), /* @__PURE__ */ jsx("h2", { children: "進め方" })]
 						}),
 						/* @__PURE__ */ jsx("div", {
 							className: "worksFlow",
@@ -3221,13 +3304,33 @@ function Works() {
 					]
 				}),
 				/* @__PURE__ */ jsxs("section", {
+					className: "worksSection worksFaqSection",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "worksSectionHead",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "worksSectionTag",
+								children: "FAQ"
+							}),
+							/* @__PURE__ */ jsx("h2", { children: "よくある質問" }),
+							/* @__PURE__ */ jsx("p", { children: "ホームページ制作やLP制作の相談前に、気になりやすいことをまとめました。" })
+						]
+					}), /* @__PURE__ */ jsx("div", {
+						className: "worksFaqList",
+						children: faqItems.map((item) => /* @__PURE__ */ jsxs("details", {
+							className: "worksFaqItem",
+							children: [/* @__PURE__ */ jsx("summary", { children: item.question }), /* @__PURE__ */ jsx("p", { children: item.answer })]
+						}, item.question))
+					})]
+				}),
+				/* @__PURE__ */ jsxs("section", {
 					className: "worksCta",
 					children: [
 						/* @__PURE__ */ jsx("p", {
 							className: "worksSectionTag",
 							children: "CONTACT"
 						}),
-						/* @__PURE__ */ jsx("h3", { children: "HP制作や運営まわりで困っていたら" }),
+						/* @__PURE__ */ jsx("h2", { children: "HP制作や運営まわりで困っていたら" }),
 						/* @__PURE__ */ jsx("p", { children: "「まだふわっとしている」くらいの段階でも大丈夫です。 どんなページにしたいか、何を届けたいかを一緒に整理します。" }),
 						/* @__PURE__ */ jsxs("div", {
 							className: "pageActions worksActions",
@@ -3400,30 +3503,91 @@ var pageMetaMap = {
 		robots: "index, follow"
 	},
 	"/works": {
-		title: "HP制作・LP制作・運営導線サポート | Puku Lab制作相談室",
-		description: "個人開発者・創作者・小さなお店向けに、HP制作、LP制作、アプリ紹介ページ、SNS・note・pixivの導線整理をサポートします。料金目安と制作実績も掲載しています。",
+		title: "HP制作・LP制作・個人向けホームページ制作 | Puku Lab制作相談室",
+		description: "個人開発者・創作者・小さなお店向けに、ホームページ制作、LP制作、アプリ紹介ページ、ポートフォリオ制作、SNS導線整理をサポートします。全国オンライン対応。料金目安と制作実績も掲載しています。",
 		image: DEFAULT_OGP_IMAGE,
 		robots: "index, follow",
-		structuredData: {
-			"@context": "https://schema.org",
-			"@type": "Service",
-			name: "HP制作・LP制作・運営導線サポート",
-			serviceType: [
-				"ホームページ制作",
-				"LP制作",
-				"アプリ紹介ページ制作",
-				"SNS導線整理",
-				"運営導線サポート"
-			],
-			url: `${SITE_URL}/works`,
-			areaServed: "JP",
-			description: "個人開発者・創作者・小さなお店向けに、HP制作、LP制作、アプリ紹介ページ、SNS・note・pixivの導線整理をサポートします。",
-			provider: {
-				"@type": "Organization",
-				name: "Puku Lab",
-				url: SITE_URL
+		structuredData: [
+			{
+				"@context": "https://schema.org",
+				"@type": "Service",
+				name: "個人向けホームページ制作・LP制作",
+				serviceType: [
+					"ホームページ制作",
+					"LP制作",
+					"個人向けホームページ制作",
+					"小規模ホームページ制作",
+					"アプリ紹介ページ制作",
+					"ポートフォリオ制作",
+					"SNS導線整理",
+					"運営導線サポート"
+				],
+				url: `${SITE_URL}/works`,
+				areaServed: {
+					"@type": "Country",
+					name: "日本"
+				},
+				description: "Puku Labは、個人開発者・創作者・小さなお店向けに、ホームページ制作、LP制作、アプリ紹介ページ制作、SNS導線整理をサポートします。",
+				provider: {
+					"@type": "Organization",
+					name: "Puku Lab",
+					url: SITE_URL
+				}
+			},
+			{
+				"@context": "https://schema.org",
+				"@type": "FAQPage",
+				mainEntity: [
+					{
+						"@type": "Question",
+						name: "個人でもホームページ制作を相談できますか？",
+						acceptedAnswer: {
+							"@type": "Answer",
+							text: "はい。個人開発者、創作者、個人活動、小さなお店など、大きな制作会社に頼むほどではない規模のホームページ制作やLP制作を想定しています。"
+						}
+					},
+					{
+						"@type": "Question",
+						name: "アプリ紹介ページやサービス紹介LPも作れますか？",
+						acceptedAnswer: {
+							"@type": "Answer",
+							text: "対応できます。アプリの特徴、画面説明、料金、Google Playや問い合わせへの導線を整理し、1ページで伝わる紹介LPとして制作します。"
+						}
+					},
+					{
+						"@type": "Question",
+						name: "文章や構成がまだ決まっていなくても相談できますか？",
+						acceptedAnswer: {
+							"@type": "Answer",
+							text: "大丈夫です。作りたいものがふわっとしている段階でも、誰に何を届けたいか、どのページが必要か、どんな導線にするかを一緒に整理します。"
+						}
+					},
+					{
+						"@type": "Question",
+						name: "遠方からでも依頼できますか？",
+						acceptedAnswer: {
+							"@type": "Answer",
+							text: "はい。ホームページ制作やLP制作はオンラインで全国から相談できます。やり取りしながら、必要な情報やページ構成を一緒に整理します。"
+						}
+					}
+				]
+			},
+			{
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				itemListElement: [{
+					"@type": "ListItem",
+					position: 1,
+					name: "Puku Lab",
+					item: SITE_URL
+				}, {
+					"@type": "ListItem",
+					position: 2,
+					name: "制作相談室",
+					item: `${SITE_URL}/works`
+				}]
 			}
-		}
+		]
 	},
 	"/questionnaire": {
 		title: "アンケート | Puku Lab",
@@ -3565,6 +3729,17 @@ function SeoTracker() {
 	}, [location]);
 	return null;
 }
+function ScrollToTop() {
+	const { pathname } = useLocation();
+	useEffect(() => {
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: "auto"
+		});
+	}, [pathname]);
+	return null;
+}
 function SiteFooter() {
 	return /* @__PURE__ */ jsxs("footer", {
 		className: "siteFooter",
@@ -3642,6 +3817,7 @@ function NotFound() {
 function App() {
 	return /* @__PURE__ */ jsxs(Fragment, { children: [
 		/* @__PURE__ */ jsx(SeoTracker, {}),
+		/* @__PURE__ */ jsx(ScrollToTop, {}),
 		/* @__PURE__ */ jsxs(Routes, { children: [
 			/* @__PURE__ */ jsx(Route, {
 				path: "/",
