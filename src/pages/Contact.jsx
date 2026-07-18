@@ -278,6 +278,26 @@ export default function Contact() {
               <p>CONTACT MEMO</p>
               <strong>
                 HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています
+                <html lang="en">
+                <head>
+                  <meta charset="UTF-8" />
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                  <title>Document</title>
+                </head>
+                <body>
+                  
+                </body>
+                </html>
+                <html lang="en">
+                <head>
+                  <meta charset="UTF-8" />
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                  <title>Document</title>
+                </head>
+                <body>
+                  
+                </body>
+                </html>
               </strong>
             </div>
 
