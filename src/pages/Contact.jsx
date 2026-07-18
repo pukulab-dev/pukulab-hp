@@ -35,6 +35,7 @@ const initialForm = {
   email: "",
   category: "works",
   message: "",
+  website: "",
 };
 
 function getCategoryFromQuery(type) {
@@ -45,6 +46,12 @@ function getCategoryFromQuery(type) {
   }
 
   return "works";
+}
+
+function getCategoryLabel(value) {
+  return (
+    categoryOptions.find((item) => item.value === value)?.label || "その他"
+  );
 }
 
 export default function Contact() {
@@ -91,14 +98,29 @@ export default function Contact() {
       return;
     }
 
+    // 人には見えない項目。自動送信ボットが入力した場合は送信を止めます。
+    if (form.website.trim()) {
+      setStatus("sent");
+      return;
+    }
+
+    const categoryLabel = getCategoryLabel(form.category);
+
     const payload = {
       name: form.name.trim(),
       email: form.email.trim(),
-      category: form.category,
+      subject: `【Puku Lab】${categoryLabel}｜${form.name.trim()}様`,
+      category: categoryLabel,
+      category_code: form.category,
       message: form.message.trim(),
-      source: "Puku Lab Contact",
+      source: "Puku Lab公式HP お問い合わせフォーム",
       page_url: window.location.href,
-      submitted_at: new Date().toISOString(),
+      submitted_at_jst: new Intl.DateTimeFormat("ja-JP", {
+        timeZone: "Asia/Tokyo",
+        dateStyle: "full",
+        timeStyle: "medium",
+      }).format(new Date()),
+      _gotcha: form.website,
     };
 
     try {
@@ -114,7 +136,10 @@ export default function Contact() {
       });
 
       if (!response.ok) {
-        throw new Error("送信に失敗しました。");
+        const result = await response.json().catch(() => null);
+        const formspreeMessage = result?.errors?.[0]?.message;
+
+        throw new Error(formspreeMessage || "送信に失敗しました。");
       }
 
       setStatus("sent");
@@ -126,7 +151,7 @@ export default function Contact() {
       console.error(error);
       setStatus("idle");
       setErrorMessage(
-        "送信に失敗しました。時間をおいてもう一度お試しください。"
+        "送信に失敗しました。通信状況を確認して、時間をおいてもう一度お試しください。"
       );
     }
   }
@@ -178,6 +203,7 @@ export default function Contact() {
                 name="name"
                 value={form.name}
                 onChange={(event) => updateField("name", event.target.value)}
+                autoComplete="name"
                 required
               />
             </label>
@@ -189,6 +215,7 @@ export default function Contact() {
                 name="email"
                 value={form.email}
                 onChange={(event) => updateField("email", event.target.value)}
+                autoComplete="email"
                 required
               />
             </label>
@@ -217,6 +244,27 @@ export default function Contact() {
                 onChange={(event) => updateField("message", event.target.value)}
                 placeholder="相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"
                 required
+              />
+            </label>
+
+            <label
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                left: "-10000px",
+                width: "1px",
+                height: "1px",
+                overflow: "hidden",
+              }}
+            >
+              ウェブサイト
+              <input
+                type="text"
+                name="_gotcha"
+                value={form.website}
+                onChange={(event) => updateField("website", event.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
               />
             </label>
 
