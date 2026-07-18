@@ -56,9 +56,10 @@ function getCategoryLabel(value) {
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
+  const queryType = searchParams.get("type");
   const [form, setForm] = useState(() => ({
     ...initialForm,
-    category: getCategoryFromQuery(searchParams.get("type")),
+    category: getCategoryFromQuery(queryType),
   }));
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -67,13 +68,19 @@ export default function Contact() {
   const isSent = status === "sent";
 
   useEffect(() => {
-    const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
+    const categoryFromQuery = getCategoryFromQuery(queryType);
 
-    setForm((prev) => ({
-      ...prev,
-      category: categoryFromQuery,
-    }));
-  }, [searchParams]);
+    setForm((prev) => {
+      if (prev.category === categoryFromQuery) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        category: categoryFromQuery,
+      };
+    });
+  }, [queryType]);
 
   function updateField(key, value) {
     setForm((prev) => ({
@@ -145,7 +152,7 @@ export default function Contact() {
       setStatus("sent");
       setForm({
         ...initialForm,
-        category: getCategoryFromQuery(searchParams.get("type")),
+        category: getCategoryFromQuery(queryType),
       });
     } catch (error) {
       console.error(error);
@@ -177,7 +184,7 @@ export default function Contact() {
             <p>
               研究所にお問い合わせ内容が届きました。
               <br />
-              内容を確認して、必要に応じてご連絡します。 
+              内容を確認して、必要に応じてご連絡します。
             </p>
 
             <div className="pageActions">
@@ -278,26 +285,6 @@ export default function Contact() {
               <p>CONTACT MEMO</p>
               <strong>
                 HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています
-                <html lang="en">
-                <head>
-                  <meta charset="UTF-8" />
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                  <title>Document</title>
-                </head>
-                <body>
-                  
-                </body>
-                </html>
-                <html lang="en">
-                <head>
-                  <meta charset="UTF-8" />
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                  <title>Document</title>
-                </head>
-                <body>
-                  
-                </body>
-                </html>
               </strong>
             </div>
 
