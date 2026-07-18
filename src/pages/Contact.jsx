@@ -177,7 +177,7 @@ export default function Contact() {
             <p>
               研究所にお問い合わせ内容が届きました。
               <br />
-              内容を確認して、必要に応じてご連絡します。
+              内容を確認して、必要に応じてご連絡します。 
             </p>
 
             <div className="pageActions">
