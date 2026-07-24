@@ -16,25 +16,25 @@ const storySteps = [
   {
     number: "01",
     label: "SECRETARY",
-    title: "伝える仕事を、支える。",
+    title: "伝える仕事を支える",
     text: "議員秘書として、日程調整、文章整理、連絡、情報発信などを経験しました。表に出る言葉の前には、事実を整理し、相手に合わせて順番を組み直す仕事があります。",
   },
   {
     number: "02",
     label: "TURNING POINT",
-    title: "仕事を離れ、つくる側へ。",
+    title: "仕事を離れてつくる側へ",
     text: "退職後、AIとの対話をきっかけに個人開発を開始。分からないことを一つずつ調べ、試し、失敗しながら、アプリとホームページを自分の手で形にしてきました。",
   },
   {
     number: "03",
     label: "FIRST RELEASE",
-    title: "漫画好きから、アプリ公開へ。",
+    title: "漫画好きからアプリ公開へ",
     text: "『持っている漫画が分からなくなる』という自分の困りごとから、漫画・ラノベ管理アプリ『巻ログ』を企画。AndroidアプリとしてGoogle Playで公開しました。",
   },
   {
     number: "04",
     label: "PUKU LAB",
-    title: "点だった活動を、研究所へ。",
+    title: "点だった活動を研究所へ",
     text: "アプリ、HP・LP制作、文章、AIビジュアル、SNS発信をPuku Labに集約。作ることと届けることを、別々にしない個人開発の拠点として育てています。",
   },
 ];
@@ -91,17 +91,17 @@ const skillCards = [
 
 const principles = [
   {
-    catchCopy: "便利だけで、終わらせない。",
+    catchCopy: "便利だけで終わらせない",
     concrete: "実用性と遊び心",
     text: "役に立つことは大前提。そのうえで、使っていて愛着が湧くこと、また開きたくなる空気も大切にしています。",
   },
   {
-    catchCopy: "小さく出して、育てていく。",
+    catchCopy: "小さく出して育てていく",
     concrete: "公開後の改善",
     text: "最初から完璧な答えを決めず、実際に使い、反応を確かめ、必要なところから少しずつ直していきます。",
   },
   {
-    catchCopy: "作るだけでは、届かない。",
+    catchCopy: "作るだけでは届かない",
     concrete: "制作と発信の接続",
     text: "良いものを作る力と、見つけてもらう力は別です。検索、SNS、記事、問い合わせまで一つの流れとして考えます。",
   },
@@ -224,7 +224,7 @@ export default function About() {
         <div className="aboutHeroInner">
           <div className="aboutHeroCopy">
             <p className="aboutEyebrow">PUKURIN / PUKU LAB FOUNDER</p>
-            <p className="aboutCatchCopy">遠回りから、つくる側へ。</p>
+            <p className="aboutCatchCopy">遠回りからつくる側へ</p>
             <h1 className="aboutTitle" id="about-main-title">
               <span className="aboutFixedLine">元議員秘書から</span>
               <br />
@@ -328,7 +328,7 @@ export default function About() {
       <section className="aboutSection" id="about-story">
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">STORY / CAREER</p>
-          <p className="aboutSectionCatch">元秘書から、個人開発へ。</p>
+          <p className="aboutSectionCatch">元秘書から個人開発へ</p>
           <h2>
             <span className="aboutFixedLine">ぷくりんが</span>
             <br />
@@ -358,9 +358,9 @@ export default function About() {
       <section className="aboutSection aboutSecretarySection">
         <div className="aboutSecretaryIntro">
           <p className="aboutSectionMini">FORMER SECRETARY</p>
-          <p className="aboutSectionCatch">伝える前に、整理する。</p>
-          <h2>
-            <span className="aboutFixedLine">元議員秘書の経験が、</span>
+          <p className="aboutSectionCatch">伝える前に整理する</p>
+          <h2 className="aboutSecretaryHeading">
+            <span className="aboutFixedLine">元議員秘書の経験が</span>
             <br />
             <span className="aboutFixedLine">制作の土台です</span>
           </h2>
@@ -384,7 +384,7 @@ export default function About() {
       <section className="aboutSection" id="about-proof">
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">PROOF / PROJECTS</p>
-          <p className="aboutSectionCatch">作ったものが、名刺です。</p>
+          <p className="aboutSectionCatch">作ったものが名刺です</p>
           <h2>
             <span className="aboutFixedLine">Puku Labで</span>
             <br />
@@ -420,9 +420,9 @@ export default function About() {
 
         <div className="aboutAiText">
           <p className="aboutSectionMini">AI × HUMAN JUDGMENT</p>
-          <p className="aboutSectionCatch">AI任せには、しない。</p>
+          <p className="aboutSectionCatch">AI任せにはしない</p>
           <h2>
-            <span className="aboutFixedLine">AIは答えではなく、</span>
+            <span className="aboutFixedLine">AIは答えではなく</span>
             <br />
             <span className="aboutFixedLine">ものづくりの相棒</span>
           </h2>
@@ -441,7 +441,7 @@ export default function About() {
       <section className="aboutSection">
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">PRINCIPLES</p>
-          <p className="aboutSectionCatch">つくる理由を、置いておく。</p>
+          <p className="aboutSectionCatch">つくる理由を置いておく</p>
           <h2>Puku Labが大切にしていること</h2>
         </div>
 
@@ -462,7 +462,7 @@ export default function About() {
       <section className="aboutSection" id="about-entry">
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">CHOOSE YOUR ENTRY</p>
-          <p className="aboutSectionCatch">気になる入口から、どうぞ。</p>
+          <p className="aboutSectionCatch">気になる入口からどうぞ</p>
           <h2>あなたの目的に近いページへ</h2>
           <p>
             Puku Labには、アプリ、制作相談、開発記録、AIビジュアルがあります。
@@ -491,7 +491,7 @@ export default function About() {
       <section className="aboutSection aboutFaqSection">
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">QUESTIONS</p>
-          <p className="aboutSectionCatch">知ってから、相談できる。</p>
+          <p className="aboutSectionCatch">知ってから相談できる</p>
           <h2>ぷくりんとPuku Labについて</h2>
         </div>
 
@@ -507,8 +507,8 @@ export default function About() {
 
       <section className="aboutFinalCta">
         <p className="aboutSectionMini">NEXT ACTION</p>
-        <p className="aboutFinalCatch">つくったものから、話そう。</p>
-        <h2>もう少しPuku Labを見てみませんか？</h2>
+        <p className="aboutFinalCatch">つくったものから話そう</p>
+        <h2>もう少しPuku Labを見てみませんか</h2>
         <p>
           漫画管理アプリを試す、制作内容を見る、開発の裏側を読む。
           まずは気になる場所を一つだけ、のぞいてみてください。
