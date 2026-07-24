@@ -282,24 +282,71 @@ const pageMetaMap = {
   },
 
   "/about": {
-    title: "この研究所について | Puku Lab",
+    title: "ぷくりん｜元議員秘書からAI個人開発へ｜Puku Lab",
     description:
-      "Puku Labを運営しているぷくりんと、研究所の相棒るのについて紹介しています。",
+      "Puku Lab運営者・ぷくりんのプロフィール。元議員秘書を経てAIを活用した個人開発を始め、漫画・ラノベ管理アプリ『巻ログ』をGoogle Playで公開。HP・LP制作、文章、AIビジュアルにも取り組んでいます。",
     image: DEFAULT_OGP_IMAGE,
     robots: "index, follow",
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "AboutPage",
-      name: "この研究所について",
-      url: `${SITE_URL}/about`,
-      description:
-        "Puku Labを運営しているぷくりんと、研究所の相棒るのについて紹介するページです。",
-      publisher: {
-        "@type": "Organization",
-        name: "Puku Lab",
-        url: SITE_URL,
+    structuredData: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "@id": `${SITE_URL}/about#profilepage`,
+        name: "Puku Lab運営者・ぷくりんのプロフィール",
+        url: `${SITE_URL}/about`,
+        description:
+          "元議員秘書を経てAIを活用した個人開発を始めた、Puku Lab運営者・ぷくりんのプロフィールページです。",
+        dateModified: "2026-07-24",
+        mainEntity: {
+          "@type": "Person",
+          "@id": `${SITE_URL}/about#pukurin`,
+          name: "ぷくりん",
+          alternateName: "pukurin",
+          url: `${SITE_URL}/about`,
+          image: `${SITE_URL}/icon.png`,
+          description:
+            "元議員秘書として3年間勤務した後、AIを活用した個人開発を開始。漫画・ラノベ管理アプリ『巻ログ』、Puku Lab公式サイト、HP・LP、AIビジュアルを制作しています。",
+          sameAs: [
+            "https://x.com/pukurin5573607",
+            "https://note.com/rich_bison8482",
+            "https://www.pixiv.net/users/126319212",
+          ],
+          worksFor: {
+            "@type": "Organization",
+            name: "Puku Lab",
+            url: SITE_URL,
+          },
+          knowsAbout: [
+            "AIを活用した個人開発",
+            "Androidアプリ開発",
+            "漫画・ラノベ管理アプリ",
+            "ホームページ制作",
+            "LP制作",
+            "Web導線設計",
+            "文章構成",
+            "AIビジュアル制作",
+          ],
+        },
       },
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Puku Lab",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "ぷくりんについて",
+            item: `${SITE_URL}/about`,
+          },
+        ],
+      },
+    ],
   },
 
   "/secret": {
@@ -459,20 +506,6 @@ function SeoTracker() {
   return null;
 }
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "auto",
-    });
-  }, [pathname]);
-
-  return null;
-}
-
 function SiteFooter() {
   return (
     <footer className="siteFooter" aria-label="サイト情報">
@@ -527,7 +560,6 @@ export default function App() {
   return (
     <>
       <SeoTracker />
-      <ScrollToTop />
 
       <Routes>
         <Route path="/" element={<Home />} />
