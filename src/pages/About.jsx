@@ -226,9 +226,9 @@ export default function About() {
             <p className="aboutEyebrow">PUKURIN / PUKU LAB FOUNDER</p>
             <p className="aboutCatchCopy">遠回りから、つくる側へ。</p>
             <h1 className="aboutTitle" id="about-main-title">
-              元議員秘書から
+              <span className="aboutFixedLine">元議員秘書から</span>
               <br />
-              AI個人開発へ
+              <span className="aboutFixedLine">AI個人開発へ</span>
             </h1>
 
             <p className="aboutLead">
@@ -329,7 +329,11 @@ export default function About() {
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">STORY / CAREER</p>
           <p className="aboutSectionCatch">元秘書から、個人開発へ。</p>
-          <h2>ぷくりんがPuku Labを始めるまで</h2>
+          <h2>
+            <span className="aboutFixedLine">ぷくりんが</span>
+            <br />
+            <span className="aboutFixedLine">Puku Labを始めるまで</span>
+          </h2>
           <p>
             最初からエンジニアだったわけではありません。
             人の活動を支える仕事から、自分のアイデアを形にする仕事へ。
@@ -355,7 +359,11 @@ export default function About() {
         <div className="aboutSecretaryIntro">
           <p className="aboutSectionMini">FORMER SECRETARY</p>
           <p className="aboutSectionCatch">伝える前に、整理する。</p>
-          <h2>元議員秘書の経験が、制作の土台です</h2>
+          <h2>
+            <span className="aboutFixedLine">元議員秘書の経験が、</span>
+            <br />
+            <span className="aboutFixedLine">制作の土台です</span>
+          </h2>
           <p>
             秘書の仕事では、目立つ言葉を考える前に、事実、予定、相手、確認先を整理します。
             この経験は、アプリの機能整理や、ホームページの構成、文章づくりにもつながっています。
@@ -377,7 +385,11 @@ export default function About() {
         <div className="aboutSectionHeader">
           <p className="aboutSectionMini">PROOF / PROJECTS</p>
           <p className="aboutSectionCatch">作ったものが、名刺です。</p>
-          <h2>Puku Labで形にしてきたもの</h2>
+          <h2>
+            <span className="aboutFixedLine">Puku Labで</span>
+            <br />
+            <span className="aboutFixedLine">形にしてきたもの</span>
+          </h2>
           <p>
             肩書きだけではなく、実際に公開したものと、現在も育てている場所を紹介します。
             気になるものから中身を確認できます。
@@ -409,7 +421,11 @@ export default function About() {
         <div className="aboutAiText">
           <p className="aboutSectionMini">AI × HUMAN JUDGMENT</p>
           <p className="aboutSectionCatch">AI任せには、しない。</p>
-          <h2>AIは答えではなく、ものづくりの相棒</h2>
+          <h2>
+            <span className="aboutFixedLine">AIは答えではなく、</span>
+            <br />
+            <span className="aboutFixedLine">ものづくりの相棒</span>
+          </h2>
           <p>
             AIには、アイデア整理、文章案、コード、構成の壁打ちを手伝ってもらっています。
             ただし、出てきたものをそのまま採用するわけではありません。
