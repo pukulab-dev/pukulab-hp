@@ -14,6 +14,8 @@ import Game from "./pages/Game";
 import Gallery from "./pages/Gallery";
 import GalleryCategory from "./pages/GalleryCategory";
 import Works from "./pages/Works";
+import WorksIndex from "./pages/WorksIndex";
+import Entsumugi from "./pages/Entsumugi";
 import PageAssistNav from "./components/PageAssistNav";
 
 import kanlogHomeOgp from "./assets/kanlog-home.png";
@@ -165,6 +167,27 @@ const pageMetaMap = {
   },
 
   "/works": {
+    title: "サービス・制作支援 | Puku Lab WORKS",
+    description:
+      "Puku Labが提供するサービス・制作支援の一覧ページです。HP・LP制作と、地方議員向けSNS運用・情報発信支援サービス『縁紡』を紹介しています。",
+    image: DEFAULT_OGP_IMAGE,
+    robots: "index, follow",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Puku Lab WORKS",
+      url: `${SITE_URL}/works`,
+      description:
+        "Puku Labが提供するHP・LP制作と、地方議員向け情報発信支援サービス『縁紡』を紹介するサービス一覧ページです。",
+      publisher: {
+        "@type": "Organization",
+        name: "Puku Lab",
+        url: SITE_URL,
+      },
+    },
+  },
+
+  "/works/web": {
     title: "HP制作・LP制作・個人向けホームページ制作 | Puku Lab制作相談室",
     description:
       "個人開発者・創作者・小さなお店向けに、ホームページ制作、LP制作、アプリ紹介ページ、ポートフォリオ制作、SNS導線整理をサポートします。全国オンライン対応。料金目安と制作実績も掲載しています。",
@@ -185,7 +208,7 @@ const pageMetaMap = {
           "SNS導線整理",
           "運営導線サポート",
         ],
-        url: `${SITE_URL}/works`,
+        url: `${SITE_URL}/works/web`,
         areaServed: {
           "@type": "Country",
           name: "日本",
@@ -249,8 +272,76 @@ const pageMetaMap = {
           {
             "@type": "ListItem",
             position: 2,
-            name: "制作相談室",
+            name: "WORKS",
             item: `${SITE_URL}/works`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "HP・LP制作",
+            item: `${SITE_URL}/works/web`,
+          },
+        ],
+      },
+    ],
+  },
+
+  "/entsumugi": {
+    title: "縁紡 | 地方議員向けSNS運用・情報発信支援サービス | Puku Lab",
+    description:
+      "縁紡（えにしつむぎ）は、地方議員向けのSNS運用・情報発信支援サービスです。日々の活動、予定、写真、原稿を整理し、継続的な情報発信につなげる仕組みと運用を支援します。",
+    image: DEFAULT_OGP_IMAGE,
+    robots: "index, follow",
+    structuredData: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "縁紡",
+        alternateName: "えにしつむぎ",
+        serviceType: [
+          "地方議員向けSNS運用支援",
+          "地方議員向け情報発信支援",
+          "SNS原稿作成支援",
+          "議員活動の情報整理",
+        ],
+        url: `${SITE_URL}/entsumugi`,
+        areaServed: {
+          "@type": "Country",
+          name: "日本",
+        },
+        audience: {
+          "@type": "Audience",
+          audienceType: "地方議員",
+        },
+        description:
+          "地方議員の日々の活動・予定・写真・原稿を整理し、SNSなどで継続的に情報発信する流れを支えるサービスです。",
+        provider: {
+          "@type": "Organization",
+          name: "Puku Lab",
+          url: SITE_URL,
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Puku Lab",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "WORKS",
+            item: `${SITE_URL}/works`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "縁紡",
+            item: `${SITE_URL}/entsumugi`,
           },
         ],
       },
@@ -580,7 +671,9 @@ export default function App() {
           element={<GalleryCategory category="others" />}
         />
 
-        <Route path="/works" element={<Works />} />
+        <Route path="/works" element={<WorksIndex />} />
+        <Route path="/works/web" element={<Works />} />
+        <Route path="/entsumugi" element={<Entsumugi />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/experiments" element={<Experiments />} />
