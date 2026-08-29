@@ -9,6 +9,10 @@ const categoryOptions = [
     label: "HP制作・運営相談",
   },
   {
+    value: "entsumugi",
+    label: "縁紡・議員向けサポート相談",
+  },
+  {
     value: "app",
     label: "アプリについて",
   },
@@ -56,10 +60,9 @@ function getCategoryLabel(value) {
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
-  const queryType = searchParams.get("type");
   const [form, setForm] = useState(() => ({
     ...initialForm,
-    category: getCategoryFromQuery(queryType),
+    category: getCategoryFromQuery(searchParams.get("type")),
   }));
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -68,19 +71,13 @@ export default function Contact() {
   const isSent = status === "sent";
 
   useEffect(() => {
-    const categoryFromQuery = getCategoryFromQuery(queryType);
+    const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
 
-    setForm((prev) => {
-      if (prev.category === categoryFromQuery) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        category: categoryFromQuery,
-      };
-    });
-  }, [queryType]);
+    setForm((prev) => ({
+      ...prev,
+      category: categoryFromQuery,
+    }));
+  }, [searchParams]);
 
   function updateField(key, value) {
     setForm((prev) => ({
@@ -152,7 +149,7 @@ export default function Contact() {
       setStatus("sent");
       setForm({
         ...initialForm,
-        category: getCategoryFromQuery(queryType),
+        category: getCategoryFromQuery(searchParams.get("type")),
       });
     } catch (error) {
       console.error(error);
