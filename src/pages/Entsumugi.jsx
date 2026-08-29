@@ -103,6 +103,7 @@ export default function Entsumugi() {
             <a href="#flow">仕組み</a>
             <a href="#features">機能</a>
             <a href="#price">料金</a>
+            <Link to="/entsumugi/startup">候補者向け</Link>
           </nav>
 
           <div className="enHeaderActions">
@@ -332,29 +333,35 @@ export default function Entsumugi() {
 
         <div className="enToolsIntro">
           <div className="enToolsLead">
-            <p className="enEyebrow">FIND YOUR PLAN</p>
-            <h2>自分の場合を、もう少し具体的に。</h2>
+            <p className="enEyebrow">NEXT STEP</p>
+            <h2>知りたいことから、次へ。</h2>
             <p>
-              コース名だけでは分かりにくい方へ。まずは3問の相性診断、そのあと必要なら概算料金まで確認できます。
+              立候補準備をまとめて始めたい方、まず自分に合うコースを知りたい方、具体的な金額まで確認したい方。それぞれの入口を用意しています。
             </p>
           </div>
 
-          <div className="enToolCards">
+          <div className="enToolCards three">
+            <Link className="enToolCard startup" to="/entsumugi/startup">
+              <span>CANDIDATE</span>
+              <strong>候補者向けスタートアップ</strong>
+              <p>SNS・LINE・HPなど、立候補に向けた情報発信の土台をまとめて準備。</p>
+              <b>特設ページを見る →</b>
+            </Link>
             <Link className="enToolCard" to="/entsumugi/diagnosis">
-              <span>STEP 1</span>
-              <strong>30秒コース診断</strong>
-              <p>質問は3つだけ。今の使い方に近いコースを案内します。</p>
+              <span>30 SEC</span>
+              <strong>コース相性診断</strong>
+              <p>質問は3つだけ。今の希望に近い使い方を案内します。</p>
               <b>診断してみる →</b>
             </Link>
             <Link className="enToolCard estimate" to="/entsumugi/estimate">
-              <span>STEP 2</span>
+              <span>PRICE</span>
               <strong>料金シミュレーター</strong>
-              <p>媒体・初期設定・追加制作を選んで、概算を確認できます。</p>
+              <p>媒体・初期設定・追加制作を選んで、自分の場合の概算を確認。</p>
               <b>概算を見る →</b>
             </Link>
           </div>
           <p className="enToolDisclaimer">
-            ※ シミュレーション結果は目安です。実際の作業内容・素材・運用状況により料金が前後する場合があります。正式な料金はヒアリング後のお見積もりで確定します。
+            ※ 診断・シミュレーション結果は目安です。実際の作業内容・素材・運用状況により、適したコースや料金が前後する場合があります。正式な内容はヒアリング後に確認します。
           </p>
         </div>
       </section>

@@ -16,6 +16,9 @@ import GalleryCategory from "./pages/GalleryCategory";
 import Works from "./pages/Works";
 import WorksIndex from "./pages/WorksIndex";
 import Entsumugi from "./pages/Entsumugi";
+import EntsumugiStartup from "./pages/EntsumugiStartup";
+import EntsumugiDiagnosis from "./pages/EntsumugiDiagnosis";
+import EntsumugiEstimate from "./pages/EntsumugiEstimate";
 import PageAssistNav from "./components/PageAssistNav";
 
 import kanlogHomeOgp from "./assets/kanlog-home.png";
@@ -289,7 +292,7 @@ const pageMetaMap = {
   "/entsumugi": {
     title: "縁紡 | 地方議員向けSNS運用・情報発信支援サービス | Puku Lab",
     description:
-      "縁紡（えにしつむぎ）は、地方議員向けのSNS運用・情報発信支援サービスです。日々の活動、予定、写真、原稿を整理し、継続的な情報発信につなげる仕組みと運用を支援します。",
+      "縁紡（えんつむぎ）は、地方議員向けのSNS運用・情報発信支援サービスです。日々の活動、予定、写真、原稿を整理し、継続的な情報発信につなげる仕組みと運用を支援します。",
     image: DEFAULT_OGP_IMAGE,
     robots: "index, follow",
     structuredData: [
@@ -297,7 +300,7 @@ const pageMetaMap = {
         "@context": "https://schema.org",
         "@type": "Service",
         name: "縁紡",
-        alternateName: "えにしつむぎ",
+        alternateName: "えんつむぎ",
         serviceType: [
           "地方議員向けSNS運用支援",
           "地方議員向け情報発信支援",
@@ -346,6 +349,52 @@ const pageMetaMap = {
         ],
       },
     ],
+  },
+
+  "/entsumugi/startup": {
+    title: "地方選候補者向け情報発信スタートアップ | 縁紡 | Puku Lab",
+    description:
+      "統一地方選に向けて、SNS・LINE公式・HPなど候補者の情報発信環境をまとめて整える縁紡のスタートアップ支援ページです。",
+    image: DEFAULT_OGP_IMAGE,
+    robots: "index, follow",
+    structuredData: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "縁紡 候補者向け情報発信スタートアップ",
+        serviceType: "地方選候補者向け情報発信環境の立ち上げ支援",
+        url: `${SITE_URL}/entsumugi/startup`,
+        areaServed: { "@type": "Country", name: "日本" },
+        provider: { "@type": "Organization", name: "Puku Lab", url: SITE_URL },
+        description:
+          "SNS新規立ち上げ、LINE公式初期設定、候補者向け簡易HP制作、継続的な情報発信支援を組み合わせるスタートアップ支援です。",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Puku Lab", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "縁紡", item: `${SITE_URL}/entsumugi` },
+          { "@type": "ListItem", position: 3, name: "候補者向けスタートアップ", item: `${SITE_URL}/entsumugi/startup` },
+        ],
+      },
+    ],
+  },
+
+  "/entsumugi/diagnosis": {
+    title: "縁紡 30秒コース診断 | 地方議員向け情報発信支援",
+    description:
+      "3つの質問から、縁紡のアプリ利用・AI秘書・基本運用・広報運用・外部広報室の中で、現在の希望に近いコースを簡易診断します。",
+    image: DEFAULT_OGP_IMAGE,
+    robots: "noindex, follow",
+  },
+
+  "/entsumugi/estimate": {
+    title: "縁紡 料金シミュレーター | 地方議員向け情報発信支援",
+    description:
+      "縁紡の月額コース、SNS初期設定、原稿、動画、WEB制作などを選び、概算料金を確認できる料金シミュレーターです。",
+    image: DEFAULT_OGP_IMAGE,
+    robots: "noindex, follow",
   },
 
   "/questionnaire": {
@@ -648,6 +697,9 @@ function NotFound() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const isEntsumugiPage = location.pathname.startsWith("/entsumugi");
+
   return (
     <>
       <SeoTracker />
@@ -674,6 +726,9 @@ export default function App() {
         <Route path="/works" element={<WorksIndex />} />
         <Route path="/works/web" element={<Works />} />
         <Route path="/entsumugi" element={<Entsumugi />} />
+        <Route path="/entsumugi/startup" element={<EntsumugiStartup />} />
+        <Route path="/entsumugi/diagnosis" element={<EntsumugiDiagnosis />} />
+        <Route path="/entsumugi/estimate" element={<EntsumugiEstimate />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/experiments" element={<Experiments />} />
@@ -684,8 +739,8 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      <SiteFooter />
-      <PageAssistNav />
+      {!isEntsumugiPage ? <SiteFooter /> : null}
+      {!isEntsumugiPage ? <PageAssistNav /> : null}
     </>
   );
 }
