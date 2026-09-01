@@ -1,126 +1,192 @@
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./Entsumugi.css";
+import "./EntsumugiEstimate.css";
 
 const basePlans = {
-  app: { name: "アプリ利用のみ", monthly: 1980 },
-  ai: { name: "AI秘書コース", monthly: 22000 },
-  busy: { name: "繁忙月サポート", monthly: 66000 },
-  basic: { name: "基本運用プラン", monthly: 66000 },
-  pr: { name: "広報運用プラン", monthly: 99000 },
-  room: { name: "外部広報室プラン", monthly: 148000 },
+  app: {
+    name: "アプリ利用のみ",
+    monthly: 1980,
+    note: "まずは自分と事務所で情報をまとめたい方へ。",
+  },
+  ai: {
+    name: "AI秘書コース",
+    monthly: 25000,
+    note: "AIを使いながら、自分で運用を進めたい方へ。",
+  },
+  busy: {
+    name: "繁忙月サポート",
+    monthly: 66000,
+    note: "AI秘書をベースに、忙しい月だけ支援を増やしたい方へ。",
+  },
+  basic: {
+    name: "基本運用プラン",
+    monthly: 66000,
+    note: "原稿・投稿などを継続して任せたい方へ。",
+  },
+  pr: {
+    name: "広報運用プラン",
+    monthly: 99000,
+    note: "複数媒体を使い分けながら、企画も相談したい方へ。",
+  },
+  room: {
+    name: "外部広報室プラン",
+    monthly: 148000,
+    note: "広報全体を外部広報室のように任せたい方へ。",
+  },
 };
 
-const addonGroups = [
+const snsOptions = [
   {
-    title: "SNS・LINEの初期設定",
-    items: [
-      { id: "existing", label: "既存SNS運用引継ぎ・初期確認", unit: "媒体", price: 5500 },
-      { id: "new", label: "SNS新規立ち上げ一式", unit: "媒体", price: 16500 },
-      { id: "expand", label: "追加SNSへの展開設定", unit: "媒体", price: 11000 },
-      { id: "header", label: "アイコン・ヘッダー簡易作成", unit: "セット", price: 5500 },
-      { id: "line", label: "LINE公式 初期設定一式", unit: "件", price: 22000, max: 1 },
-    ],
+    value: "none",
+    label: "今あるSNSを自分で使う",
+    text: "新しい立ち上げや引継ぎは考えていない",
+    score: 0,
   },
   {
-    title: "単品の原稿・投稿",
-    optionalForManaged: true,
-    items: [
-      { id: "draft", label: "SNS原稿作成", unit: "本", price: 3300 },
-      { id: "draftImage", label: "原稿 + 簡易画像", unit: "本", price: 5500 },
-      { id: "post", label: "原稿 + 投稿代行", unit: "本", price: 5500 },
-      { id: "imagePost", label: "原稿 + 簡易画像 + 投稿代行", unit: "本", price: 6600 },
-      { id: "adjust", label: "同内容を別SNS向けに文章調整", unit: "媒体", price: 2200 },
-      { id: "linePost", label: "LINE原稿 + 配信代行", unit: "回", price: 6600 },
-    ],
+    value: "handover",
+    label: "既存SNSの引継ぎを頼みたい",
+    text: "今あるアカウントを確認して運用を始めたい",
+    score: 1,
   },
   {
-    title: "動画・画像",
-    items: [
-      { id: "verticalCut", label: "縦動画・カットのみ", unit: "本", price: 8800 },
-      { id: "shortVideo", label: "縦動画・簡易編集", unit: "本", price: 11000 },
-      { id: "video5", label: "通常動画 5分以内・簡易編集", unit: "本", price: 11000 },
-      { id: "video10", label: "通常動画 10分以内・簡易編集", unit: "本", price: 16500 },
-      { id: "shorts", label: "既存動画からShorts切り出し", unit: "本", price: 5500 },
-      { id: "thumbnail", label: "動画用簡易サムネイル", unit: "点", price: 3300 },
-    ],
+    value: "newOne",
+    label: "SNSを1つ新しく始めたい",
+    text: "プロフィールや初回投稿も含めて準備したい",
+    score: 2,
+  },
+  {
+    value: "newMany",
+    label: "SNSを複数まとめて整えたい",
+    text: "複数媒体の立ち上げ・展開を考えている",
+    score: 4,
   },
 ];
 
-const allAddons = addonGroups.flatMap((group) => group.items);
+const lineOptions = [
+  { value: "none", label: "LINE公式は不要・既に使える", score: 0 },
+  { value: "new", label: "LINE公式を新しく準備したい", score: 2 },
+];
 
-const webOptions = {
-  none: { name: "追加なし", price: 0 },
-  text: { name: "既存HP 文字修正", price: 3300 },
-  image: { name: "既存HP 画像差し替え", price: 3300 },
-  update: { name: "既存HP 1ページ更新", price: 5500 },
-  page: { name: "既存HP 新規ページ追加", price: 11000 },
-  lpTemplate: { name: "簡易LP制作・既存デザイン流用", price: 33000 },
-  lp: { name: "LP制作・構成 + デザイン", price: 55000 },
-  hp3: { name: "簡易HP制作 3ページまで", price: 88000 },
-  hp5: { name: "標準HP制作 5ページまで", price: 132000 },
-};
+const webOptions = [
+  {
+    value: "none",
+    label: "HPは不要・既に整っている",
+    text: "大きな修正は考えていない",
+    score: 0,
+  },
+  {
+    value: "update",
+    label: "今あるHPを少し整えたい",
+    text: "文字・画像・既存ページの更新が中心",
+    score: 1,
+  },
+  {
+    value: "lp",
+    label: "LPや新しい案内ページがほしい",
+    text: "1ページで内容をまとめたい",
+    score: 4,
+  },
+  {
+    value: "newSite",
+    label: "HPを新しく作りたい",
+    text: "候補者・議員サイトを一から準備したい",
+    score: 6,
+  },
+];
+
+const creativeOptions = [
+  {
+    value: "none",
+    label: "追加制作はほぼ不要",
+    text: "月額プランの通常範囲を中心に使いたい",
+    score: 0,
+  },
+  {
+    value: "sometimes",
+    label: "画像・動画を時々お願いしたい",
+    text: "必要な時だけ追加制作を頼みたい",
+    score: 1,
+  },
+  {
+    value: "regular",
+    label: "動画や追加制作も継続して使いたい",
+    text: "通常運用に加えて制作物も増えそう",
+    score: 3,
+  },
+  {
+    value: "custom",
+    label: "まだ整理できていない・大型制作もありそう",
+    text: "内容を相談しながら決めたい",
+    score: 5,
+  },
+];
+
+const setupBands = [
+  { max: 0, label: "追加費用はほぼなし", sub: "月額コース中心で始められそうです。" },
+  { max: 2, label: "1〜3万円程度", sub: "軽い初期設定や単発制作が中心のイメージです。" },
+  { max: 4, label: "3〜6万円程度", sub: "複数の初期設定・制作が必要になりそうです。" },
+  { max: 6, label: "6〜10万円程度", sub: "WEBや複数の準備を含む可能性があります。" },
+  { max: 10, label: "10〜15万円程度", sub: "複数媒体やHP立ち上げをまとめて行う規模感です。" },
+  { max: Infinity, label: "15万円〜・個別確認", sub: "制作範囲が広いため、内容を確認して正式見積します。" },
+];
 
 function yen(value) {
   return new Intl.NumberFormat("ja-JP").format(value);
 }
 
-function getInitialCounts(preset) {
-  const base = Object.fromEntries(allAddons.map((item) => [item.id, 0]));
-  if (preset === "startup") {
-    base.new = 1;
-    base.line = 1;
-  }
-  return base;
+function findLabel(options, value) {
+  return options.find((item) => item.value === value)?.label || "未選択";
 }
 
 export default function EntsumugiEstimate() {
   const [searchParams] = useSearchParams();
   const preset = searchParams.get("preset");
   const incomingPlan = searchParams.get("plan");
-  const initialPlan = preset === "startup" ? "basic" : (basePlans[incomingPlan] ? incomingPlan : "basic");
+  const initialPlan = preset === "startup"
+    ? "basic"
+    : basePlans[incomingPlan]
+      ? incomingPlan
+      : "basic";
 
   const [plan, setPlan] = useState(initialPlan);
-  const [counts, setCounts] = useState(() => getInitialCounts(preset));
-  const [web, setWeb] = useState(preset === "startup" ? "hp3" : "none");
-  const [custom, setCustom] = useState(false);
-  const [showManagedSingles, setShowManagedSingles] = useState(false);
+  const [sns, setSns] = useState(preset === "startup" ? "newOne" : "none");
+  const [line, setLine] = useState(preset === "startup" ? "new" : "none");
+  const [web, setWeb] = useState(preset === "startup" ? "newSite" : "none");
+  const [creative, setCreative] = useState("none");
 
-  const managedPlan = ["basic", "pr", "room"].includes(plan);
+  const result = useMemo(() => {
+    const score =
+      (snsOptions.find((item) => item.value === sns)?.score || 0) +
+      (lineOptions.find((item) => item.value === line)?.score || 0) +
+      (webOptions.find((item) => item.value === web)?.score || 0) +
+      (creativeOptions.find((item) => item.value === creative)?.score || 0);
 
-  const calc = useMemo(() => {
-    const monthly = basePlans[plan].monthly;
-    const hiddenIds = managedPlan && !showManagedSingles
-      ? new Set(addonGroups.find((group) => group.optionalForManaged)?.items.map((item) => item.id) || [])
-      : new Set();
+    const setupBand = setupBands.find((band) => score <= band.max) || setupBands[setupBands.length - 1];
 
-    const addonRows = allAddons
-      .filter((item) => !hiddenIds.has(item.id))
-      .map((item) => ({ ...item, count: counts[item.id] || 0, subtotal: (counts[item.id] || 0) * item.price }))
-      .filter((item) => item.count > 0);
-
-    const oneTime = addonRows.reduce((sum, item) => sum + item.subtotal, 0) + webOptions[web].price;
-    return { monthly, oneTime, firstMonth: monthly + oneTime, addonRows };
-  }, [plan, counts, web, managedPlan, showManagedSingles]);
-
-  function setCount(id, rawValue, max = 10) {
-    const value = Math.max(0, Math.min(max, Number.parseInt(rawValue, 10) || 0));
-    setCounts((prev) => ({ ...prev, [id]: value }));
-  }
+    return {
+      monthly: basePlans[plan].monthly,
+      setupBand,
+      score,
+    };
+  }, [plan, sns, line, web, creative]);
 
   function resetStartupPreset() {
     setPlan("basic");
-    setCounts(getInitialCounts("startup"));
-    setWeb("hp3");
-    setCustom(false);
-    setShowManagedSingles(false);
+    setSns("newOne");
+    setLine("new");
+    setWeb("newSite");
+    setCreative("none");
   }
 
   return (
-    <main className="enPage enToolPage">
+    <main className="enPage enToolPage enPublicEstimatePage">
       <header className="enHeader">
         <div className="enHeaderInner">
-          <Link to="/entsumugi" className="enBrand"><strong>縁紡</strong><span>議員サポートデスク</span></Link>
+          <Link to="/entsumugi" className="enBrand">
+            <strong>縁紡</strong>
+            <span>議員サポートデスク</span>
+          </Link>
           <div className="enHeaderActions">
             <Link className="enBackLink" to="/entsumugi/diagnosis">コース診断</Link>
             <Link className="enBackLink" to="/entsumugi">縁紡トップへ</Link>
@@ -128,122 +194,176 @@ export default function EntsumugiEstimate() {
         </div>
       </header>
 
-      <section className="enToolHero enEstimateHero">
-        <div className="enPills enToolPills"><span>概算</span><span>正式見積ではありません</span></div>
-        <p className="enEyebrow">PRICE SIMULATOR</p>
-        <h1>料金シミュレーター</h1>
-        <p>月額コースと必要な初期設定・追加制作を選んで、自分の場合の料金目安を確認できます。</p>
+      <section className="enToolHero enEstimateHero enPublicEstimateHero">
+        <div className="enPills enToolPills">
+          <span>ざっくり料金目安</span>
+          <span>正式見積ではありません</span>
+        </div>
+        <p className="enEyebrow">PRICE GUIDE</p>
+        <p className="enPublicEstimateCatch">まずは、料金感だけ。</p>
+        <h1>料金目安シミュレーター</h1>
+        <p>
+          月額コースと現在の準備状況を選ぶと、初期費用や追加制作を細かく積み上げず、
+          おおまかな料金帯だけ確認できます。
+        </p>
       </section>
 
       {preset === "startup" ? (
-        <div className="enPresetBanner">
+        <div className="enPresetBanner enPublicPresetBanner">
           <div>
-            <strong>候補者向けスタートアップ構成を入力済みです</strong>
-            <p>SNS新規1媒体 + LINE公式初期設定 + 3ページHP + 基本運用</p>
+            <strong>候補者向けスタートアップに近い条件を選択済みです</strong>
+            <p>SNS新規1媒体・LINE公式・新規HP・基本運用を想定した状態です。</p>
           </div>
-          <button type="button" onClick={resetStartupPreset}>初期構成に戻す</button>
+          <button type="button" onClick={resetStartupPreset}>初期条件に戻す</button>
         </div>
       ) : null}
 
-      <div className="enEstimateLayout">
-        <section className="enEstimateForm">
-          <div className="enEstimateBlock">
+      <div className="enPublicEstimateLayout">
+        <section className="enPublicEstimateForm">
+          <div className="enEstimateBlock enPublicEstimateBlock">
             <p className="enEyebrow">STEP 1</p>
             <h2>月額コース</h2>
-            <p className="enEstimateLead">まず、継続的な支援の範囲を選びます。</p>
-            <div className="enPlanSelectGrid">
+            <p className="enEstimateLead">まず、継続的にどこまで任せたいかを選びます。</p>
+
+            <div className="enPublicPlanGrid">
               {Object.entries(basePlans).map(([key, item]) => (
-                <label className={`enPlanOption ${plan === key ? "selected" : ""}`} key={key}>
-                  <input type="radio" name="plan" checked={plan === key} onChange={() => setPlan(key)} />
-                  <span><strong>{item.name}</strong><small>月額 {yen(item.monthly)}円</small></span>
+                <label className={`enPublicPlanOption ${plan === key ? "selected" : ""}`} key={key}>
+                  <input
+                    type="radio"
+                    name="plan"
+                    checked={plan === key}
+                    onChange={() => setPlan(key)}
+                  />
+                  <span>
+                    <strong>{item.name}</strong>
+                    <b>{yen(item.monthly)}円 / 月</b>
+                    <small>{item.note}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            {(plan === "ai" || plan === "busy") ? (
+              <p className="enAiAddonNote">
+                AI秘書の利用回数を増やしたい場合は、追加枠を1枠1,000円で追加できます。
+              </p>
+            ) : null}
+          </div>
+
+          <div className="enEstimateBlock enPublicEstimateBlock">
+            <p className="enEyebrow">STEP 2</p>
+            <h2>今の準備状況</h2>
+            <p className="enEstimateLead">単価や数量ではなく、「何を準備したいか」だけ選んでください。</p>
+
+            <div className="enPublicQuestionGroup">
+              <div className="enPublicQuestionHead">
+                <span>01</span>
+                <div>
+                  <h3>SNS</h3>
+                  <p>アカウントの立ち上げ・引継ぎについて</p>
+                </div>
+              </div>
+              <div className="enPublicChoiceGrid">
+                {snsOptions.map((item) => (
+                  <label className={`enPublicChoice ${sns === item.value ? "selected" : ""}`} key={item.value}>
+                    <input type="radio" name="sns" checked={sns === item.value} onChange={() => setSns(item.value)} />
+                    <span><strong>{item.label}</strong><small>{item.text}</small></span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="enPublicQuestionGroup compact">
+              <div className="enPublicQuestionHead">
+                <span>02</span>
+                <div>
+                  <h3>LINE公式</h3>
+                  <p>新しく準備する必要があるか</p>
+                </div>
+              </div>
+              <div className="enPublicChoiceGrid two">
+                {lineOptions.map((item) => (
+                  <label className={`enPublicChoice ${line === item.value ? "selected" : ""}`} key={item.value}>
+                    <input type="radio" name="line" checked={line === item.value} onChange={() => setLine(item.value)} />
+                    <span><strong>{item.label}</strong></span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="enPublicQuestionGroup">
+              <div className="enPublicQuestionHead">
+                <span>03</span>
+                <div>
+                  <h3>HP・LP</h3>
+                  <p>WEB側で必要になりそうな準備</p>
+                </div>
+              </div>
+              <div className="enPublicChoiceGrid">
+                {webOptions.map((item) => (
+                  <label className={`enPublicChoice ${web === item.value ? "selected" : ""}`} key={item.value}>
+                    <input type="radio" name="web" checked={web === item.value} onChange={() => setWeb(item.value)} />
+                    <span><strong>{item.label}</strong><small>{item.text}</small></span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="enEstimateBlock enPublicEstimateBlock">
+            <p className="enEyebrow">STEP 3</p>
+            <h2>追加制作のイメージ</h2>
+            <p className="enEstimateLead">動画・画像・大型制作などがどのくらいありそうかを選びます。</p>
+            <div className="enPublicChoiceGrid">
+              {creativeOptions.map((item) => (
+                <label className={`enPublicChoice ${creative === item.value ? "selected" : ""}`} key={item.value}>
+                  <input
+                    type="radio"
+                    name="creative"
+                    checked={creative === item.value}
+                    onChange={() => setCreative(item.value)}
+                  />
+                  <span><strong>{item.label}</strong><small>{item.text}</small></span>
                 </label>
               ))}
             </div>
           </div>
-
-          <div className="enEstimateBlock">
-            <p className="enEyebrow">STEP 2</p>
-            <h2>初期設定・追加制作</h2>
-            <p className="enEstimateLead">
-              {managedPlan
-                ? "月額運用の通常範囲に含まれる原稿・投稿は、初期状態では二重加算しません。初期設定や標準外の追加制作を入力してください。"
-                : "必要なものだけ数量を入れてください。0の項目は加算されません。"}
-            </p>
-
-            {addonGroups.map((group) => {
-              if (group.optionalForManaged && managedPlan && !showManagedSingles) return null;
-              return (
-                <div className="enAddonGroup" key={group.title}>
-                  <h3>{group.title}</h3>
-                  <div className="enAddonList">
-                    {group.items.map((item) => (
-                      <label className="enAddonRow" key={item.id}>
-                        <span><strong>{item.label}</strong><small>{yen(item.price)}円 / {item.unit}</small></span>
-                        <input
-                          type="number"
-                          min="0"
-                          max={item.max || 10}
-                          inputMode="numeric"
-                          value={counts[item.id]}
-                          onChange={(event) => setCount(item.id, event.target.value, item.max || 10)}
-                          aria-label={`${item.label}の数量`}
-                        />
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-
-            {managedPlan ? (
-              <button className="enInlineToggle" type="button" onClick={() => setShowManagedSingles((value) => !value)}>
-                {showManagedSingles ? "単品の原稿・投稿を閉じる" : "標準外として単品の原稿・投稿も追加する"}
-              </button>
-            ) : null}
-          </div>
-
-          <div className="enEstimateBlock">
-            <p className="enEyebrow">STEP 3</p>
-            <h2>WEB制作</h2>
-            <p className="enEstimateLead">代表的なWEB制作を1つ選べます。複数ページ追加などは正式見積で数量を確認します。</p>
-            <select className="enSelect" value={web} onChange={(event) => setWeb(event.target.value)}>
-              {Object.entries(webOptions).map(([key, item]) => (
-                <option key={key} value={key}>{item.name}{item.price ? `（${yen(item.price)}円）` : ""}</option>
-              ))}
-            </select>
-
-            <label className="enCustomCheck">
-              <input type="checkbox" checked={custom} onChange={(event) => setCustom(event.target.checked)} />
-              <span><strong>本格動画・複雑なWEB機能・大型制作などがある</strong><small>標準単価に無理に当てはめず、個別見積として確認します。</small></span>
-            </label>
-          </div>
         </section>
 
-        <aside className="enEstimateResult" aria-live="polite">
-          <p className="enEyebrow">ESTIMATE</p>
-          <h2>概算結果</h2>
-          <div className="enEstimateTotals">
-            <div><span>月額</span><strong>{yen(calc.monthly)}円</strong></div>
-            <div><span>初期・追加</span><strong>{yen(calc.oneTime)}円</strong></div>
-            <div className="total"><span>初月概算</span><strong>{yen(calc.firstMonth)}円</strong></div>
+        <aside className="enPublicEstimateResult" aria-live="polite">
+          <p className="enEyebrow">PRICE RANGE</p>
+          <p className="enSectionCatch">今の選択だと</p>
+          <h2>このくらいが目安です。</h2>
+
+          <div className="enPublicEstimateMainPrice">
+            <span>月額</span>
+            <strong>{yen(result.monthly)}<small>円 / 月</small></strong>
+            <p>{basePlans[plan].name}</p>
           </div>
 
-          <div className="enEstimateSummary">
-            <p><strong>{basePlans[plan].name}</strong><b>{yen(calc.monthly)}円 / 月</b></p>
-            {calc.addonRows.map((item) => (
-              <p key={item.id}><span>{item.label} × {item.count}</span><b>{yen(item.subtotal)}円</b></p>
-            ))}
-            {webOptions[web].price ? <p><span>{webOptions[web].name}</span><b>{yen(webOptions[web].price)}円</b></p> : null}
-            {custom ? <p className="custom"><span>標準外作業</span><b>個別見積</b></p> : null}
+          <div className="enPublicEstimateBand">
+            <span>初期設定・追加制作の目安</span>
+            <strong>{result.setupBand.label}</strong>
+            <p>{result.setupBand.sub}</p>
           </div>
 
-          <div className="enEstimateNotice">
-            <strong>この結果は概算です</strong>
-            <p>実際の作業内容・素材・運用状況・既存環境などにより料金が前後する場合があります。正式な料金はヒアリング後のお見積もりで確定します。</p>
+          <div className="enPublicEstimateSelections">
+            <p><span>SNS</span><strong>{findLabel(snsOptions, sns)}</strong></p>
+            <p><span>LINE</span><strong>{findLabel(lineOptions, line)}</strong></p>
+            <p><span>WEB</span><strong>{findLabel(webOptions, web)}</strong></p>
+            <p><span>追加制作</span><strong>{findLabel(creativeOptions, creative)}</strong></p>
           </div>
 
-          <div className="enResultActions">
-            <Link className="enButton primary" to="/contact?type=entsumugi">この内容をもとに相談する →</Link>
+          <div className="enPublicEstimateNotice">
+            <strong>これは「料金感」を見るためのシミュレーションです</strong>
+            <p>
+              個別の単価や数量を積み上げた正式見積ではありません。
+              実際の作業範囲・既存環境・素材・運用頻度を確認したうえで、正式な料金をお伝えします。
+            </p>
+          </div>
+
+          <div className="enResultActions enPublicEstimateActions">
+            <Link className="enButton primary" to="/contact?type=entsumugi">この条件で相談する →</Link>
             <Link className="enButton secondary" to="/entsumugi/diagnosis">コース診断へ戻る</Link>
           </div>
         </aside>

@@ -62,7 +62,7 @@ export default function EntsumugiStartup() {
             </p>
             <div className="enHeroActions">
               <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">
-                この内容で概算を見る <span aria-hidden="true">→</span>
+                この内容で料金目安を見る <span aria-hidden="true">→</span>
               </Link>
               <Link className="enButton secondary" to="/contact?type=entsumugi">
                 まず相談する
@@ -178,11 +178,11 @@ export default function EntsumugiStartup() {
           <div>
             <p className="enEyebrow">YOUR CASE</p>
             <p className="enSectionCatch">全部そろっていなくても大丈夫です。</p>
-            <h2>自分の場合の概算を確認。</h2>
+            <h2>自分の場合の料金目安を確認。</h2>
             <p>すでにHPがある、SNSだけ新しく作りたい、LINEは不要など、現在の状況に合わせて項目を外せます。</p>
           </div>
           <div className="enFinalActions">
-            <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">スタートアップ構成で試す →</Link>
+            <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">スタートアップ構成で目安を見る →</Link>
             <Link className="enButton secondary" to="/entsumugi/diagnosis">先にコース診断をする</Link>
           </div>
         </div>

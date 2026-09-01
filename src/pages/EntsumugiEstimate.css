@@ -1,0 +1,372 @@
+.enPublicEstimatePage {
+  padding-bottom: 84px;
+}
+
+.enPublicEstimateHero {
+  max-width: 900px;
+}
+
+.enPublicEstimateCatch {
+  margin: 14px 0 2px !important;
+  color: var(--en-orange-deep);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 1000;
+}
+
+.enPublicPresetBanner {
+  margin-bottom: 22px;
+}
+
+.enPublicEstimateLayout {
+  width: min(1140px, calc(100% - 40px));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+.enPublicEstimateForm {
+  display: grid;
+  gap: 16px;
+}
+
+.enPublicEstimateBlock {
+  padding: 28px;
+}
+
+.enPublicPlanGrid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.enPublicPlanOption,
+.enPublicChoice {
+  position: relative;
+  display: block;
+  min-width: 0;
+  border: 1px solid rgba(112, 75, 42, 0.14);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.enPublicPlanOption {
+  min-height: 136px;
+  padding: 17px 18px;
+  border-radius: 18px;
+}
+
+.enPublicPlanOption:hover,
+.enPublicChoice:hover {
+  transform: translateY(-1px);
+  border-color: rgba(243, 138, 8, 0.34);
+}
+
+.enPublicPlanOption.selected,
+.enPublicChoice.selected {
+  border-color: rgba(243, 138, 8, 0.8);
+  background: linear-gradient(145deg, #fff4dd, #fffdf8);
+  box-shadow: inset 0 0 0 1px rgba(243, 138, 8, 0.08);
+}
+
+.enPublicPlanOption input,
+.enPublicChoice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.enPublicPlanOption span,
+.enPublicChoice span {
+  display: grid;
+  gap: 6px;
+}
+
+.enPublicPlanOption strong,
+.enPublicChoice strong {
+  color: var(--en-ink);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.enPublicPlanOption b {
+  color: var(--en-orange-deep);
+  font-size: 1rem;
+}
+
+.enPublicPlanOption small,
+.enPublicChoice small {
+  color: rgba(47, 33, 24, 0.53);
+  font-size: 0.73rem;
+  line-height: 1.65;
+  font-weight: 650;
+}
+
+.enAiAddonNote {
+  margin-top: 15px !important;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background: #fff8eb;
+  color: rgba(47, 33, 24, 0.63);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.enPublicQuestionGroup {
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px dashed rgba(112, 75, 42, 0.16);
+}
+
+.enPublicQuestionGroup:first-of-type {
+  margin-top: 22px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.enPublicQuestionHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.enPublicQuestionHead > span {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--en-orange);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 1000;
+}
+
+.enPublicQuestionHead h3 {
+  font-size: 1rem;
+}
+
+.enPublicQuestionHead p {
+  margin-top: 3px !important;
+  color: rgba(47, 33, 24, 0.5);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.enPublicChoiceGrid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.enPublicChoiceGrid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.enPublicChoice {
+  min-height: 92px;
+  padding: 14px 15px;
+  border-radius: 15px;
+}
+
+.enPublicQuestionGroup.compact .enPublicChoice {
+  min-height: 62px;
+}
+
+.enPublicEstimateResult {
+  position: sticky;
+  top: 90px;
+  padding: 28px;
+  border: 1px solid rgba(243, 138, 8, 0.22);
+  border-radius: 26px;
+  background: linear-gradient(155deg, #fff7e7, #fff);
+  box-shadow: var(--en-shadow);
+}
+
+.enPublicEstimateResult > h2 {
+  margin-top: 6px;
+  font-size: 1.45rem;
+  line-height: 1.35;
+}
+
+.enPublicEstimateMainPrice {
+  margin-top: 24px;
+  padding: 20px 0;
+  border-top: 1px dashed rgba(112, 75, 42, 0.16);
+  border-bottom: 1px dashed rgba(112, 75, 42, 0.16);
+}
+
+.enPublicEstimateMainPrice > span,
+.enPublicEstimateBand > span {
+  display: block;
+  color: rgba(47, 33, 24, 0.48);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.enPublicEstimateMainPrice strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--en-orange-deep);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.enPublicEstimateMainPrice strong small {
+  margin-left: 5px;
+  color: rgba(47, 33, 24, 0.54);
+  font-size: 0.74rem;
+  letter-spacing: 0;
+}
+
+.enPublicEstimateMainPrice p {
+  margin-top: 9px !important;
+  color: rgba(47, 33, 24, 0.62);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.enPublicEstimateBand {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid rgba(243, 138, 8, 0.18);
+  border-radius: 18px;
+  background: #fff8e9;
+}
+
+.enPublicEstimateBand strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--en-orange-deep);
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.enPublicEstimateBand p {
+  margin-top: 8px !important;
+  color: rgba(47, 33, 24, 0.57);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+.enPublicEstimateSelections {
+  margin-top: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.enPublicEstimateSelections p {
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(112, 75, 42, 0.08);
+}
+
+.enPublicEstimateSelections span {
+  color: rgba(47, 33, 24, 0.43);
+  font-size: 0.69rem;
+  font-weight: 850;
+}
+
+.enPublicEstimateSelections strong {
+  color: rgba(47, 33, 24, 0.68);
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+
+.enPublicEstimateNotice {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fff2d8;
+}
+
+.enPublicEstimateNotice strong {
+  color: var(--en-orange-deep);
+  font-size: 0.79rem;
+}
+
+.enPublicEstimateNotice p {
+  margin-top: 7px !important;
+  color: rgba(47, 33, 24, 0.57);
+  font-size: 0.71rem;
+  line-height: 1.7;
+}
+
+.enPublicEstimateActions {
+  margin-top: 20px;
+  display: grid;
+  gap: 9px;
+}
+
+.enPublicEstimateActions .enButton {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .enPublicEstimateLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .enPublicEstimateResult {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .enPublicEstimatePage {
+    padding-bottom: 56px;
+  }
+
+  .enPublicEstimateLayout {
+    width: calc(100% - 28px);
+    gap: 12px;
+  }
+
+  .enPublicEstimateBlock,
+  .enPublicEstimateResult {
+    padding: 19px 16px;
+    border-radius: 21px;
+  }
+
+  .enPublicPlanGrid,
+  .enPublicChoiceGrid,
+  .enPublicChoiceGrid.two {
+    grid-template-columns: 1fr;
+  }
+
+  .enPublicPlanOption {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .enPublicChoice {
+    min-height: 0;
+    padding: 13px;
+  }
+
+  .enPublicQuestionGroup {
+    margin-top: 22px;
+    padding-top: 22px;
+  }
+
+  .enPublicEstimateMainPrice strong {
+    font-size: 2.15rem;
+  }
+
+  .enPublicEstimateBand strong {
+    font-size: 1.25rem;
+  }
+
+  .enPublicEstimateSelections p {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+}

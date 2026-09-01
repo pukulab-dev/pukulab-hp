@@ -64,10 +64,10 @@ const pricingGroups = [
   {
     label: "SELF / AI",
     title: "自分で管理する",
-    price: "1,980〜22,000",
+    price: "1,980〜25,000",
     unit: "円 / 月",
     text: "アプリだけ使う方法から、AI秘書を使って自分で運用する方法まで。",
-    notes: ["アプリ利用のみ 1,980円", "AI秘書コース 22,000円"],
+    notes: ["アプリ利用のみ 1,980円", "AI秘書コース 25,000円", "AI利用回数追加 1,000円 / 枠"],
   },
   {
     label: "MONTHLY SUPPORT",
@@ -336,7 +336,7 @@ export default function Entsumugi() {
             <p className="enEyebrow">NEXT STEP</p>
             <h2>知りたいことから、次へ。</h2>
             <p>
-              立候補準備をまとめて始めたい方、まず自分に合うコースを知りたい方、具体的な金額まで確認したい方。それぞれの入口を用意しています。
+              立候補準備をまとめて始めたい方、まず自分に合うコースを知りたい方、だいたいの料金感を確認したい方。それぞれの入口を用意しています。
             </p>
           </div>
 
@@ -355,9 +355,9 @@ export default function Entsumugi() {
             </Link>
             <Link className="enToolCard estimate" to="/entsumugi/estimate">
               <span>PRICE</span>
-              <strong>料金シミュレーター</strong>
-              <p>媒体・初期設定・追加制作を選んで、自分の場合の概算を確認。</p>
-              <b>概算を見る →</b>
+              <strong>料金目安シミュレーター</strong>
+              <p>準備状況を選んで、自分の場合のおおまかな料金帯を確認。</p>
+              <b>料金目安を見る →</b>
             </Link>
           </div>
           <p className="enToolDisclaimer">

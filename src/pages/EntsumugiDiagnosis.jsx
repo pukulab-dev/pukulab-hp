@@ -47,9 +47,9 @@ const plans = {
   },
   ai: {
     name: "AI秘書コース",
-    price: "月額 22,000円",
+    price: "月額 25,000円",
     copy: "自分で運用しながら、AIの力を借りたい方に。",
-    detail: "日程・案件・原稿づくりなどをAIで補助しつつ、最終判断や投稿は自分で進める使い方が近そうです。",
+    detail: "日程・案件・原稿づくりなどをAIで補助しつつ、最終判断や投稿は自分で進める使い方が近そうです。AI利用回数の追加枠は1枠1,000円で追加できます。",
   },
   basic: {
     name: "基本運用プラン",
@@ -159,10 +159,10 @@ export default function EntsumugiDiagnosis() {
           <p>{result.detail}</p>
           <div className="enDiagnosisNext">
             <span>次は</span>
-            <strong>必要な初期設定や追加制作まで含めて、概算を確認できます。</strong>
+            <strong>必要な準備状況を選んで、おおまかな料金帯を確認できます。</strong>
           </div>
           <div className="enResultActions">
-            <Link className="enButton primary" to={`/entsumugi/estimate?plan=${resultKey}`}>このコースで概算を見る →</Link>
+            <Link className="enButton primary" to={`/entsumugi/estimate?plan=${resultKey}`}>このコースで料金目安を見る →</Link>
             <Link className="enButton secondary" to="/contact?type=entsumugi">この結果で相談する</Link>
             <button className="enTextButton" type="button" onClick={reset}>もう一度診断する</button>
           </div>
