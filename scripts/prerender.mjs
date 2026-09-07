@@ -14,6 +14,42 @@ const DEFAULT_OGP_IMAGE = `${SITE_URL}/ogp/pukulab-ogp.png`;
 
 const routes = [
   {
+    path: "/",
+    title: "Puku Lab | ワクワクとドキドキが増えていく研究所",
+    description:
+      "Puku Labは、黒板の中の2D研究室でアプリ・AI画像・遊びの実験を育てている個人開発の研究所です。ワクワクとドキドキが少しずつ増えていくものを作っています。",
+    image: DEFAULT_OGP_IMAGE,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          name: "Puku Lab",
+          url: `${SITE_URL}/`,
+          description:
+            "Puku Labは、アプリ・AIビジュアル・HP制作・LP制作をつなぎながら育てている個人開発の研究所です。",
+          sameAs: [
+            "https://x.com/pukurin5573607",
+            "https://note.com/rich_bison8482",
+            "https://www.pixiv.net/users/126319212",
+          ],
+        },
+        {
+          "@type": "WebSite",
+          name: "Puku Lab",
+          url: `${SITE_URL}/`,
+          description:
+            "アプリ、AI画像、HP制作、LP制作、遊びの実験を育てる個人開発の研究所です。",
+          publisher: {
+            "@type": "Organization",
+            name: "Puku Lab",
+            url: `${SITE_URL}/`,
+          },
+        },
+      ],
+    },
+  },
+  {
     path: "/apps/kanlog",
     title: "巻ログ | 漫画・ラノベのコレクション管理アプリ",
     description:
