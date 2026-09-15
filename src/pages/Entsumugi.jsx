@@ -187,7 +187,7 @@ export default function Entsumugi() {
             <p className="enEyebrow">ENTSUMUGI / PUBLIC COMMUNICATION SUPPORT</p>
             <h1>
               <span>議員活動を、</span>
-              <strong>発信につなげる。</strong>
+              <strong>発信につなげる</strong>
             </h1>
             <p className="enLead">
               対面で会わなくても、SNS運用を任せられる。PC・スマートフォン・縁紡をつなぎ、日々の活動から継続的な情報発信まで支えます。
@@ -240,8 +240,18 @@ export default function Entsumugi() {
       <section className="enSection" id="about">
         <div className="enSectionHead center">
           <p className="enEyebrow">WHY ENTSUMUGI?</p>
-          <p className="enSectionCatch">活動していても、知られなければ伝わらない。</p>
-          <h2>日頃の活動を、<br className="enDesktopBreak" />届く発信へ変えていく。</h2>
+          <p className="enSectionCatch">活動していても、知られなければ伝わらない</p>
+          <h2>
+            <span className="enOnlyDesktop">
+              日頃の活動を、<br />
+              届く発信へ変えていく
+            </span>
+            <span className="enOnlyMobile">
+              日頃の活動を<br />
+              届く発信へ<br />
+              変えていく
+            </span>
+          </h2>
           <p>
             選挙の時だけではなく、日頃から少しずつ接点をつくる。そのためには、無理なく発信を続けられる仕組みが必要です。
           </p>
@@ -261,7 +271,10 @@ export default function Entsumugi() {
       <section className="enStatement">
         <div className="enStatementInner">
           <p className="enEyebrow">OUR APPROACH</p>
-          <h2>SNSは、魔法ではありません。</h2>
+          <h2>
+            <span className="enOnlyDesktop">SNSは、魔法ではありません</span>
+            <span className="enOnlyMobile">SNSは、<br />魔法ではありません</span>
+          </h2>
           <p>
             投稿さえすれば、すべての人へ情報が届くわけではありません。まずは関心を持ってくれている人へ、日々の活動をきちんと届ける。その積み重ねが、少しずつ関心の外側へ広がっていきます。
           </p>
@@ -278,8 +291,17 @@ export default function Entsumugi() {
       <section className="enSection" id="flow">
         <div className="enSectionHead">
           <p className="enEyebrow">HOW IT WORKS</p>
-          <p className="enSectionCatch">会わなくても、SNS運用を任せられる。</p>
-          <h2>活動から投稿までを、<br className="enDesktopBreak" />ひとつの流れへ。</h2>
+          <p className="enSectionCatch">会わなくても、SNS運用を任せられる</p>
+          <h2>
+            <span className="enOnlyDesktop">
+              活動から投稿までを、<br />
+              ひとつの流れへ
+            </span>
+            <span className="enOnlyMobile">
+              活動から投稿までを<br />
+              ひとつの流れへ
+            </span>
+          </h2>
           <p>
             予定や写真を共有するだけで、対面の打ち合わせがなくても発信準備を進められる仕組みを整えています。
           </p>
@@ -304,8 +326,17 @@ export default function Entsumugi() {
         <div className="enDeviceInner">
           <div className="enDeviceCopy">
             <p className="enEyebrow">PC + SMARTPHONE</p>
-            <p className="enSectionCatch">外出先と事務所をつなぐ。</p>
-            <h2>同じ情報を、<br />どこからでも確認。</h2>
+            <p className="enSectionCatch">外出先と事務所をつなぐ</p>
+            <h2>
+              <span className="enOnlyDesktop">
+                同じ情報を、<br />
+                どこからでも確認
+              </span>
+              <span className="enOnlyMobile">
+                同じ情報を<br />
+                どこからでも確認
+              </span>
+            </h2>
             <p>
               外出先ではスマートフォン、事務所ではPC。議員本人・事務所スタッフ・共有を許可した縁紡が、同じ流れを確認できます。
             </p>
@@ -334,7 +365,7 @@ export default function Entsumugi() {
       <section className="enSection" id="features">
         <div className="enSectionHead center">
           <p className="enEyebrow">FEATURES</p>
-          <p className="enSectionCatch">発信だけではなく、日々の仕事をひとつの入口へ。</p>
+          <p className="enSectionCatch">発信だけではなく、日々の仕事をひとつの入口へ</p>
           <h2>縁紡でできること</h2>
           <p>予定、活動、原稿、素材、相談、領収書まで。議員活動と発信に関わる情報を、使いやすい形でまとめます。</p>
         </div>
@@ -353,8 +384,17 @@ export default function Entsumugi() {
         <div className="enAiSecretaryInner">
           <div className="enAiSecretaryCopy">
             <p className="enEyebrow">AI SECRETARY</p>
-            <p className="enSectionCatch">「あれ、どこだっけ？」を減らす。</p>
-            <h2>縁紡の中に、<br />AI秘書という入口。</h2>
+            <p className="enSectionCatch">「あれ、どこだっけ？」を減らす</p>
+            <h2>
+              <span className="enOnlyDesktop">
+                縁紡の中に、<br />
+                AI秘書という入口
+              </span>
+              <span className="enOnlyMobile">
+                縁紡の中に<br />
+                AI秘書という入口
+              </span>
+            </h2>
             <p>
               日程、相談案件、原稿、共有した素材など、日々の仕事を探し回る時間を減らすためのAI機能です。自分で運用しながら、必要なところだけAIの力を借りられます。
             </p>
@@ -395,8 +435,11 @@ export default function Entsumugi() {
         <div className="enTrustInner">
           <div className="enSectionHead center">
             <p className="enEyebrow">INFORMATION SHARING</p>
-            <p className="enSectionCatch">便利さと、情報の分け方を両立する。</p>
-            <h2>必要な情報だけを、必要な範囲へ。</h2>
+            <p className="enSectionCatch">便利さと、情報の分け方を両立する</p>
+            <h2>
+              <span className="enOnlyDesktop">必要な情報だけを、必要な範囲へ</span>
+              <span className="enOnlyMobile">必要な情報だけを<br />必要な範囲へ</span>
+            </h2>
             <p>議員事務所には、発信に使う情報と、事務所内だけで扱いたい情報があります。縁紡は、その違いを前提にした設計です。</p>
           </div>
           <div className="enTrustGrid">
@@ -415,8 +458,18 @@ export default function Entsumugi() {
         <div className="enExperienceInner">
           <div>
             <p className="enEyebrow">FIELD EXPERIENCE</p>
-            <p className="enSectionCatch">政治・選挙の現場経験を、サービス設計に。</p>
-            <h2>「もっと投稿してください」だけでは終わらせない。</h2>
+            <p className="enSectionCatch">政治・選挙の現場経験を、サービス設計に</p>
+            <h2>
+              <span className="enOnlyDesktop">
+                「もっと投稿してください」<br />
+                だけでは終わらせない
+              </span>
+              <span className="enOnlyMobile">
+                「もっと投稿して<br />
+                ください」<br />
+                だけでは終わらせない
+              </span>
+            </h2>
             <p>
               議員活動には、議会、地域行事、相談対応、日程調整など多くの仕事があります。発信だけに時間を使えない現場を知っているからこそ、縁紡では投稿作業だけでなく、活動を記録し、整理し、発信につなげる仕組みから考えます。
             </p>
@@ -432,8 +485,11 @@ export default function Entsumugi() {
       <section className="enSection" id="price">
         <div className="enSectionHead center">
           <p className="enEyebrow">PRICE</p>
-          <p className="enSectionCatch">必要な支援だけを、無理なく続けられる形へ。</p>
-          <h2>利用方法は、大きく3つ。</h2>
+          <p className="enSectionCatch">必要な支援だけを、無理なく続けられる形へ</p>
+          <h2>
+            <span className="enOnlyDesktop">利用方法は、大きく3つ</span>
+            <span className="enOnlyMobile">利用方法は<br />大きく3つ</span>
+          </h2>
           <p>自分で管理するか、継続して任せるか、必要な時だけ依頼するか。支援範囲に合わせて選べます。</p>
         </div>
 
@@ -457,7 +513,10 @@ export default function Entsumugi() {
         <div className="enToolsIntro">
           <div className="enToolsLead">
             <p className="enEyebrow">NEXT STEP</p>
-            <h2>知りたいことから、次へ。</h2>
+            <h2>
+              <span className="enOnlyDesktop">知りたいことから、次へ</span>
+              <span className="enOnlyMobile">知りたいことから<br />次へ</span>
+            </h2>
             <p>
               立候補準備をまとめて始めたい方、まず自分に合うコースを知りたい方、だいたいの料金感を確認したい方。それぞれの入口を用意しています。
             </p>
@@ -493,7 +552,7 @@ export default function Entsumugi() {
         <div className="enOnboardingInner">
           <div className="enSectionHead center">
             <p className="enEyebrow">START FLOW</p>
-            <p className="enSectionCatch">問い合わせのあとも、迷わない。</p>
+            <p className="enSectionCatch">問い合わせのあとも、迷わない</p>
             <h2>導入までの流れ</h2>
             <p>最初から全部を決める必要はありません。今の発信状況を確認しながら、必要な範囲から始めます。</p>
           </div>
@@ -513,8 +572,11 @@ export default function Entsumugi() {
         <div className="enFaqInner">
           <div className="enSectionHead">
             <p className="enEyebrow">FAQ</p>
-            <p className="enSectionCatch">相談前によくある質問。</p>
-            <h2>気になるところを、先に。</h2>
+            <p className="enSectionCatch">相談前によくある質問</p>
+            <h2>
+              <span className="enOnlyDesktop">気になるところを、先に</span>
+              <span className="enOnlyMobile">気になるところを<br />先に</span>
+            </h2>
           </div>
           <div className="enFaqList">
             {faqItems.map((item) => (
@@ -531,8 +593,11 @@ export default function Entsumugi() {
         <div className="enFinalCtaInner">
           <div>
             <p className="enEyebrow">CONTACT</p>
-            <p className="enSectionCatch">活動を積み重ね、きちんと市民へ届ける。</p>
-            <h2>その継続を、縁紡が支えます。</h2>
+            <p className="enSectionCatch">活動を積み重ね、きちんと市民へ届ける</p>
+            <h2>
+              <span className="enOnlyDesktop">その継続を、縁紡が支えます</span>
+              <span className="enOnlyMobile">その継続を<br />縁紡が支えます</span>
+            </h2>
             <p>現在の発信方法、事務所の体制、希望する支援範囲を確認しながら、最適な使い方を一緒に整理します。</p>
           </div>
           <div className="enFinalActions">
