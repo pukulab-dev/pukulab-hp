@@ -1,37 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import "./EntsumugiContact.css";
 
 const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || "";
 
 const categoryOptions = [
-  {
-    value: "works",
-    label: "HP制作・運営相談",
-  },
-  {
-    value: "entsumugi",
-    label: "縁紡・議員向けサポート相談",
-  },
-  {
-    value: "app",
-    label: "アプリについて",
-  },
-  {
-    value: "bug",
-    label: "バグ報告",
-  },
-  {
-    value: "idea",
-    label: "改善案・アイデア",
-  },
-  {
-    value: "collaboration",
-    label: "コラボ・お仕事相談",
-  },
-  {
-    value: "other",
-    label: "その他",
-  },
+  { value: "works", label: "HP制作・運営相談" },
+  { value: "entsumugi", label: "縁紡・議員向けサポート相談" },
+  { value: "app", label: "アプリについて" },
+  { value: "bug", label: "バグ報告" },
+  { value: "idea", label: "改善案・アイデア" },
+  { value: "collaboration", label: "コラボ・お仕事相談" },
+  { value: "other", label: "その他" },
 ];
 
 const initialForm = {
@@ -44,25 +24,62 @@ const initialForm = {
 
 function getCategoryFromQuery(type) {
   const allowedCategories = categoryOptions.map((item) => item.value);
-
-  if (allowedCategories.includes(type)) {
-    return type;
-  }
-
-  return "works";
+  return allowedCategories.includes(type) ? type : "works";
 }
 
 function getCategoryLabel(value) {
-  return (
-    categoryOptions.find((item) => item.value === value)?.label || "その他"
-  );
+  return categoryOptions.find((item) => item.value === value)?.label || "その他";
+}
+
+function getEntsumugiContext(searchParams) {
+  if (searchParams.get("type") !== "entsumugi") return null;
+
+  const source = searchParams.get("source");
+  const rows = [];
+
+  const push = (label, key) => {
+    const value = searchParams.get(key);
+    if (value) rows.push([label, value]);
+  };
+
+  push("希望コース", "plan");
+  push("月額目安", "monthly");
+  push("診断時の料金", "price");
+  push("初期設定・追加制作", "setup");
+  push("SNS", "sns");
+  push("LINE公式", "line");
+  push("WEB", "web");
+  push("追加制作", "creative");
+
+  const sourceLabel = source === "estimate"
+    ? "料金目安シミュレーター"
+    : source === "diagnosis"
+      ? "コース診断"
+      : "縁紡LP";
+
+  return { source, sourceLabel, rows };
+}
+
+function makePrefill(context) {
+  if (!context || context.rows.length === 0) return "";
+
+  const summary = context.rows
+    .map(([label, value]) => `・${label}：${value}`)
+    .join("\n");
+
+  return `【${context.sourceLabel}の結果】\n${summary}\n\n相談したいこと：\n`;
 }
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
+  const entsumugiContext = useMemo(() => getEntsumugiContext(searchParams), [searchParams]);
+  const isEntsumugiContact = searchParams.get("type") === "entsumugi";
+  const prefillMessage = useMemo(() => makePrefill(entsumugiContext), [entsumugiContext]);
+
   const [form, setForm] = useState(() => ({
     ...initialForm,
     category: getCategoryFromQuery(searchParams.get("type")),
+    message: prefillMessage,
   }));
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -72,18 +89,15 @@ export default function Contact() {
 
   useEffect(() => {
     const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
-
     setForm((prev) => ({
       ...prev,
       category: categoryFromQuery,
+      message: prev.message.trim() ? prev.message : prefillMessage,
     }));
-  }, [searchParams]);
+  }, [prefillMessage, searchParams]);
 
   function updateField(key, value) {
-    setForm((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    setForm((prev) => ({ ...prev, [key]: value }));
   }
 
   async function onSubmit(event) {
@@ -91,9 +105,7 @@ export default function Contact() {
     setErrorMessage("");
 
     if (!CONTACT_ENDPOINT) {
-      setErrorMessage(
-        "現在、送信機能の接続準備中です。お急ぎの場合はXまたはnoteからご連絡ください。"
-      );
+      setErrorMessage("現在、送信機能の接続準備中です。お急ぎの場合はXまたはnoteからご連絡ください。");
       return;
     }
 
@@ -102,14 +114,12 @@ export default function Contact() {
       return;
     }
 
-    // 人には見えない項目。自動送信ボットが入力した場合は送信を止めます。
     if (form.website.trim()) {
       setStatus("sent");
       return;
     }
 
     const categoryLabel = getCategoryLabel(form.category);
-
     const payload = {
       name: form.name.trim(),
       email: form.email.trim(),
@@ -117,7 +127,8 @@ export default function Contact() {
       category: categoryLabel,
       category_code: form.category,
       message: form.message.trim(),
-      source: "Puku Lab公式HP お問い合わせフォーム",
+      source: entsumugiContext ? `Puku Lab公式HP ${entsumugiContext.sourceLabel}` : "Puku Lab公式HP お問い合わせフォーム",
+      simulation_context: entsumugiContext?.rows?.map(([label, value]) => `${label}: ${value}`).join(" / ") || "",
       page_url: window.location.href,
       submitted_at_jst: new Intl.DateTimeFormat("ja-JP", {
         timeZone: "Asia/Tokyo",
@@ -129,7 +140,6 @@ export default function Contact() {
 
     try {
       setStatus("submitting");
-
       const response = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: {
@@ -142,7 +152,6 @@ export default function Contact() {
       if (!response.ok) {
         const result = await response.json().catch(() => null);
         const formspreeMessage = result?.errors?.[0]?.message;
-
         throw new Error(formspreeMessage || "送信に失敗しました。");
       }
 
@@ -154,88 +163,69 @@ export default function Contact() {
     } catch (error) {
       console.error(error);
       setStatus("idle");
-      setErrorMessage(
-        "送信に失敗しました。通信状況を確認して、時間をおいてもう一度お試しください。"
-      );
+      setErrorMessage("送信に失敗しました。通信状況を確認して、時間をおいてもう一度お試しください。");
     }
   }
 
   return (
-    <main className="siteFrame innerPageFrame">
+    <main className={`siteFrame innerPageFrame ${isEntsumugiContact ? "entsumugiContactPage" : ""}`}>
       <section className="chalkboard pageBoard">
         <header className="pageHead">
-          <p className="smallTag">CONTACT DESK / LAB MEMO</p>
-          <h2>お問い合わせ</h2>
+          <p className="smallTag">{isEntsumugiContact ? "ENTSUMUGI CONTACT" : "CONTACT DESK / LAB MEMO"}</p>
+          <h2>{isEntsumugiContact ? "縁紡について相談する" : "お問い合わせ"}</h2>
           <p>
-            アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、
-            Puku Labへの連絡はこちらからどうぞ。
-            <br />
-            研究所宛てのメモとして、大切に確認します。
+            {isEntsumugiContact
+              ? "現在のSNS運用、事務所体制、困っていることなど、分かる範囲でお知らせください。まだ整理できていない段階でも大丈夫です。"
+              : "アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、Puku Labへの連絡はこちらからどうぞ。"}
           </p>
         </header>
 
         {isSent ? (
           <section className="surveyThanks" aria-live="polite">
             <p className="smallTag">MESSAGE RECEIVED</p>
-            <h3>メッセージを受け取りました</h3>
+            <h3>{isEntsumugiContact ? "縁紡へのご相談を受け取りました" : "メッセージを受け取りました"}</h3>
             <p>
-              研究所にお問い合わせ内容が届きました。
-              <br />
               内容を確認して、必要に応じてご連絡します。
             </p>
-
             <div className="pageActions">
-              <button
-                type="button"
-                className="navButton"
-                onClick={() => setStatus("idle")}
-              >
-                もう一度送る
-              </button>
-
-              <Link className="navButton ghost" to="/">
-                ホームへ戻る
-              </Link>
+              <button type="button" className="navButton" onClick={() => setStatus("idle")}>もう一度送る</button>
+              <Link className="navButton ghost" to={isEntsumugiContact ? "/entsumugi" : "/"}>戻る</Link>
             </div>
           </section>
         ) : (
           <form className="contactForm" onSubmit={onSubmit}>
+            {entsumugiContext?.rows?.length ? (
+              <section className="entsumugiContactContext" aria-label="引き継いだ診断・料金目安">
+                <div>
+                  <span>引き継ぎ済み</span>
+                  <strong>{entsumugiContext.sourceLabel}の内容</strong>
+                </div>
+                <dl>
+                  {entsumugiContext.rows.map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p>この内容はお問い合わせ本文にも入っています。必要に応じて書き換えてください。</p>
+              </section>
+            ) : null}
+
             <label>
               お名前
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={(event) => updateField("name", event.target.value)}
-                autoComplete="name"
-                required
-              />
+              <input type="text" name="name" value={form.name} onChange={(event) => updateField("name", event.target.value)} autoComplete="name" required />
             </label>
 
             <label>
               メール
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={(event) => updateField("email", event.target.value)}
-                autoComplete="email"
-                required
-              />
+              <input type="email" name="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} autoComplete="email" required />
             </label>
 
             <label>
               内容の種類
-              <select
-                name="category"
-                value={form.category}
-                onChange={(event) => updateField("category", event.target.value)}
-              >
-                {categoryOptions.map((option) => (
-                  <option value={option.value} key={option.value}>
-                    {option.label}
-                  </option>
-                ))}
+              <select name="category" value={form.category} onChange={(event) => updateField("category", event.target.value)}>
+                {categoryOptions.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
               </select>
             </label>
 
@@ -243,60 +233,40 @@ export default function Contact() {
               お問い合わせ内容
               <textarea
                 name="message"
-                rows={6}
+                rows={isEntsumugiContact ? 10 : 6}
                 value={form.message}
                 onChange={(event) => updateField("message", event.target.value)}
-                placeholder="相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"
+                placeholder={isEntsumugiContact
+                  ? "現在の運用状況、困っていること、希望する支援などを自由に書いてください。"
+                  : "相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"}
                 required
               />
             </label>
 
-            <label
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                left: "-10000px",
-                width: "1px",
-                height: "1px",
-                overflow: "hidden",
-              }}
-            >
+            <label aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}>
               ウェブサイト
-              <input
-                type="text"
-                name="_gotcha"
-                value={form.website}
-                onChange={(event) => updateField("website", event.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-              />
+              <input type="text" name="_gotcha" value={form.website} onChange={(event) => updateField("website", event.target.value)} tabIndex={-1} autoComplete="off" />
             </label>
 
-            {errorMessage ? (
-              <p className="surveyError" aria-live="polite">
-                {errorMessage}
-              </p>
-            ) : null}
+            {errorMessage ? <p className="surveyError" aria-live="polite">{errorMessage}</p> : null}
 
             <div className="metricPanel">
-              <p>CONTACT MEMO</p>
+              <p>{isEntsumugiContact ? "ENTSUMUGI CONSULTATION" : "CONTACT MEMO"}</p>
               <strong>
-                HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています
+                {isEntsumugiContact
+                  ? "コースが決まっていなくても、現在の状況から一緒に整理できます"
+                  : "HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています"}
               </strong>
             </div>
 
             <div className="pageActions">
               <button className="navButton" type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "送信中..." : "研究所へ届ける"}
+                {isSubmitting ? "送信中..." : isEntsumugiContact ? "縁紡へ相談を送る" : "研究所へ届ける"}
               </button>
-
-              <Link className="navButton ghost" to="/works">
-                制作相談室へ戻る
+              <Link className="navButton ghost" to={isEntsumugiContact ? "/entsumugi" : "/works"}>
+                {isEntsumugiContact ? "縁紡へ戻る" : "制作相談室へ戻る"}
               </Link>
-
-              <Link className="navButton ghost" to="/">
-                ホームへ戻る
-              </Link>
+              {!isEntsumugiContact ? <Link className="navButton ghost" to="/">ホームへ戻る</Link> : null}
             </div>
           </form>
         )}

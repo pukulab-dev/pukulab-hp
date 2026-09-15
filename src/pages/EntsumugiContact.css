@@ -1,0 +1,80 @@
+.entsumugiContactPage .pageBoard {
+  position: relative;
+}
+
+.entsumugiContactPage .pageHead .smallTag {
+  color: #f38a08;
+}
+
+.entsumugiContactContext {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid rgba(243, 138, 8, 0.28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 247, 232, 0.96), rgba(255, 255, 255, 0.94));
+  color: #2f2118;
+}
+
+.entsumugiContactContext > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.entsumugiContactContext > div:first-child > span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #f38a08;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.entsumugiContactContext > div:first-child > strong {
+  font-size: 1rem;
+}
+
+.entsumugiContactContext dl {
+  margin: 16px 0 0;
+  display: grid;
+  gap: 7px;
+}
+
+.entsumugiContactContext dl > div {
+  display: grid;
+  grid-template-columns: minmax(115px, 0.35fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed rgba(112, 75, 42, 0.16);
+}
+
+.entsumugiContactContext dt {
+  color: rgba(47, 33, 24, 0.56);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.entsumugiContactContext dd {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.entsumugiContactContext > p {
+  margin: 14px 0 0;
+  color: rgba(47, 33, 24, 0.54);
+  font-size: 0.74rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .entsumugiContactContext {
+    padding: 16px;
+  }
+
+  .entsumugiContactContext dl > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

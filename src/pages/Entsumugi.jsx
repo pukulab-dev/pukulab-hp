@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Entsumugi.css";
+import "./EntsumugiEnhancements.css";
 
 import pcScreen from "../assets/entsumugi-pc.png";
 import mobileScreen from "../assets/entsumugi-mobile.png";
@@ -52,12 +53,70 @@ const flowSteps = [
 ];
 
 const features = [
-  ["予定管理", "日・週・月で活動予定を確認。発信準備の起点にできます。"],
-  ["原稿作成", "本人・事務所から、発信したい内容を原稿として登録できます。"],
-  ["原稿確認", "スマホから承認・修正依頼。公開前の最終判断をしやすくします。"],
-  ["発信状況", "確認待ち・作業中・投稿予定・投稿済みをひとつの画面で確認。"],
-  ["写真・動画共有", "現場の素材をその場で共有し、原稿や活動記録につなげます。"],
-  ["相談・領収書", "相談対応や領収書も記録し、日々の業務情報をまとめて管理。"],
+  ["予定・活動管理", "日・週・月の予定と日々の活動記録をまとめ、発信準備の起点にできます。"],
+  ["AI秘書", "日程・相談案件・原稿づくりなど、日々の事務作業をAIで補助します。"],
+  ["原稿・発信管理", "原稿作成、本人確認、修正依頼、投稿予定・投稿済みまで流れを確認できます。"],
+  ["写真・動画・資料共有", "現場の素材をその場で送り、原稿や活動記録、制作素材につなげます。"],
+  ["相談・領収書管理", "相談・要望の対応状況や領収書を記録し、事務所内の情報を整理できます。"],
+  ["リンク・情報整理", "HP、LINE、Driveなど、よく使う外部サービスへの入口もまとめられます。"],
+];
+
+const aiActions = [
+  ["日程", "予定の確認・登録、空き時間の確認"],
+  ["案件", "相談・要望の確認と整理"],
+  ["原稿", "作成・修正・投稿準備をサポート"],
+  ["共有", "Puku Labへ素材を送る流れを案内"],
+  ["登録", "必要な情報を自分用に保存"],
+  ["その他", "問い合わせや設定などを相談"],
+];
+
+const trustItems = [
+  {
+    title: "共有範囲を分けて管理",
+    text: "情報は「事務所内のみ」と「サポート共有」を分けて扱える設計です。すべての情報が自動でPuku Labへ共有されるわけではありません。",
+  },
+  {
+    title: "役割ごとに使い方を分ける",
+    text: "議員本人、事務所スタッフ、Puku Lab側で役割を分け、必要な情報と操作にアクセスする前提で設計しています。",
+  },
+  {
+    title: "公開前の最終判断は本人",
+    text: "原稿は確認画面から承認・修正依頼ができ、公開前の最終判断を議員本人が行える流れを用意しています。",
+  },
+];
+
+const onboardingSteps = [
+  ["01", "まず相談", "現在のSNS運用、事務所体制、困っていることを確認します。"],
+  ["02", "支援範囲を決める", "アプリだけ、AI秘書、運用代行など、必要な範囲を一緒に整理します。"],
+  ["03", "初期設定", "事務所情報や利用環境、必要に応じてSNS・LINE・HPなどを整えます。"],
+  ["04", "運用開始", "予定や活動を登録しながら、日々の情報発信へつなげていきます。"],
+];
+
+const faqItems = [
+  {
+    q: "遠方でも利用できますか？",
+    a: "はい。縁紡はPC・スマートフォンを使い、オンライン中心で情報共有と運用支援を進められるように設計しています。",
+  },
+  {
+    q: "投稿前に内容を確認できますか？",
+    a: "できます。原稿確認画面から内容を確認し、承認または修正依頼を出せます。",
+  },
+  {
+    q: "投稿は自分で行うこともできますか？",
+    a: "できます。本人・事務所で投稿する運用と、Puku Lab側へ投稿を任せる運用を、支援内容に合わせて整理できます。",
+  },
+  {
+    q: "すでにSNSアカウントがありますが利用できますか？",
+    a: "はい。既存アカウントを確認して運用を始める形にも対応しています。新規立ち上げが必要な媒体だけ追加することもできます。",
+  },
+  {
+    q: "どの媒体を扱えますか？",
+    a: "X、Facebook、Instagram、YouTube Shorts、公式LINE、HP活動報告などを想定しています。実際の運用媒体は現在の発信状況を見ながら決めます。",
+  },
+  {
+    q: "相談や領収書を登録すると、Puku Labにも全部見えますか？",
+    a: "いいえ。事務所内だけで扱う情報と、運用支援のために共有する情報を分ける設計です。共有範囲は内容に応じて管理します。",
+  },
 ];
 
 const pricingGroups = [
@@ -102,6 +161,7 @@ export default function Entsumugi() {
             <a href="#about">縁紡とは</a>
             <a href="#flow">仕組み</a>
             <a href="#features">機能</a>
+            <a href="#ai-secretary">AI秘書</a>
             <a href="#price">料金</a>
             <Link to="/entsumugi/startup">候補者向け</Link>
           </nav>
@@ -135,6 +195,7 @@ export default function Entsumugi() {
             <div className="enHeroTags" aria-label="縁紡の主な特徴">
               <span>SNS運用代行</span>
               <span>専用アプリ</span>
+              <span>AI秘書</span>
               <span>原稿制作</span>
               <span>情報共有</span>
             </div>
@@ -273,9 +334,9 @@ export default function Entsumugi() {
       <section className="enSection" id="features">
         <div className="enSectionHead center">
           <p className="enEyebrow">FEATURES</p>
-          <p className="enSectionCatch">発信に関わる作業を、ひとつの入口へ。</p>
+          <p className="enSectionCatch">発信だけではなく、日々の仕事をひとつの入口へ。</p>
           <h2>縁紡でできること</h2>
-          <p>予定、原稿、写真、動画、相談、領収書まで。よく使う機能を迷わず開けます。</p>
+          <p>予定、活動、原稿、素材、相談、領収書まで。議員活動と発信に関わる情報を、使いやすい形でまとめます。</p>
         </div>
         <div className="enFeatureGrid">
           {features.map(([title, text], index) => (
@@ -285,6 +346,68 @@ export default function Entsumugi() {
               <p>{text}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="enAiSecretarySection" id="ai-secretary">
+        <div className="enAiSecretaryInner">
+          <div className="enAiSecretaryCopy">
+            <p className="enEyebrow">AI SECRETARY</p>
+            <p className="enSectionCatch">「あれ、どこだっけ？」を減らす。</p>
+            <h2>縁紡の中に、<br />AI秘書という入口。</h2>
+            <p>
+              日程、相談案件、原稿、共有した素材など、日々の仕事を探し回る時間を減らすためのAI機能です。自分で運用しながら、必要なところだけAIの力を借りられます。
+            </p>
+            <div className="enAiSecretaryPrice">
+              <span>AI秘書コース</span>
+              <strong>25,000<small>円 / 月</small></strong>
+              <p>利用回数を増やしたい場合は追加枠も用意しています。</p>
+            </div>
+          </div>
+
+          <div className="enAiSecretaryPanel" aria-label="AI秘書でできる主なこと">
+            <div className="enAiSecretaryTop">
+              <span className="enAiSecretaryMark">AI</span>
+              <div>
+                <strong>何をお手伝いしますか？</strong>
+                <small>下の項目から仕事を選べます</small>
+              </div>
+            </div>
+            <div className="enAiSecretaryGrid">
+              {aiActions.map(([title, text]) => (
+                <div key={title}>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="enAiSecretaryExample">
+              <span>たとえば</span>
+              <p>「来週の予定を確認して」</p>
+              <p>「この活動をX用の原稿にしたい」</p>
+              <p>「対応中の相談案件を見せて」</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="enTrustSection">
+        <div className="enTrustInner">
+          <div className="enSectionHead center">
+            <p className="enEyebrow">INFORMATION SHARING</p>
+            <p className="enSectionCatch">便利さと、情報の分け方を両立する。</p>
+            <h2>必要な情報だけを、必要な範囲へ。</h2>
+            <p>議員事務所には、発信に使う情報と、事務所内だけで扱いたい情報があります。縁紡は、その違いを前提にした設計です。</p>
+          </div>
+          <div className="enTrustGrid">
+            {trustItems.map((item, index) => (
+              <article key={item.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -363,6 +486,44 @@ export default function Entsumugi() {
           <p className="enToolDisclaimer">
             ※ 診断・シミュレーション結果は目安です。実際の作業内容・素材・運用状況により、適したコースや料金が前後する場合があります。正式な内容はヒアリング後に確認します。
           </p>
+        </div>
+      </section>
+
+      <section className="enOnboardingSection">
+        <div className="enOnboardingInner">
+          <div className="enSectionHead center">
+            <p className="enEyebrow">START FLOW</p>
+            <p className="enSectionCatch">問い合わせのあとも、迷わない。</p>
+            <h2>導入までの流れ</h2>
+            <p>最初から全部を決める必要はありません。今の発信状況を確認しながら、必要な範囲から始めます。</p>
+          </div>
+          <div className="enOnboardingGrid">
+            {onboardingSteps.map(([num, title, text]) => (
+              <article key={num}>
+                <span>{num}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="enFaqSection" id="faq">
+        <div className="enFaqInner">
+          <div className="enSectionHead">
+            <p className="enEyebrow">FAQ</p>
+            <p className="enSectionCatch">相談前によくある質問。</p>
+            <h2>気になるところを、先に。</h2>
+          </div>
+          <div className="enFaqList">
+            {faqItems.map((item) => (
+              <details key={item.q}>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

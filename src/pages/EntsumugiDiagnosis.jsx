@@ -89,6 +89,12 @@ export default function EntsumugiDiagnosis() {
   }, [answers]);
 
   const result = plans[resultKey];
+  const contactParams = new URLSearchParams({
+    type: "entsumugi",
+    source: "diagnosis",
+    plan: result.name,
+    price: result.price,
+  }).toString();
 
   function reset() {
     setAnswers({});
@@ -163,7 +169,7 @@ export default function EntsumugiDiagnosis() {
           </div>
           <div className="enResultActions">
             <Link className="enButton primary" to={`/entsumugi/estimate?plan=${resultKey}`}>このコースで料金目安を見る →</Link>
-            <Link className="enButton secondary" to="/contact?type=entsumugi">この結果で相談する</Link>
+            <Link className="enButton secondary" to={`/contact?${contactParams}`}>この結果で相談する</Link>
             <button className="enTextButton" type="button" onClick={reset}>もう一度診断する</button>
           </div>
           <p className="enToolDisclaimer">※ 簡易診断です。実際の発信状況・事務所体制・希望する支援範囲によって、より適したコースが変わる場合があります。</p>

@@ -171,6 +171,18 @@ export default function EntsumugiEstimate() {
     };
   }, [plan, sns, line, web, creative]);
 
+  const contactParams = useMemo(() => new URLSearchParams({
+    type: "entsumugi",
+    source: "estimate",
+    plan: basePlans[plan].name,
+    monthly: `${yen(result.monthly)}円 / 月`,
+    setup: result.setupBand.label,
+    sns: findLabel(snsOptions, sns),
+    line: findLabel(lineOptions, line),
+    web: findLabel(webOptions, web),
+    creative: findLabel(creativeOptions, creative),
+  }).toString(), [creative, line, plan, result.monthly, result.setupBand.label, sns, web]);
+
   function resetStartupPreset() {
     setPlan("basic");
     setSns("newOne");
@@ -363,7 +375,7 @@ export default function EntsumugiEstimate() {
           </div>
 
           <div className="enResultActions enPublicEstimateActions">
-            <Link className="enButton primary" to="/contact?type=entsumugi">この条件で相談する →</Link>
+            <Link className="enButton primary" to={`/contact?${contactParams}`}>この条件で相談する →</Link>
             <Link className="enButton secondary" to="/entsumugi/diagnosis">コース診断へ戻る</Link>
           </div>
         </aside>
