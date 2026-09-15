@@ -454,3 +454,57 @@
     letter-spacing: -0.04em;
   }
 }
+
+
+/* v8: headline punctuation + deterministic line breaks */
+.enOnlyDesktop {
+  display: block !important;
+}
+
+.enOnlyMobile {
+  display: none !important;
+}
+
+.enExperienceInner h2 {
+  font-size: clamp(2.35rem, 3.6vw, 3.15rem);
+  line-height: 1.22;
+}
+
+.enTrustSection .enSectionHead h2 {
+  font-size: clamp(2.25rem, 3.8vw, 3.25rem);
+}
+
+.enFaqSection .enSectionHead h2 {
+  font-size: clamp(2.25rem, 3.7vw, 3.15rem);
+}
+
+#price .enSectionHead.center {
+  max-width: 900px;
+}
+
+.enStartupEstimateCta h2 {
+  font-size: clamp(2.15rem, 3.6vw, 3rem);
+  line-height: 1.2;
+}
+
+@media (max-width: 720px) {
+  .enOnlyDesktop {
+    display: none !important;
+  }
+
+  .enOnlyMobile {
+    display: block !important;
+  }
+
+  .enExperienceInner h2,
+  .enTrustSection .enSectionHead h2,
+  .enFaqSection .enSectionHead h2,
+  .enStartupEstimateCta h2 {
+    font-size: clamp(1.95rem, 10vw, 2.7rem);
+    line-height: 1.2;
+  }
+
+  #price .enSectionHead.center {
+    max-width: none;
+  }
+}

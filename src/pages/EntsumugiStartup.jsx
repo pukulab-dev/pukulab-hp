@@ -56,7 +56,7 @@ export default function EntsumugiStartup() {
             <p className="enEyebrow">CANDIDATE STARTUP</p>
             <h1>
               <span className="enOnlyDesktop">
-                立候補の準備と、<br />
+                立候補の準備と<br />
                 <strong>発信の準備を同時に！</strong>
               </span>
               <span className="enOnlyMobile">
@@ -111,7 +111,7 @@ export default function EntsumugiStartup() {
         <div className="enStartupPackageInner">
           <div className="enSectionHead">
             <p className="enEyebrow">WHAT'S INCLUDED</p>
-            <p className="enSectionCatch">情報発信の土台を、まとめて立ち上げる</p>
+            <p className="enSectionCatch">情報発信の土台をまとめて立ち上げる</p>
             <h2>初期構築 126,500円の内訳</h2>
             <p>一例として、SNS新規1媒体・LINE公式・3ページHPをまとめて準備する構成です。</p>
           </div>
@@ -142,8 +142,8 @@ export default function EntsumugiStartup() {
       <section className="enSection enStartupContinueSection">
         <div className="enSectionHead center">
           <p className="enEyebrow">AFTER LAUNCH</p>
-          <p className="enSectionCatch">作っただけで、終わらせない</p>
-          <h2>立ち上げ後は、月額運用へ</h2>
+          <p className="enSectionCatch">作っただけで終わらせない</p>
+          <h2>立ち上げ後は月額運用へ</h2>
           <p>SNSやHPは、用意しただけでは届きません。日々の活動を原稿・投稿へつなげる基本運用プランを組み合わせられます。</p>
         </div>
         <div className="enStartupMonthlyCard">
@@ -160,7 +160,7 @@ export default function EntsumugiStartup() {
         <div className="enStartupStepsInner">
           <div className="enSectionHead center">
             <p className="enEyebrow">START FLOW</p>
-            <p className="enSectionCatch">必要なものだけ、順番に</p>
+            <p className="enSectionCatch">必要なものだけ順番に</p>
             <h2>スタートまでの流れ</h2>
           </div>
           <div className="enStartupSteps">
@@ -185,7 +185,10 @@ export default function EntsumugiStartup() {
           <div>
             <p className="enEyebrow">YOUR CASE</p>
             <p className="enSectionCatch">全部そろっていなくても大丈夫です</p>
-            <h2>自分の場合の料金目安を確認</h2>
+            <h2>
+              <span className="enOnlyDesktop">自分の場合の<br />料金目安を確認</span>
+              <span className="enOnlyMobile">自分の場合の<br />料金目安を確認</span>
+            </h2>
             <p>すでにHPがある、SNSだけ新しく作りたい、LINEは不要など、現在の状況に合わせて項目を外せます。</p>
           </div>
           <div className="enFinalActions">
