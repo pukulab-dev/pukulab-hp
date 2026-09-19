@@ -9,6 +9,39 @@
       content="16kHL1mWu3SBwTGi3w1Utb-ums39w5IYHYovZRSBDXY"
     />
 
+    <!-- Google Analytics 4 -->
+    <script>
+      (() => {
+        const measurementId = "G-6WET7857MJ";
+        const allowedHosts = new Set(["pukulab.com", "www.pukulab.com"]);
+
+        // localhost / Vercel Preview などの確認アクセスは本番GA4へ送らない
+        if (!allowedHosts.has(window.location.hostname)) {
+          return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag =
+          window.gtag ||
+          function gtag() {
+            window.dataLayer.push(arguments);
+          };
+
+        window.gtag("js", new Date());
+
+        // React Router側でページビューを手動送信するため、
+        // Googleタグ読み込み時の自動 page_view は停止する
+        window.gtag("config", measurementId, {
+          send_page_view: false,
+        });
+
+        const gaScript = document.createElement("script");
+        gaScript.async = true;
+        gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+        document.head.appendChild(gaScript);
+      })();
+    </script>
+
     <!-- Basic SEO -->
     <title>Puku Lab | ワクワクとドキドキが増えていく研究所</title>
     <meta

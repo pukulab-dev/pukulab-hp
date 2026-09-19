@@ -1,5 +1,5 @@
 import { Link, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
 
 import Home from "./pages/Home";
@@ -25,6 +25,7 @@ import kanlogHomeOgp from "./assets/kanlog-home.png";
 
 const SITE_URL = "https://www.pukulab.com";
 const SITE_NAME = "Puku Lab";
+const GA_MEASUREMENT_ID = "G-6WET7857MJ";
 const DEFAULT_OGP_IMAGE = "/ogp/pukulab-ogp.png";
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.pukulab.makilog";
@@ -605,6 +606,9 @@ function upsertJsonLd(data) {
 
 function SeoTracker() {
   const location = useLocation();
+  const previousPageLocationRef = useRef(
+    typeof document !== "undefined" ? document.referrer || "" : ""
+  );
 
   useEffect(() => {
     const pathname = location.pathname;
@@ -634,14 +638,24 @@ function SeoTracker() {
 
     upsertJsonLd(meta.structuredData);
 
-    if (window.gtag) {
-      window.gtag("event", "page_view", {
+    // Google Analytics 4
+    // どのReact Routerページも1ページビューとして手動送信する。
+    // index.html側では send_page_view: false にして初回の二重計測を防止。
+    if (typeof window.gtag === "function") {
+      const pageViewParams = {
+        send_to: GA_MEASUREMENT_ID,
         page_title: meta.title,
         page_location: canonicalUrl,
-        page_path: pathname,
-      });
+      };
+
+      if (previousPageLocationRef.current) {
+        pageViewParams.page_referrer = previousPageLocationRef.current;
+      }
+
+      window.gtag("event", "page_view", pageViewParams);
+      previousPageLocationRef.current = canonicalUrl;
     }
-  }, [location]);
+  }, [location.pathname]);
 
   return null;
 }

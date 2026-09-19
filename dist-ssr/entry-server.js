@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { Link, Route, Routes, useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -1465,14 +1465,44 @@ var initialForm = {
 	website: ""
 };
 function getCategoryFromQuery(type) {
-	if (categoryOptions.map((item) => item.value).includes(type)) return type;
-	return "works";
+	return categoryOptions.map((item) => item.value).includes(type) ? type : "works";
+}
+function getEntsumugiContext(searchParams) {
+	if (searchParams.get("type") !== "entsumugi") return null;
+	const source = searchParams.get("source");
+	const rows = [];
+	const push = (label, key) => {
+		const value = searchParams.get(key);
+		if (value) rows.push([label, value]);
+	};
+	push("希望コース", "plan");
+	push("月額目安", "monthly");
+	push("診断時の料金", "price");
+	push("初期設定・追加制作", "setup");
+	push("SNS", "sns");
+	push("LINE公式", "line");
+	push("WEB", "web");
+	push("追加制作", "creative");
+	return {
+		source,
+		sourceLabel: source === "estimate" ? "料金目安シミュレーター" : source === "diagnosis" ? "コース診断" : "縁紡LP",
+		rows
+	};
+}
+function makePrefill(context) {
+	if (!context || context.rows.length === 0) return "";
+	const summary = context.rows.map(([label, value]) => `・${label}：${value}`).join("\n");
+	return `【${context.sourceLabel}の結果】\n${summary}\n\n相談したいこと：\n`;
 }
 function Contact() {
 	const [searchParams] = useSearchParams();
+	const entsumugiContext = useMemo(() => getEntsumugiContext(searchParams), [searchParams]);
+	const isEntsumugiContact = searchParams.get("type") === "entsumugi";
+	const prefillMessage = useMemo(() => makePrefill(entsumugiContext), [entsumugiContext]);
 	const [form, setForm] = useState(() => ({
 		...initialForm,
-		category: getCategoryFromQuery(searchParams.get("type"))
+		category: getCategoryFromQuery(searchParams.get("type")),
+		message: prefillMessage
 	}));
 	const [status, setStatus] = useState("idle");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -1482,9 +1512,10 @@ function Contact() {
 		const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
 		setForm((prev) => ({
 			...prev,
-			category: categoryFromQuery
+			category: categoryFromQuery,
+			message: prev.message.trim() ? prev.message : prefillMessage
 		}));
-	}, [searchParams]);
+	}, [prefillMessage, searchParams]);
 	function updateField(key, value) {
 		setForm((prev) => ({
 			...prev,
@@ -1497,7 +1528,7 @@ function Contact() {
 		setErrorMessage("現在、送信機能の接続準備中です。お急ぎの場合はXまたはnoteからご連絡ください。");
 	}
 	return /* @__PURE__ */ jsx("main", {
-		className: "siteFrame innerPageFrame",
+		className: `siteFrame innerPageFrame ${isEntsumugiContact ? "entsumugiContactPage" : ""}`,
 		children: /* @__PURE__ */ jsxs("section", {
 			className: "chalkboard pageBoard",
 			children: [/* @__PURE__ */ jsxs("header", {
@@ -1505,14 +1536,10 @@ function Contact() {
 				children: [
 					/* @__PURE__ */ jsx("p", {
 						className: "smallTag",
-						children: "CONTACT DESK / LAB MEMO"
+						children: isEntsumugiContact ? "ENTSUMUGI CONTACT" : "CONTACT DESK / LAB MEMO"
 					}),
-					/* @__PURE__ */ jsx("h2", { children: "お問い合わせ" }),
-					/* @__PURE__ */ jsxs("p", { children: [
-						"アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、 Puku Labへの連絡はこちらからどうぞ。",
-						/* @__PURE__ */ jsx("br", {}),
-						"研究所宛てのメモとして、大切に確認します。"
-					] })
+					/* @__PURE__ */ jsx("h2", { children: isEntsumugiContact ? "縁紡について相談する" : "お問い合わせ" }),
+					/* @__PURE__ */ jsx("p", { children: isEntsumugiContact ? "現在のSNS運用、事務所体制、困っていることなど、分かる範囲でお知らせください。まだ整理できていない段階でも大丈夫です。" : "アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、Puku Labへの連絡はこちらからどうぞ。" })
 				]
 			}), isSent ? /* @__PURE__ */ jsxs("section", {
 				className: "surveyThanks",
@@ -1522,12 +1549,8 @@ function Contact() {
 						className: "smallTag",
 						children: "MESSAGE RECEIVED"
 					}),
-					/* @__PURE__ */ jsx("h3", { children: "メッセージを受け取りました" }),
-					/* @__PURE__ */ jsxs("p", { children: [
-						"研究所にお問い合わせ内容が届きました。",
-						/* @__PURE__ */ jsx("br", {}),
-						"内容を確認して、必要に応じてご連絡します。"
-					] }),
+					/* @__PURE__ */ jsx("h3", { children: isEntsumugiContact ? "縁紡へのご相談を受け取りました" : "メッセージを受け取りました" }),
+					/* @__PURE__ */ jsx("p", { children: "内容を確認して、必要に応じてご連絡します。" }),
 					/* @__PURE__ */ jsxs("div", {
 						className: "pageActions",
 						children: [/* @__PURE__ */ jsx("button", {
@@ -1537,8 +1560,8 @@ function Contact() {
 							children: "もう一度送る"
 						}), /* @__PURE__ */ jsx(Link, {
 							className: "navButton ghost",
-							to: "/",
-							children: "ホームへ戻る"
+							to: isEntsumugiContact ? "/entsumugi" : "/",
+							children: "戻る"
 						})]
 					})
 				]
@@ -1546,6 +1569,15 @@ function Contact() {
 				className: "contactForm",
 				onSubmit,
 				children: [
+					entsumugiContext?.rows?.length ? /* @__PURE__ */ jsxs("section", {
+						className: "entsumugiContactContext",
+						"aria-label": "引き継いだ診断・料金目安",
+						children: [
+							/* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("span", { children: "引き継ぎ済み" }), /* @__PURE__ */ jsxs("strong", { children: [entsumugiContext.sourceLabel, "の内容"] })] }),
+							/* @__PURE__ */ jsx("dl", { children: entsumugiContext.rows.map(([label, value]) => /* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("dt", { children: label }), /* @__PURE__ */ jsx("dd", { children: value })] }, label)) }),
+							/* @__PURE__ */ jsx("p", { children: "この内容はお問い合わせ本文にも入っています。必要に応じて書き換えてください。" })
+						]
+					}) : null,
 					/* @__PURE__ */ jsxs("label", { children: ["お名前", /* @__PURE__ */ jsx("input", {
 						type: "text",
 						name: "name",
@@ -1573,10 +1605,10 @@ function Contact() {
 					})] }),
 					/* @__PURE__ */ jsxs("label", { children: ["お問い合わせ内容", /* @__PURE__ */ jsx("textarea", {
 						name: "message",
-						rows: 6,
+						rows: isEntsumugiContact ? 10 : 6,
 						value: form.message,
 						onChange: (event) => updateField("message", event.target.value),
-						placeholder: "相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。",
+						placeholder: isEntsumugiContact ? "現在の運用状況、困っていること、希望する支援などを自由に書いてください。" : "相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。",
 						required: true
 					})] }),
 					/* @__PURE__ */ jsxs("label", {
@@ -1604,7 +1636,7 @@ function Contact() {
 					}) : null,
 					/* @__PURE__ */ jsxs("div", {
 						className: "metricPanel",
-						children: [/* @__PURE__ */ jsx("p", { children: "CONTACT MEMO" }), /* @__PURE__ */ jsx("strong", { children: "HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています" })]
+						children: [/* @__PURE__ */ jsx("p", { children: isEntsumugiContact ? "ENTSUMUGI CONSULTATION" : "CONTACT MEMO" }), /* @__PURE__ */ jsx("strong", { children: isEntsumugiContact ? "コースが決まっていなくても、現在の状況から一緒に整理できます" : "HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています" })]
 					}),
 					/* @__PURE__ */ jsxs("div", {
 						className: "pageActions",
@@ -1613,18 +1645,18 @@ function Contact() {
 								className: "navButton",
 								type: "submit",
 								disabled: isSubmitting,
-								children: isSubmitting ? "送信中..." : "研究所へ届ける"
+								children: isSubmitting ? "送信中..." : isEntsumugiContact ? "縁紡へ相談を送る" : "研究所へ届ける"
 							}),
 							/* @__PURE__ */ jsx(Link, {
 								className: "navButton ghost",
-								to: "/works",
-								children: "制作相談室へ戻る"
+								to: isEntsumugiContact ? "/entsumugi" : "/works",
+								children: isEntsumugiContact ? "縁紡へ戻る" : "制作相談室へ戻る"
 							}),
-							/* @__PURE__ */ jsx(Link, {
+							!isEntsumugiContact ? /* @__PURE__ */ jsx(Link, {
 								className: "navButton ghost",
 								to: "/",
 								children: "ホームへ戻る"
-							})
+							}) : null
 						]
 					})
 				]
@@ -1799,7 +1831,7 @@ var entryCards = [
 		to: "/gallery"
 	}
 ];
-var faqItems$1 = [
+var faqItems$2 = [
 	{
 		question: "ぷくりんは、どんな人ですか？",
 		answer: "元議員秘書として3年間働いた後、AIを活用した個人開発を始めたPuku Labの運営者です。漫画・ラノベ管理アプリ『巻ログ』の開発、HP・LP制作、文章、AIビジュアルなどに取り組んでいます。"
@@ -2297,7 +2329,7 @@ function About() {
 					]
 				}), /* @__PURE__ */ jsx("div", {
 					className: "aboutFaqList",
-					children: faqItems$1.map((item) => /* @__PURE__ */ jsxs("details", {
+					children: faqItems$2.map((item) => /* @__PURE__ */ jsxs("details", {
 						className: "aboutFaqItem",
 						children: [/* @__PURE__ */ jsx("summary", { children: item.question }), /* @__PURE__ */ jsx("p", { children: item.answer })]
 					}, item.question))
@@ -3517,7 +3549,7 @@ var processSteps = [
 		text: "反応を見ながら、文章・導線・見せ方を少しずつ改善していきます。"
 	}
 ];
-var faqItems = [
+var faqItems$1 = [
 	{
 		question: "個人でもホームページ制作を相談できますか？",
 		answer: "はい。個人開発者、創作者、個人活動、小さなお店など、大きな制作会社に頼むほどではない規模のホームページ制作やLP制作を想定しています。"
@@ -3806,7 +3838,7 @@ function Works() {
 						]
 					}), /* @__PURE__ */ jsx("div", {
 						className: "worksFaqList",
-						children: faqItems.map((item) => /* @__PURE__ */ jsxs("details", {
+						children: faqItems$1.map((item) => /* @__PURE__ */ jsxs("details", {
 							className: "worksFaqItem",
 							children: [/* @__PURE__ */ jsx("summary", { children: item.question }), /* @__PURE__ */ jsx("p", { children: item.answer })]
 						}, item.question))
@@ -3935,7 +3967,7 @@ var SERVICE_URL = "https://entsumugi.pukulab.com/";
 var problemCards = [
 	{
 		number: "01",
-		title: "活動していても、知られなければ伝わらない",
+		title: "活動していても 知られなければ伝わらない",
 		text: "議会活動や地域活動を続けていても、市民が自分から情報を探しに来るとは限りません。"
 	},
 	{
@@ -3945,7 +3977,7 @@ var problemCards = [
 	},
 	{
 		number: "03",
-		title: "写真や予定が、発信につながらない",
+		title: "写真や予定が 発信につながらない",
 		text: "写真はスマホ、予定は手帳、連絡はLINE。情報が散らばるほど、投稿準備の手間も増えていきます。"
 	}
 ];
@@ -3976,12 +4008,82 @@ var flowSteps = [
 	}
 ];
 var features = [
-	["予定管理", "日・週・月で活動予定を確認。発信準備の起点にできます。"],
-	["原稿作成", "本人・事務所から、発信したい内容を原稿として登録できます。"],
-	["原稿確認", "スマホから承認・修正依頼。公開前の最終判断をしやすくします。"],
-	["発信状況", "確認待ち・作業中・投稿予定・投稿済みをひとつの画面で確認。"],
-	["写真・動画共有", "現場の素材をその場で共有し、原稿や活動記録につなげます。"],
-	["相談・領収書", "相談対応や領収書も記録し、日々の業務情報をまとめて管理。"]
+	["予定・活動管理", "日・週・月の予定と日々の活動記録をまとめ、発信準備の起点にできます。"],
+	["AI秘書", "日程・相談案件・原稿づくりなど、日々の事務作業をAIで補助します。"],
+	["原稿・発信管理", "原稿作成、本人確認、修正依頼、投稿予定・投稿済みまで流れを確認できます。"],
+	["写真・動画・資料共有", "現場の素材をその場で送り、原稿や活動記録、制作素材につなげます。"],
+	["相談・領収書管理", "相談・要望の対応状況や領収書を記録し、事務所内の情報を整理できます。"],
+	["リンク・情報整理", "HP、LINE、Driveなど、よく使う外部サービスへの入口もまとめられます。"]
+];
+var aiActions = [
+	["日程", "予定の確認・登録、空き時間の確認"],
+	["案件", "相談・要望の確認と整理"],
+	["原稿", "作成・修正・投稿準備をサポート"],
+	["共有", "Puku Labへ素材を送る流れを案内"],
+	["登録", "必要な情報を自分用に保存"],
+	["その他", "問い合わせや設定などを相談"]
+];
+var trustItems = [
+	{
+		title: "共有範囲を分けて管理",
+		text: "情報は「事務所内のみ」と「サポート共有」を分けて扱える設計です。すべての情報が自動でPuku Labへ共有されるわけではありません。"
+	},
+	{
+		title: "役割ごとに使い方を分ける",
+		text: "議員本人、事務所スタッフ、Puku Lab側で役割を分け、必要な情報と操作にアクセスする前提で設計しています。"
+	},
+	{
+		title: "公開前の最終判断は本人",
+		text: "原稿は確認画面から承認・修正依頼ができ、公開前の最終判断を議員本人が行える流れを用意しています。"
+	}
+];
+var onboardingSteps = [
+	[
+		"01",
+		"まず相談",
+		"現在のSNS運用、事務所体制、困っていることを確認します。"
+	],
+	[
+		"02",
+		"支援範囲を決める",
+		"アプリだけ、AI秘書、運用代行など、必要な範囲を一緒に整理します。"
+	],
+	[
+		"03",
+		"初期設定",
+		"事務所情報や利用環境、必要に応じてSNS・LINE・HPなどを整えます。"
+	],
+	[
+		"04",
+		"運用開始",
+		"予定や活動を登録しながら、日々の情報発信へつなげていきます。"
+	]
+];
+var faqItems = [
+	{
+		q: "遠方でも利用できますか？",
+		a: "はい。縁紡はPC・スマートフォンを使い、オンライン中心で情報共有と運用支援を進められるように設計しています。"
+	},
+	{
+		q: "投稿前に内容を確認できますか？",
+		a: "できます。原稿確認画面から内容を確認し、承認または修正依頼を出せます。"
+	},
+	{
+		q: "投稿は自分で行うこともできますか？",
+		a: "できます。本人・事務所で投稿する運用と、Puku Lab側へ投稿を任せる運用を、支援内容に合わせて整理できます。"
+	},
+	{
+		q: "すでにSNSアカウントがありますが利用できますか？",
+		a: "はい。既存アカウントを確認して運用を始める形にも対応しています。新規立ち上げが必要な媒体だけ追加することもできます。"
+	},
+	{
+		q: "どの媒体を扱えますか？",
+		a: "X、Facebook、Instagram、YouTube Shorts、公式LINE、HP活動報告などを想定しています。実際の運用媒体は現在の発信状況を見ながら決めます。"
+	},
+	{
+		q: "相談や領収書を登録すると、Puku Labにも全部見えますか？",
+		a: "いいえ。事務所内だけで扱う情報と、運用支援のために共有する情報を分ける設計です。共有範囲は内容に応じて管理します。"
+	}
 ];
 var pricingGroups = [
 	{
@@ -4050,6 +4152,10 @@ function Entsumugi() {
 									children: "機能"
 								}),
 								/* @__PURE__ */ jsx("a", {
+									href: "#ai-secretary",
+									children: "AI秘書"
+								}),
+								/* @__PURE__ */ jsx("a", {
 									href: "#price",
 									children: "料金"
 								}),
@@ -4091,7 +4197,7 @@ function Entsumugi() {
 								className: "enEyebrow",
 								children: "ENTSUMUGI / PUBLIC COMMUNICATION SUPPORT"
 							}),
-							/* @__PURE__ */ jsxs("h1", { children: [/* @__PURE__ */ jsx("span", { children: "議員活動を、" }), /* @__PURE__ */ jsx("strong", { children: "発信につなげる。" })] }),
+							/* @__PURE__ */ jsxs("h1", { children: [/* @__PURE__ */ jsx("span", { children: "議員活動を" }), /* @__PURE__ */ jsx("strong", { children: "発信につなげる" })] }),
 							/* @__PURE__ */ jsx("p", {
 								className: "enLead",
 								children: "対面で会わなくても、SNS運用を任せられる。PC・スマートフォン・縁紡をつなぎ、日々の活動から継続的な情報発信まで支えます。"
@@ -4102,6 +4208,7 @@ function Entsumugi() {
 								children: [
 									/* @__PURE__ */ jsx("span", { children: "SNS運用代行" }),
 									/* @__PURE__ */ jsx("span", { children: "専用アプリ" }),
+									/* @__PURE__ */ jsx("span", { children: "AI秘書" }),
 									/* @__PURE__ */ jsx("span", { children: "原稿制作" }),
 									/* @__PURE__ */ jsx("span", { children: "情報共有" })
 								]
@@ -4191,13 +4298,25 @@ function Entsumugi() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "活動していても、知られなければ伝わらない。"
+							children: "活動していても 知られなければ伝わらない"
 						}),
-						/* @__PURE__ */ jsxs("h2", { children: [
-							"日頃の活動を、",
-							/* @__PURE__ */ jsx("br", { className: "enDesktopBreak" }),
-							"届く発信へ変えていく。"
-						] }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+							className: "enOnlyDesktop",
+							children: [
+								"日頃の活動を",
+								/* @__PURE__ */ jsx("br", {}),
+								"届く発信へ変えていく"
+							]
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"日頃の活動を",
+								/* @__PURE__ */ jsx("br", {}),
+								"届く発信へ",
+								/* @__PURE__ */ jsx("br", {}),
+								"変えていく"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "選挙の時だけではなく、日頃から少しずつ接点をつくる。そのためには、無理なく発信を続けられる仕組みが必要です。" })
 					]
 				}), /* @__PURE__ */ jsx("div", {
@@ -4224,7 +4343,17 @@ function Entsumugi() {
 							className: "enEyebrow",
 							children: "OUR APPROACH"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "SNSは、魔法ではありません。" }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsx("span", {
+							className: "enOnlyDesktop",
+							children: "SNSは魔法ではありません"
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"SNSは",
+								/* @__PURE__ */ jsx("br", {}),
+								"魔法ではありません"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "投稿さえすれば、すべての人へ情報が届くわけではありません。まずは関心を持ってくれている人へ、日々の活動をきちんと届ける。その積み重ねが、少しずつ関心の外側へ広がっていきます。" }),
 						/* @__PURE__ */ jsxs("div", {
 							className: "enStatementSteps",
@@ -4251,13 +4380,23 @@ function Entsumugi() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "会わなくても、SNS運用を任せられる。"
+							children: "会わなくても SNS運用を任せられる"
 						}),
-						/* @__PURE__ */ jsxs("h2", { children: [
-							"活動から投稿までを、",
-							/* @__PURE__ */ jsx("br", { className: "enDesktopBreak" }),
-							"ひとつの流れへ。"
-						] }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+							className: "enOnlyDesktop",
+							children: [
+								"活動から投稿までを",
+								/* @__PURE__ */ jsx("br", {}),
+								"ひとつの流れへ"
+							]
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"活動から投稿までを",
+								/* @__PURE__ */ jsx("br", {}),
+								"ひとつの流れへ"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "予定や写真を共有するだけで、対面の打ち合わせがなくても発信準備を進められる仕組みを整えています。" })
 					]
 				}), /* @__PURE__ */ jsx("div", {
@@ -4296,13 +4435,23 @@ function Entsumugi() {
 							}),
 							/* @__PURE__ */ jsx("p", {
 								className: "enSectionCatch",
-								children: "外出先と事務所をつなぐ。"
+								children: "外出先と事務所をつなぐ"
 							}),
-							/* @__PURE__ */ jsxs("h2", { children: [
-								"同じ情報を、",
-								/* @__PURE__ */ jsx("br", {}),
-								"どこからでも確認。"
-							] }),
+							/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+								className: "enOnlyDesktop",
+								children: [
+									"同じ情報を",
+									/* @__PURE__ */ jsx("br", {}),
+									"どこからでも確認"
+								]
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"同じ情報を",
+									/* @__PURE__ */ jsx("br", {}),
+									"どこからでも確認"
+								]
+							})] }),
 							/* @__PURE__ */ jsx("p", { children: "外出先ではスマートフォン、事務所ではPC。議員本人・事務所スタッフ・共有を許可した縁紡が、同じ流れを確認できます。" })
 						]
 					}), /* @__PURE__ */ jsxs("div", {
@@ -4349,10 +4498,10 @@ function Entsumugi() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "発信に関わる作業を、ひとつの入口へ。"
+							children: "発信だけではなく 日々の仕事をひとつの入口へ"
 						}),
 						/* @__PURE__ */ jsx("h2", { children: "縁紡でできること" }),
-						/* @__PURE__ */ jsx("p", { children: "予定、原稿、写真、動画、相談、領収書まで。よく使う機能を迷わず開けます。" })
+						/* @__PURE__ */ jsx("p", { children: "予定、活動、原稿、素材、相談、領収書まで。議員活動と発信に関わる情報を、使いやすい形でまとめます。" })
 					]
 				}), /* @__PURE__ */ jsx("div", {
 					className: "enFeatureGrid",
@@ -4367,6 +4516,117 @@ function Entsumugi() {
 				})]
 			}),
 			/* @__PURE__ */ jsx("section", {
+				className: "enAiSecretarySection",
+				id: "ai-secretary",
+				children: /* @__PURE__ */ jsxs("div", {
+					className: "enAiSecretaryInner",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "enAiSecretaryCopy",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "enEyebrow",
+								children: "AI SECRETARY"
+							}),
+							/* @__PURE__ */ jsx("p", {
+								className: "enSectionCatch",
+								children: "「あれどこだっけ？」を減らす"
+							}),
+							/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+								className: "enOnlyDesktop",
+								children: [
+									"縁紡の中に",
+									/* @__PURE__ */ jsx("br", {}),
+									"AI秘書という入口"
+								]
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"縁紡の中に",
+									/* @__PURE__ */ jsx("br", {}),
+									"AI秘書という入口"
+								]
+							})] }),
+							/* @__PURE__ */ jsx("p", { children: "日程、相談案件、原稿、共有した素材など、日々の仕事を探し回る時間を減らすためのAI機能です。自分で運用しながら、必要なところだけAIの力を借りられます。" }),
+							/* @__PURE__ */ jsxs("div", {
+								className: "enAiSecretaryPrice",
+								children: [
+									/* @__PURE__ */ jsx("span", { children: "AI秘書コース" }),
+									/* @__PURE__ */ jsxs("strong", { children: ["25,000", /* @__PURE__ */ jsx("small", { children: "円 / 月" })] }),
+									/* @__PURE__ */ jsx("p", { children: "利用回数を増やしたい場合は追加枠も用意しています。" })
+								]
+							})
+						]
+					}), /* @__PURE__ */ jsxs("div", {
+						className: "enAiSecretaryPanel",
+						"aria-label": "AI秘書でできる主なこと",
+						children: [
+							/* @__PURE__ */ jsxs("div", {
+								className: "enAiSecretaryTop",
+								children: [/* @__PURE__ */ jsx("span", {
+									className: "enAiSecretaryMark",
+									children: "AI"
+								}), /* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("strong", { children: "何をお手伝いしますか？" }), /* @__PURE__ */ jsx("small", { children: "下の項目から仕事を選べます" })] })]
+							}),
+							/* @__PURE__ */ jsx("div", {
+								className: "enAiSecretaryGrid",
+								children: aiActions.map(([title, text]) => /* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("strong", { children: title }), /* @__PURE__ */ jsx("span", { children: text })] }, title))
+							}),
+							/* @__PURE__ */ jsxs("div", {
+								className: "enAiSecretaryExample",
+								children: [
+									/* @__PURE__ */ jsx("span", { children: "たとえば" }),
+									/* @__PURE__ */ jsx("p", { children: "「来週の予定を確認して」" }),
+									/* @__PURE__ */ jsx("p", { children: "「この活動をX用の原稿にしたい」" }),
+									/* @__PURE__ */ jsx("p", { children: "「対応中の相談案件を見せて」" })
+								]
+							})
+						]
+					})]
+				})
+			}),
+			/* @__PURE__ */ jsx("section", {
+				className: "enTrustSection",
+				children: /* @__PURE__ */ jsxs("div", {
+					className: "enTrustInner",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "enSectionHead center",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "enEyebrow",
+								children: "INFORMATION SHARING"
+							}),
+							/* @__PURE__ */ jsx("p", {
+								className: "enSectionCatch",
+								children: "便利さと情報の分け方を両立する"
+							}),
+							/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+								className: "enOnlyDesktop",
+								children: [
+									"必要な情報だけを",
+									/* @__PURE__ */ jsx("br", {}),
+									"必要な範囲へ"
+								]
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"必要な情報だけを",
+									/* @__PURE__ */ jsx("br", {}),
+									"必要な範囲へ"
+								]
+							})] }),
+							/* @__PURE__ */ jsx("p", { children: "議員事務所には、発信に使う情報と、事務所内だけで扱いたい情報があります。縁紡は、その違いを前提にした設計です。" })
+						]
+					}), /* @__PURE__ */ jsx("div", {
+						className: "enTrustGrid",
+						children: trustItems.map((item, index) => /* @__PURE__ */ jsxs("article", { children: [
+							/* @__PURE__ */ jsx("span", { children: String(index + 1).padStart(2, "0") }),
+							/* @__PURE__ */ jsx("h3", { children: item.title }),
+							/* @__PURE__ */ jsx("p", { children: item.text })
+						] }, item.title))
+					})]
+				})
+			}),
+			/* @__PURE__ */ jsx("section", {
 				className: "enExperienceSection",
 				children: /* @__PURE__ */ jsxs("div", {
 					className: "enExperienceInner",
@@ -4377,9 +4637,27 @@ function Entsumugi() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "政治・選挙の現場経験を、サービス設計に。"
+							children: "政治・選挙の現場経験をサービス設計に"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "「もっと投稿してください」だけでは終わらせない。" }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+							className: "enOnlyDesktop",
+							children: [
+								"「もっと投稿して",
+								/* @__PURE__ */ jsx("br", {}),
+								"ください」だけでは",
+								/* @__PURE__ */ jsx("br", {}),
+								"終わらせない"
+							]
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"「もっと投稿して",
+								/* @__PURE__ */ jsx("br", {}),
+								"ください」だけでは",
+								/* @__PURE__ */ jsx("br", {}),
+								"終わらせない"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "議員活動には、議会、地域行事、相談対応、日程調整など多くの仕事があります。発信だけに時間を使えない現場を知っているからこそ、縁紡では投稿作業だけでなく、活動を記録し、整理し、発信につなげる仕組みから考えます。" })
 					] }), /* @__PURE__ */ jsxs("div", {
 						className: "enExperienceFacts",
@@ -4404,9 +4682,19 @@ function Entsumugi() {
 							}),
 							/* @__PURE__ */ jsx("p", {
 								className: "enSectionCatch",
-								children: "必要な支援だけを、無理なく続けられる形へ。"
+								children: "必要な支援だけを 無理なく続けられる形へ"
 							}),
-							/* @__PURE__ */ jsx("h2", { children: "利用方法は、大きく3つ。" }),
+							/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsx("span", {
+								className: "enOnlyDesktop",
+								children: "利用方法は 大きく3つ"
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"利用方法は",
+									/* @__PURE__ */ jsx("br", {}),
+									"大きく3つ"
+								]
+							})] }),
 							/* @__PURE__ */ jsx("p", { children: "自分で管理するか、継続して任せるか、必要な時だけ依頼するか。支援範囲に合わせて選べます。" })
 						]
 					}),
@@ -4440,7 +4728,17 @@ function Entsumugi() {
 										className: "enEyebrow",
 										children: "NEXT STEP"
 									}),
-									/* @__PURE__ */ jsx("h2", { children: "知りたいことから、次へ。" }),
+									/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsx("span", {
+										className: "enOnlyDesktop",
+										children: "知りたいことから 次へ"
+									}), /* @__PURE__ */ jsxs("span", {
+										className: "enOnlyMobile",
+										children: [
+											"知りたいことから",
+											/* @__PURE__ */ jsx("br", {}),
+											"次へ"
+										]
+									})] }),
 									/* @__PURE__ */ jsx("p", { children: "立候補準備をまとめて始めたい方、まず自分に合うコースを知りたい方、だいたいの料金感を確認したい方。それぞれの入口を用意しています。" })
 								]
 							}),
@@ -4488,6 +4786,72 @@ function Entsumugi() {
 				]
 			}),
 			/* @__PURE__ */ jsx("section", {
+				className: "enOnboardingSection",
+				children: /* @__PURE__ */ jsxs("div", {
+					className: "enOnboardingInner",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "enSectionHead center",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "enEyebrow",
+								children: "START FLOW"
+							}),
+							/* @__PURE__ */ jsx("p", {
+								className: "enSectionCatch",
+								children: "問い合わせのあとも迷わない"
+							}),
+							/* @__PURE__ */ jsx("h2", { children: "導入までの流れ" }),
+							/* @__PURE__ */ jsx("p", { children: "最初から全部を決める必要はありません。今の発信状況を確認しながら、必要な範囲から始めます。" })
+						]
+					}), /* @__PURE__ */ jsx("div", {
+						className: "enOnboardingGrid",
+						children: onboardingSteps.map(([num, title, text]) => /* @__PURE__ */ jsxs("article", { children: [
+							/* @__PURE__ */ jsx("span", { children: num }),
+							/* @__PURE__ */ jsx("h3", { children: title }),
+							/* @__PURE__ */ jsx("p", { children: text })
+						] }, num))
+					})]
+				})
+			}),
+			/* @__PURE__ */ jsx("section", {
+				className: "enFaqSection",
+				id: "faq",
+				children: /* @__PURE__ */ jsxs("div", {
+					className: "enFaqInner",
+					children: [/* @__PURE__ */ jsxs("div", {
+						className: "enSectionHead",
+						children: [
+							/* @__PURE__ */ jsx("p", {
+								className: "enEyebrow",
+								children: "FAQ"
+							}),
+							/* @__PURE__ */ jsx("p", {
+								className: "enSectionCatch",
+								children: "相談前によくある質問"
+							}),
+							/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+								className: "enOnlyDesktop",
+								children: [
+									"気になるところを",
+									/* @__PURE__ */ jsx("br", {}),
+									"先に"
+								]
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"気になるところを",
+									/* @__PURE__ */ jsx("br", {}),
+									"先に"
+								]
+							})] })
+						]
+					}), /* @__PURE__ */ jsx("div", {
+						className: "enFaqList",
+						children: faqItems.map((item) => /* @__PURE__ */ jsxs("details", { children: [/* @__PURE__ */ jsx("summary", { children: item.q }), /* @__PURE__ */ jsx("p", { children: item.a })] }, item.q))
+					})]
+				})
+			}),
+			/* @__PURE__ */ jsx("section", {
 				className: "enFinalCta",
 				children: /* @__PURE__ */ jsxs("div", {
 					className: "enFinalCtaInner",
@@ -4498,9 +4862,19 @@ function Entsumugi() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "活動を積み重ね、きちんと市民へ届ける。"
+							children: "活動を積み重ね きちんと市民へ届ける"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "その継続を、縁紡が支えます。" }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsx("span", {
+							className: "enOnlyDesktop",
+							children: "その継続を 縁紡が支えます"
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"その継続を",
+								/* @__PURE__ */ jsx("br", {}),
+								"縁紡が支えます"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "現在の発信方法、事務所の体制、希望する支援範囲を確認しながら、最適な使い方を一緒に整理します。" })
 					] }), /* @__PURE__ */ jsxs("div", {
 						className: "enFinalActions",
@@ -4600,7 +4974,25 @@ function EntsumugiStartup() {
 								className: "enEyebrow",
 								children: "CANDIDATE STARTUP"
 							}),
-							/* @__PURE__ */ jsxs("h1", { children: [/* @__PURE__ */ jsx("span", { children: "立候補の準備と、" }), /* @__PURE__ */ jsx("strong", { children: "発信の準備を同時に。" })] }),
+							/* @__PURE__ */ jsxs("h1", { children: [/* @__PURE__ */ jsxs("span", {
+								className: "enOnlyDesktop",
+								children: [
+									"立候補の準備と",
+									/* @__PURE__ */ jsx("br", {}),
+									/* @__PURE__ */ jsx("strong", { children: "発信の準備を同時に！" })
+								]
+							}), /* @__PURE__ */ jsxs("span", {
+								className: "enOnlyMobile",
+								children: [
+									"立候補の準備と",
+									/* @__PURE__ */ jsx("br", {}),
+									/* @__PURE__ */ jsxs("strong", { children: [
+										"発信の準備を",
+										/* @__PURE__ */ jsx("br", {}),
+										"同時に！"
+									] })
+								]
+							})] }),
 							/* @__PURE__ */ jsx("p", {
 								className: "enLead",
 								children: "SNS・LINE公式・HPを一つずつ別々に考えるのではなく、候補者として情報を届けるための入口をまとめて整えるスタートアップ支援です。"
@@ -4673,9 +5065,9 @@ function EntsumugiStartup() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "「まず何を作る？」から整理したい方へ。"
+							children: "「まず何を作る？」から整理したい方へ"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "こんな準備段階に。" })
+						/* @__PURE__ */ jsx("h2", { children: "こんな準備段階に" })
 					]
 				}), /* @__PURE__ */ jsx("div", {
 					className: "enStartupFitGrid",
@@ -4698,7 +5090,7 @@ function EntsumugiStartup() {
 							}),
 							/* @__PURE__ */ jsx("p", {
 								className: "enSectionCatch",
-								children: "情報発信の土台を、まとめて立ち上げる。"
+								children: "情報発信の土台をまとめて立ち上げる"
 							}),
 							/* @__PURE__ */ jsx("h2", { children: "初期構築 126,500円の内訳" }),
 							/* @__PURE__ */ jsx("p", { children: "一例として、SNS新規1媒体・LINE公式・3ページHPをまとめて準備する構成です。" })
@@ -4734,9 +5126,9 @@ function EntsumugiStartup() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "作っただけで、終わらせない。"
+							children: "作っただけで終わらせない"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "立ち上げ後は、月額運用へ。" }),
+						/* @__PURE__ */ jsx("h2", { children: "立ち上げ後は月額運用へ" }),
 						/* @__PURE__ */ jsx("p", { children: "SNSやHPは、用意しただけでは届きません。日々の活動を原稿・投稿へつなげる基本運用プランを組み合わせられます。" })
 					]
 				}), /* @__PURE__ */ jsxs("div", {
@@ -4761,7 +5153,7 @@ function EntsumugiStartup() {
 							}),
 							/* @__PURE__ */ jsx("p", {
 								className: "enSectionCatch",
-								children: "必要なものだけ、順番に。"
+								children: "必要なものだけ順番に"
 							}),
 							/* @__PURE__ */ jsx("h2", { children: "スタートまでの流れ" })
 						]
@@ -4807,9 +5199,23 @@ function EntsumugiStartup() {
 						}),
 						/* @__PURE__ */ jsx("p", {
 							className: "enSectionCatch",
-							children: "全部そろっていなくても大丈夫です。"
+							children: "全部そろっていなくても大丈夫です"
 						}),
-						/* @__PURE__ */ jsx("h2", { children: "自分の場合の料金目安を確認。" }),
+						/* @__PURE__ */ jsxs("h2", { children: [/* @__PURE__ */ jsxs("span", {
+							className: "enOnlyDesktop",
+							children: [
+								"自分の場合の",
+								/* @__PURE__ */ jsx("br", {}),
+								"料金目安を確認"
+							]
+						}), /* @__PURE__ */ jsxs("span", {
+							className: "enOnlyMobile",
+							children: [
+								"自分の場合の",
+								/* @__PURE__ */ jsx("br", {}),
+								"料金目安を確認"
+							]
+						})] }),
 						/* @__PURE__ */ jsx("p", { children: "すでにHPがある、SNSだけ新しく作りたい、LINEは不要など、現在の状況に合わせて項目を外せます。" })
 					] }), /* @__PURE__ */ jsxs("div", {
 						className: "enFinalActions",
@@ -5017,6 +5423,12 @@ function EntsumugiDiagnosis() {
 		return Object.entries(totals).sort((a, b) => b[1] - a[1])[0][0];
 	}, [answers]);
 	const result = plans[resultKey];
+	const contactParams = new URLSearchParams({
+		type: "entsumugi",
+		source: "diagnosis",
+		plan: result.name,
+		price: result.price
+	}).toString();
 	function reset() {
 		setAnswers({});
 		setShowResult(false);
@@ -5144,7 +5556,7 @@ function EntsumugiDiagnosis() {
 							}),
 							/* @__PURE__ */ jsx(Link, {
 								className: "enButton secondary",
-								to: "/contact?type=entsumugi",
+								to: `/contact?${contactParams}`,
 								children: "この結果で相談する"
 							}),
 							/* @__PURE__ */ jsx("button", {
@@ -5344,6 +5756,25 @@ function EntsumugiEstimate() {
 		line,
 		web,
 		creative
+	]);
+	const contactParams = useMemo(() => new URLSearchParams({
+		type: "entsumugi",
+		source: "estimate",
+		plan: basePlans[plan].name,
+		monthly: `${yen(result.monthly)}円 / 月`,
+		setup: result.setupBand.label,
+		sns: findLabel(snsOptions, sns),
+		line: findLabel(lineOptions, line),
+		web: findLabel(webOptions, web),
+		creative: findLabel(creativeOptions, creative)
+	}).toString(), [
+		creative,
+		line,
+		plan,
+		result.monthly,
+		result.setupBand.label,
+		sns,
+		web
 	]);
 	function resetStartupPreset() {
 		setPlan("basic");
@@ -5584,7 +6015,7 @@ function EntsumugiEstimate() {
 							className: "enResultActions enPublicEstimateActions",
 							children: [/* @__PURE__ */ jsx(Link, {
 								className: "enButton primary",
-								to: "/contact?type=entsumugi",
+								to: `/contact?${contactParams}`,
 								children: "この条件で相談する →"
 							}), /* @__PURE__ */ jsx(Link, {
 								className: "enButton secondary",
@@ -5636,6 +6067,7 @@ function PageAssistNav() {
 }
 var SITE_URL = "https://www.pukulab.com";
 var SITE_NAME = "Puku Lab";
+var GA_MEASUREMENT_ID = "G-6WET7857MJ";
 var DEFAULT_OGP_IMAGE = "/ogp/pukulab-ogp.png";
 var PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.pukulab.makilog";
 var notFoundDescription = "指定されたページは見つかりませんでした。Puku Labのホーム、アプリ紹介、制作相談室、ギャラリーから目的のページを探してみてください。";
@@ -6129,6 +6561,7 @@ function upsertJsonLd(data) {
 }
 function SeoTracker() {
 	const location = useLocation();
+	const previousPageLocationRef = useRef(typeof document !== "undefined" ? document.referrer || "" : "");
 	useEffect(() => {
 		const pathname = location.pathname;
 		const meta = getPageMeta(pathname);
@@ -6150,12 +6583,17 @@ function SeoTracker() {
 		upsertMetaByName("twitter:description", meta.description);
 		upsertMetaByName("twitter:image", ogImageUrl);
 		upsertJsonLd(meta.structuredData);
-		if (window.gtag) window.gtag("event", "page_view", {
-			page_title: meta.title,
-			page_location: canonicalUrl,
-			page_path: pathname
-		});
-	}, [location]);
+		if (typeof window.gtag === "function") {
+			const pageViewParams = {
+				send_to: GA_MEASUREMENT_ID,
+				page_title: meta.title,
+				page_location: canonicalUrl
+			};
+			if (previousPageLocationRef.current) pageViewParams.page_referrer = previousPageLocationRef.current;
+			window.gtag("event", "page_view", pageViewParams);
+			previousPageLocationRef.current = canonicalUrl;
+		}
+	}, [location.pathname]);
 	return null;
 }
 function SiteFooter() {
