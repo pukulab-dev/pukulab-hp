@@ -1,145 +1,430 @@
-.appsBoard {
-  width: min(1480px, 95vw);
+.appsIndexPage {
+  width: 100%;
 }
 
-.appsHead {
-  margin-bottom: 10px;
+.appsIndexBoard {
+  position: relative;
+  overflow: hidden;
 }
 
-.appsList {
-  margin-top: 26px;
+.appsIndexBoard::after {
+  content: "apps / product lab";
+  position: absolute;
+  right: clamp(18px, 5vw, 72px);
+  top: 32px;
+  color: rgba(243, 240, 223, 0.045);
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  transform: rotate(-5deg);
+  pointer-events: none;
+}
+
+.appsIndexHead,
+.appsIndexGrid,
+.appsIndexMemo,
+.appsIndexFooterActions {
+  position: relative;
+  z-index: 2;
+}
+
+.appsIndexHead h1 {
+  margin: 8px 0 0;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 1.05;
+  font-family: "Comic Sans MS", "Hiragino Maru Gothic ProN", cursive;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.16);
+}
+
+.appsIndexHead p:not(.smallTag) {
+  margin: 12px 0 0;
+  color: var(--chalk-soft);
+  font-size: clamp(15px, 1.35vw, 19px);
+  line-height: 1.8;
+}
+
+.appsIndexGrid {
+  margin-top: 34px;
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
 }
 
-.appEntry {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 18px;
-  min-height: 124px;
-  padding: 22px 18px;
-  border-radius: 20px;
-  border: 1px solid rgba(243, 240, 223, 0.08);
-  background: rgba(0, 0, 0, 0.02);
+.appsCard {
+  min-height: 360px;
+  min-width: 0;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgba(243, 240, 223, 0.14);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  color: var(--chalk);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.026);
   transition:
-    transform 220ms ease,
-    background 220ms ease,
-    border-color 220ms ease;
+    transform 200ms ease,
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease,
+    opacity 200ms ease;
 }
 
-.appEntry:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.025);
-  border-color: rgba(243, 240, 223, 0.14);
+.appsCard-mint {
+  background:
+    radial-gradient(circle at 78% 22%, rgba(121, 242, 208, 0.1), transparent 34%),
+    rgba(255, 255, 255, 0.026);
 }
 
-.appEntryMain {
+.appsCard-amber {
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255, 196, 109, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.appsCard-blue {
+  background:
+    radial-gradient(circle at 78% 22%, rgba(126, 192, 255, 0.1), transparent 34%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.appsCard-purple {
+  background:
+    radial-gradient(circle at 78% 22%, rgba(196, 155, 255, 0.1), transparent 34%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.appsCardLink:hover,
+.appsCardLink:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(243, 240, 223, 0.3);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+}
+
+.appsCardDisabled {
+  opacity: 0.76;
+}
+
+.appsCardDisabled:hover {
+  border-color: rgba(243, 240, 223, 0.2);
+}
+
+.appsCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appsCardTop p {
+  margin: 0;
+  color: rgba(243, 240, 223, 0.62);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 800;
+}
+
+.appsCardTop span {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid rgba(243, 240, 223, 0.16);
+  border-radius: 999px;
+  color: rgba(243, 240, 223, 0.74);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+}
+
+.appsCardIcon {
+  position: relative;
+  display: block;
+  width: 150px;
+  height: 118px;
+  margin: 30px 0 24px;
+}
+
+.appsIconDot {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+}
+
+.appsCard-mint .appsIconDot {
+  background: var(--neon);
+  box-shadow: 0 0 12px rgba(121, 242, 208, 0.28);
+}
+
+.appsCard-amber .appsIconDot {
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 196, 109, 0.28);
+}
+
+.appsCard-blue .appsIconDot {
+  background: #7ec0ff;
+  box-shadow: 0 0 12px rgba(126, 192, 255, 0.24);
+}
+
+.appsCard-purple .appsIconDot {
+  background: #c49bff;
+  box-shadow: 0 0 12px rgba(196, 155, 255, 0.24);
+}
+
+.appsCardIcon-books .appsBook {
+  position: absolute;
+  bottom: 12px;
+  width: 28px;
+  border: 3px solid rgba(243, 240, 223, 0.78);
+  border-radius: 7px 7px 5px 5px;
+  transform-origin: bottom center;
+}
+
+.appsCardIcon-books .bookOne {
+  left: 20px;
+  height: 76px;
+  transform: rotate(-5deg);
+}
+
+.appsCardIcon-books .bookTwo {
+  left: 52px;
+  height: 88px;
+  transform: rotate(2deg);
+}
+
+.appsCardIcon-books .bookThree {
+  left: 86px;
+  height: 68px;
+  transform: rotate(6deg);
+}
+
+.appsCardIcon-books .dotOne {
+  right: 16px;
+  top: 14px;
+  width: 11px;
+  height: 11px;
+}
+
+.appsCardIcon-books .dotTwo {
+  right: 2px;
+  bottom: 20px;
+  width: 7px;
+  height: 7px;
+}
+
+.appsCardIcon-flask .appsFlaskNeck {
+  position: absolute;
+  left: 61px;
+  top: 6px;
+  width: 30px;
+  height: 42px;
+  border: 3px solid rgba(243, 240, 223, 0.78);
+  border-top: 0;
+}
+
+.appsCardIcon-flask .appsFlaskNeck::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: -5px;
+  width: 42px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(243, 240, 223, 0.78);
+}
+
+.appsCardIcon-flask .appsFlaskBody {
+  position: absolute;
+  left: 30px;
+  bottom: 6px;
+  width: 92px;
+  height: 72px;
+  border: 3px solid rgba(243, 240, 223, 0.78);
+  border-radius: 16px 16px 30px 30px;
+  transform: rotate(-2deg);
+}
+
+.appsCardIcon-flask .appsFlaskLiquid {
+  position: absolute;
+  left: 39px;
+  bottom: 15px;
+  width: 74px;
+  height: 26px;
+  border-radius: 8px 8px 22px 22px;
+  background: rgba(255, 196, 109, 0.28);
+  transform: rotate(-2deg);
+}
+
+.appsCardIcon-flask .dotOne {
+  right: 8px;
+  top: 20px;
+  width: 11px;
+  height: 11px;
+}
+
+.appsCardIcon-flask .dotTwo {
+  right: 24px;
+  top: 48px;
+  width: 7px;
+  height: 7px;
+}
+
+.appsCardIcon-blocks .appsBlock {
+  position: absolute;
+  display: block;
+  border: 3px solid rgba(243, 240, 223, 0.74);
+  border-radius: 13px;
+}
+
+.appsCardIcon-blocks .blockOne {
+  left: 14px;
+  top: 38px;
+  width: 52px;
+  height: 52px;
+  transform: rotate(-6deg);
+}
+
+.appsCardIcon-blocks .blockTwo {
+  left: 68px;
+  top: 16px;
+  width: 58px;
+  height: 58px;
+  transform: rotate(5deg);
+}
+
+.appsCardIcon-blocks .blockThree {
+  left: 78px;
+  top: 76px;
+  width: 42px;
+  height: 34px;
+  transform: rotate(-2deg);
+}
+
+.appsCardIcon-blocks .dotOne {
+  right: 3px;
+  top: 48px;
+  width: 10px;
+  height: 10px;
+}
+
+.appsCardIcon-spark .appsSparkCore {
+  position: absolute;
+  left: 55px;
+  top: 31px;
+  width: 52px;
+  height: 52px;
+  border: 3px solid rgba(243, 240, 223, 0.76);
+  border-radius: 50%;
+}
+
+.appsCardIcon-spark .appsSparkRay {
+  position: absolute;
+  display: block;
+  left: 79px;
+  top: 7px;
+  width: 3px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(243, 240, 223, 0.56);
+  transform-origin: 50% 50px;
+}
+
+.appsCardIcon-spark .rayTwo {
+  transform: rotate(90deg);
+}
+
+.appsCardIcon-spark .rayThree {
+  transform: rotate(180deg);
+}
+
+.appsCardIcon-spark .rayFour {
+  transform: rotate(270deg);
+}
+
+.appsCardIcon-spark .dotOne {
+  right: 4px;
+  top: 12px;
+  width: 10px;
+  height: 10px;
+}
+
+.appsCardIcon-spark .dotTwo {
+  left: 12px;
+  bottom: 18px;
+  width: 7px;
+  height: 7px;
+}
+
+.appsCardText {
+  margin-top: auto;
   min-width: 0;
 }
 
-.appEntryStatus {
-  margin: 0 0 8px;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: rgba(243, 240, 223, 0.6);
-}
-
-.appEntry h3 {
+.appsCardText h2 {
   margin: 0;
-  font-size: clamp(28px, 2.2vw, 40px);
-  line-height: 1.08;
-  color: var(--chalk);
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  line-height: 1.15;
 }
 
-.appEntry .meta {
-  margin: 6px 0 0;
-  font-size: 14px;
-  color: rgba(243, 240, 223, 0.72);
-}
-
-.appEntryNote {
+.appsCardText p {
   margin: 12px 0 0;
-  max-width: 920px;
-  font-size: 16px;
-  line-height: 1.75;
-  color: rgba(243, 240, 223, 0.9);
+  color: var(--chalk-soft);
+  line-height: 1.8;
 }
 
-.appEntryActions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
+.appsCardAction {
+  display: inline-block;
+  margin-top: 18px;
+  font-weight: 800;
 }
 
-.navButton.small {
-  min-height: 42px;
-  padding: 10px 16px;
-  font-size: 14px;
+.appsCard-mint .appsCardAction {
+  color: var(--neon);
 }
 
-.comingBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(243, 240, 223, 0.16);
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(243, 240, 223, 0.68);
-  font-size: 13px;
-  letter-spacing: 0.08em;
+.appsCard-amber .appsCardAction {
+  color: var(--accent);
 }
 
-.appsFooterActions {
+.appsCard-blue .appsCardAction {
+  color: #9dceff;
+}
+
+.appsCard-purple .appsCardAction {
+  color: #d2b7ff;
+}
+
+.appsIndexMemo {
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px dashed rgba(243, 240, 223, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.appsIndexMemo p {
+  margin: 0 0 6px;
+  color: rgba(121, 242, 208, 0.74);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+}
+
+.appsIndexMemo strong {
+  color: var(--chalk-soft);
+  line-height: 1.7;
+}
+
+.appsIndexFooterActions {
   margin-top: 22px;
 }
 
-@media (max-width: 900px) {
-  .appEntry {
-    grid-template-columns: 1fr;
-    align-items: flex-start;
-  }
-
-  .appEntryActions {
-    justify-content: flex-start;
-  }
-}
-
 @media (max-width: 760px) {
-  .appsBoard {
-    width: min(100%, 100vw);
+  .appsIndexGrid {
+    grid-template-columns: 1fr;
   }
 
-  .appsList {
-    margin-top: 22px;
-    gap: 12px;
+  .appsCard {
+    min-height: 320px;
   }
 
-  .appEntry {
-    min-height: unset;
-    padding: 18px 16px;
-    border-radius: 18px;
-    gap: 14px;
-  }
-
-  .appEntry h3 {
-    font-size: 30px;
-  }
-
-  .appEntryNote {
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .appEntryActions {
-    width: 100%;
-  }
-
-  .navButton.small,
-  .comingBadge {
-    width: 100%;
+  .appsIndexBoard::after {
+    top: 48px;
+    font-size: clamp(3rem, 18vw, 5rem);
   }
 }
