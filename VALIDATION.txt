@@ -1,0 +1,17 @@
+Validation completed on 2026-09-30
+
+- src/seoConfig.js: node --check OK
+- scripts/prerender.mjs: node --check OK
+- vercel.json: JSON parse OK
+- public/sitemap.xml: XML parse OK
+- App route count: 19 known routes + wildcard 404
+- SEO config route count: 19
+- Sitemap route count: 12 indexable routes
+- Stub prerender test: all 19 static HTML files generated successfully
+- /works metadata check: OK
+- trailing slash normalization logic: included in seoConfig.js
+- noindex pages excluded from generated sitemap: OK
+- JSON-LD single-tag replacement behavior: OK
+
+Note:
+A complete npm build against the full repository was not run in this package directory because the package contains only the files that need replacing, not the entire project or node_modules.

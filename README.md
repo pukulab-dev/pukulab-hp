@@ -1,16 +1,65 @@
-# React + Vite
+# Puku Lab HP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Puku Lab公式サイトのフロントエンドです。
 
-Currently, two official plugins are available:
+## 構成
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19
+- React Router
+- Vite
+- Vercel
+- ビルド時プリレンダリング（SSG）
+- Google Analytics 4
+- Google Search Console
 
-## React Compiler
+## 開発
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+## 本番ビルド
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build
+```
+
+`npm run build` では次の順に処理します。
+
+1. Viteでクライアント用ビルド
+2. SSR用バンドルを `dist-ssr` に生成
+3. `scripts/prerender.mjs` で各ルートの静的HTMLを生成
+4. sitemap.xmlを生成
+
+## SEO設定
+
+ページごとのSEO情報は `src/seoConfig.js` にまとめています。
+
+新しいページを追加するときは、基本的に次の2か所を更新します。
+
+1. `src/App.jsx` にRouteを追加
+2. `src/seoConfig.js` にtitle、description、robotsなどを追加
+
+`src/seoConfig.js` に追加したルートはビルド時に自動でプリレンダリングされます。
+`sitemap` 設定があるページだけ sitemap.xml に載ります。
+
+準備中ページや診断ツールなど、検索結果に出したくないページは `robots: "noindex, follow"` にします。
+
+## URLルール
+
+Vercelでは `cleanUrls: true` と `trailingSlash: false` を使っています。
+
+- `/works` を正規URLとして使用
+- `/works/` は末尾スラッシュなしへ統一
+- プリレンダーは `dist/works.html` のような静的HTMLを生成
+
+## Google Analytics
+
+本番ドメインのみGA4へ送信します。
+
+- `pukulab.com`
+- `www.pukulab.com`
+
+React Routerの画面遷移は `src/App.jsx` から手動で `page_view` を送信します。
+`index.html` 側は `send_page_view: false` にして二重計測を防止しています。
