@@ -1,6 +1,6 @@
 // [[...]] は出題時に取り除かれ、bugs の文字範囲になる。
-// 1問のバグ数は A=1、B=2、C=3 の仕様を維持。
-// category は連続して似た問題が出にくくするために使用する。
+// A=★1（1バグ） / B=★2（2バグ） / C=★3（3バグ）。
+// beginner は★3でもやさしめ、advanced は実戦的、intermediate は両方が混ざる抽選用プール。
 function question(
   id,
   difficulty,
@@ -21,6 +21,7 @@ function question(
     code += match[1];
 
     const [replacement, explanation] = fixes[bugs.length];
+    const wrong = match[1];
 
     bugs.push({
       id: `${id}-${bugs.length + 1}`,
@@ -28,6 +29,7 @@ function question(
       end: code.length,
       replacement,
       explanation,
+      mistakeKey: `${wrong.trim()}=>${replacement.trim()}`,
     });
 
     cursor = match.index + match[0].length;
@@ -48,6 +50,7 @@ function question(
     objective,
     code,
     bugs,
+    mistakeKeys: bugs.map((bug) => bug.mistakeKey),
     explanation: bugs.map((bug) => bug.explanation).join(" "),
   };
 }
@@ -56,46 +59,44 @@ export const DIFFICULTIES = [
   {
     id: "beginner",
     label: "初級",
-    caption: "まず見つける",
-    description: "名前・記号・値の違いを見つけるやさしい問題",
+    caption: "見つけて爽快",
+    description: "★3でもやさしめ。記号・名前・見た目で気づける問題が中心",
   },
   {
     id: "intermediate",
     label: "中級",
-    caption: "流れを読む",
-    description: "条件・ループ・戻り値を追って原因を探そう",
+    caption: "運も実力も",
+    description: "簡単〜上級寄りまで混在。後半ほど難しい問題を引きやすい",
   },
   {
     id: "advanced",
     label: "上級",
-    caption: "挙動を見抜く",
-    description: "境界値・参照・JavaScript特有の罠を見抜こう",
+    caption: "実戦デバッグ",
+    description: "境界値・非同期・参照など、実際に起きやすいミスを見抜く",
   },
 ];
 
 export const questions = [
   // ============================================================
-  // BEGINNER / A : バグ1個
+  // BEGINNER / A / ★1 : かなりあからさま、バグ1個
   // ============================================================
   question(
     "b-a1",
     "beginner",
     "A",
-    "name",
+    "jp-bracket-call",
     "message に入れた Hello! を表示する",
-    `const message = "Hello!";
-console.log([[mesage]]);`,
-    [["message", "宣言した変数名は message です。"]]
+    `const message = "Hello!";\nconsole.log[[【message】]];`,
+    [["(message)", "関数の呼び出しは 【】 ではなく () を使います。"]]
   ),
 
   question(
     "b-a2",
     "beginner",
     "A",
-    "operator",
+    "fullwidth-operator",
     "10 に 5 を足した 15 を表示する",
-    `const score = 10;
-console.log(score [[-]] 5);`,
+    `const total = 10 [[＜]] 5;\nconsole.log(total);`,
     [["+", "足し算なので + を使います。"]]
   ),
 
@@ -103,10 +104,9 @@ console.log(score [[-]] 5);`,
     "b-a3",
     "beginner",
     "A",
-    "bracket",
+    "odd-array-close",
     "red と blue の2つを配列に入れる",
-    `const colors = ["red", "blue"[[}]];
-console.log(colors);`,
+    `const colors = ["red", "blue"[[〉]];\nconsole.log(colors);`,
     [["]", "配列は [ で始めたら ] で閉じます。"]]
   ),
 
@@ -114,28 +114,45 @@ console.log(colors);`,
     "b-a4",
     "beginner",
     "A",
-    "index",
-    "colors から blue を表示する",
-    `const colors = ["red", "blue"];
-console.log(colors[[[0]]]);`,
-    [["[1]", "配列は0から数えるので blue は1番です。"]]
+    "console-punctuation",
+    "Hello と表示する",
+    `console[[,]]log("Hello");`,
+    [[".", "console.log の間はカンマではなく . です。"]]
+  ),
+
+  question(
+    "b-a5",
+    "beginner",
+    "A",
+    "smart-quotes",
+    "YES という文字列を answer に入れる",
+    `const answer = [[“YES”]];\nconsole.log(answer);`,
+    [['"YES"', "JavaScriptの文字列は通常のクォートで囲みます。"]]
+  ),
+
+  question(
+    "b-a6",
+    "beginner",
+    "A",
+    "jp-condition-bracket",
+    "isReady が true のとき START と表示する",
+    `const isReady = true;\nif [[【isReady】]] {\n  console.log("START");\n}`,
+    [["(isReady)", "if の条件は 【】 ではなく () で囲みます。"]]
   ),
 
   // ============================================================
-  // BEGINNER / B : バグ2個
+  // BEGINNER / B / ★2 : まだ簡単、バグ2個
   // ============================================================
   question(
     "b-b1",
     "beginner",
     "B",
-    "number",
-    "10 に 5 を足して 15 を表示する",
-    `let score = [[5]];
-score [[-=]] 5;
-console.log(score);`,
+    "greet-symbols",
+    "Puku に Hello とあいさつする",
+    `function greet[[【name】]] {\n  return "Hello " [[-]] name;\n}\n\nconsole.log(greet("Puku"));`,
     [
-      ["10", "開始時の score は10です。"],
-      ["+=", "5を足すので += を使います。"],
+      ["(name)", "関数の引数は () で囲みます。"],
+      ["+", "文字列をつなぐので + を使います。"],
     ]
   ),
 
@@ -143,14 +160,12 @@ console.log(score);`,
     "b-b2",
     "beginner",
     "B",
-    "array",
-    "blue と配列の個数 2 を表示する",
-    `const colors = ["red", "blue"[[}]];
-console.log(colors[[[0]]]);
-console.log(colors.length);`,
+    "array-and-console",
+    "cat と dog を配列に入れて表示する",
+    `const pets = [[{]]"cat", "dog"];\nconsole[[::]]log(pets);`,
     [
-      ["]", "配列は ] で閉じます。"],
-      ["[1]", "blue は添字1です。"],
+      ["[", "配列の開始は { ではなく [ です。"],
+      [".", "console.log の区切りは :: ではなく . です。"],
     ]
   ),
 
@@ -158,14 +173,12 @@ console.log(colors.length);`,
     "b-b3",
     "beginner",
     "B",
-    "output",
-    "Hello Puku と表示する",
-    `const name = "Puku";
-const message = "Hello " + [[user]];
-console.[[write]](message);`,
+    "object-punctuation",
+    "user の名前 Puku を表示する",
+    `const user = { name[[;]] "Puku", age: 38 };\nconsole.log(user.[[title]]);`,
     [
-      ["name", "つなげるのは宣言済みの name です。"],
-      ["log", "コンソールへ表示するメソッドは log です。"],
+      [":", "オブジェクトのキーと値は : で区切ります。"],
+      ["name", "名前のプロパティは name です。"],
     ]
   ),
 
@@ -173,36 +186,55 @@ console.[[write]](message);`,
     "b-b4",
     "beginner",
     "B",
-    "boolean",
-    "isOpen が true のとき OPEN と表示する",
-    `const isOpen = [[false]];
-
-if ([[!isOpen]]) {
-  console.log("OPEN");
-}`,
+    "condition-shape",
+    "score が10より大きいとき OK と表示する",
+    `const score = 20;\nif [[<score > 10>]] {\n  console.log([[“OK”]]);\n}`,
     [
-      ["true", "この例では isOpen は true です。"],
-      ["isOpen", "true のとき表示したいので否定 ! は不要です。"],
+      ["(score > 10)", "if の条件は () で囲みます。"],
+      ['"OK"', "文字列のクォートを通常の \" に直します。"],
+    ]
+  ),
+
+  question(
+    "b-b5",
+    "beginner",
+    "B",
+    "method-typos",
+    "items に A を追加して、個数1を表示する",
+    `const items = [];\nitems.[[pussh]]("A");\nconsole.log(items.[[lenght]]);`,
+    [
+      ["push", "配列へ追加するメソッドは push です。"],
+      ["length", "配列の個数は length で取得します。"],
+    ]
+  ),
+
+  question(
+    "b-b6",
+    "beginner",
+    "B",
+    "string-and-math-symbol",
+    "Puku Lab と表示する",
+    `const first = [[“Puku ”]];\nconst second = "Lab";\nconsole.log(first [[×]] second);`,
+    [
+      ['"Puku "', "文字列は通常のクォートで囲みます。"],
+      ["+", "文字列をつなげるので + を使います。"],
     ]
   ),
 
   // ============================================================
-  // BEGINNER / C : バグ3個
+  // BEGINNER / C / ★3 : 初級の中では少し見る、でもやさしい、バグ3個
   // ============================================================
   question(
     "b-c1",
     "beginner",
     "C",
-    "arithmetic",
-    "2 と 3 を足した 5 を表示する",
-    `let total = [[1]];
-total += 2;
-total [[-=]] 3;
-console.log([[count]]);`,
+    "function-obvious",
+    "add(2, 3) の結果5を表示する",
+    `function add[[【a, b】]] {\n  return a [[／]] b;\n}\n\nconsole.log([[ad]](2, 3));`,
     [
-      ["0", "合計は0から始めます。"],
-      ["+=", "3も足すので += を使います。"],
-      ["total", "結果を入れている変数は total です。"],
+      ["(a, b)", "引数は () で囲みます。"],
+      ["+", "足し算なので + を使います。"],
+      ["add", "呼び出す関数名は add です。"],
     ]
   ),
 
@@ -210,15 +242,13 @@ console.log([[count]]);`,
     "b-c2",
     "beginner",
     "C",
-    "array",
-    "dog と配列の個数 2 を表示する",
-    `const animals = ["cat", "dog"[[}]];
-console.log(animals[[[0]]]);
-console.[[write]](animals.length);`,
+    "profile-obvious",
+    "Puku と 38 を表示する",
+    `const user = { name[[=]] "Puku", age: 38 };\nconsole.[[print]](user.name);\nconsole.log(user.[[years]]);`,
     [
-      ["]", "配列は ] で閉じます。"],
-      ["[1]", "dog は添字1です。"],
+      [":", "キーと値は : で区切ります。"],
       ["log", "表示には console.log を使います。"],
+      ["age", "年齢のプロパティは age です。"],
     ]
   ),
 
@@ -226,17 +256,13 @@ console.[[write]](animals.length);`,
     "b-c3",
     "beginner",
     "C",
-    "condition",
-    "18歳なら OK と表示する",
-    `const age = [[17]];
-
-if (age [[>]] 18) {
-  console.log([["NG"]]);
-}`,
+    "loop-obvious",
+    "colors の red と blue を順番に表示する",
+    `const colors = ["red", "blue"[[}]];\nfor (let i = 0; i [[>]] colors.length; i++) {\n  console.log(colors[[{i}]]);\n}`,
     [
-      ["18", "この例の年齢は18です。"],
-      [">=", "18歳ちょうども含めるので >= です。"],
-      ['"OK"', "条件を満たしたときは OK と表示します。"],
+      ["]", "配列は ] で閉じます。"],
+      ["<", "先頭から末尾へ進むので i < length です。"],
+      ["[i]", "配列の要素は [i] で取り出します。"],
     ]
   ),
 
@@ -244,18 +270,13 @@ if (age [[>]] 18) {
     "b-c4",
     "beginner",
     "C",
-    "function",
-    "add(2, 3) の結果 5 を表示する",
-    `function add(a, b) {
-  const result = a [[-]] b;
-  return [[a]];
-}
-
-console.log([[subtract]](2, 3));`,
+    "age-obvious",
+    "18歳以上なら OK と表示する",
+    `const age = [[81]];\nif (age [[<]] 18) {\n  console.log([["NG"]]);\n}`,
     [
-      ["+", "足し算なので + を使います。"],
-      ["result", "計算結果を入れた result を返します。"],
-      ["add", "呼び出す関数名は add です。"],
+      ["18", "この例の年齢は18です。"],
+      [">=", "18歳以上なので >= です。"],
+      ['"OK"', "条件を満たしたら OK と表示します。"],
     ]
   ),
 
@@ -263,21 +284,60 @@ console.log([[subtract]](2, 3));`,
     "b-c5",
     "beginner",
     "C",
-    "string",
+    "string-obvious",
     "Puku Lab と表示する",
-    `const first = "Puku ";
-const second = [["Lap"]];
-const message = first [[-]] second;
-console.[[write]](message);`,
+    `const first = [["Puko "]];\nconst second = "Lab";\nconst message = first [[&]] second;\nconsole.[[write]](message);`,
     [
-      ['"Lab"', "つなげる文字は Lab です。"],
-      ["+", "文字列をつなげるので + を使います。"],
+      ['"Puku "', "Puko ではなく Puku です。"],
+      ["+", "文字列をつなぐので + です。"],
       ["log", "表示には console.log を使います。"],
     ]
   ),
 
+  question(
+    "b-c6",
+    "beginner",
+    "C",
+    "array-obvious",
+    "A を1個追加して A を表示する",
+    `const items = [[{}]];\nitems.[[pushh]]("A");\nconsole.log(items[[[1]]]);`,
+    [
+      ["[]", "配列は [] で作ります。"],
+      ["push", "追加メソッドは push です。"],
+      ["[0]", "最初の要素は0番です。"],
+    ]
+  ),
+
+  question(
+    "b-c7",
+    "beginner",
+    "C",
+    "boolean-obvious",
+    "開いているとき OPEN と表示する",
+    `const isOpen = [[false]];\nif [[{isOpen}]] {\n  console.log([[“OPEN”]]);\n}`,
+    [
+      ["true", "この例では開いているので true です。"],
+      ["(isOpen)", "if の条件は () で囲みます。"],
+      ['"OPEN"', "文字列のクォートを通常のものに直します。"],
+    ]
+  ),
+
+  question(
+    "b-c8",
+    "beginner",
+    "C",
+    "total-obvious",
+    "2と3を足した5を表示する",
+    `let total = [[10]];\ntotal [[=+]] 2;\ntotal += 3;\nconsole.log([[count]]);`,
+    [
+      ["0", "合計は0から始めます。"],
+      ["+=", "加算代入は += の順番です。"],
+      ["total", "結果が入っている変数は total です。"],
+    ]
+  ),
+
   // ============================================================
-  // INTERMEDIATE / A : バグ1個
+  // INTERMEDIATE / A / ★1 : 中間プールの軽め、バグ1個
   // ============================================================
   question(
     "i-a1",
@@ -285,11 +345,7 @@ console.[[write]](message);`,
     "A",
     "boundary",
     "score が60以上なら true。60も含む",
-    `function passed(score) {
-  return score [[>]] 60;
-}
-
-console.log(passed(60));`,
+    `function passed(score) {\n  return score [[>]] 60;\n}\n\nconsole.log(passed(60));`,
     [[">=", "境界の60点を含めるには >= を使います。"]]
   ),
 
@@ -297,17 +353,9 @@ console.log(passed(60));`,
     "i-a2",
     "intermediate",
     "A",
-    "loop",
+    "loop-end",
     "配列の全要素を合計する。空配列なら0",
-    `function sum(values) {
-  let total = 0;
-
-  for (let i = 0; i [[<=]] values.length; i++) {
-    total += values[i];
-  }
-
-  return total;
-}`,
+    `function sum(values) {\n  let total = 0;\n\n  for (let i = 0; i [[<=]] values.length; i++) {\n    total += values[i];\n  }\n\n  return total;\n}`,
     [["<", "length 番目は存在しないため i < length までです。"]]
   ),
 
@@ -315,14 +363,9 @@ console.log(passed(60));`,
     "i-a3",
     "intermediate",
     "A",
-    "return",
+    "return-value",
     "square は入力値の2乗を返す",
-    `function square(value) {
-  const result = value * value;
-  return [[value]];
-}
-
-console.log(square(3));`,
+    `function square(value) {\n  const result = value * value;\n  return [[value]];\n}\n\nconsole.log(square(3));`,
     [["result", "計算結果を保存した result を返します。"]]
   ),
 
@@ -330,18 +373,34 @@ console.log(square(3));`,
     "i-a4",
     "intermediate",
     "A",
-    "index",
+    "last-index",
     "配列の最後の要素を返す",
-    `function last(values) {
-  return values[ [[values.length]] ];
-}
-
-console.log(last([10, 20, 30]));`,
+    `function last(values) {\n  return values[ [[values.length]] ];\n}\n\nconsole.log(last([10, 20, 30]));`,
     [["values.length - 1", "最後の添字は length - 1 です。"]]
   ),
 
+  question(
+    "i-a5",
+    "intermediate",
+    "A",
+    "logical-operator",
+    "ログイン済みで管理者のときだけ true を返す",
+    `function canEdit(loggedIn, isAdmin) {\n  return loggedIn [[||]] isAdmin;\n}`,
+    [["&&", "両方を満たす必要があるので && です。"]]
+  ),
+
+  question(
+    "i-a6",
+    "intermediate",
+    "A",
+    "find-vs-filter",
+    "id が一致する最初のユーザー1人を返す",
+    `function findUser(users, id) {\n  return users.[[filter]]((user) => user.id === id);\n}`,
+    [["find", "最初の1件を返すなら filter ではなく find です。"]]
+  ),
+
   // ============================================================
-  // INTERMEDIATE / B : バグ2個
+  // INTERMEDIATE / B / ★2 : 標準的な中間、バグ2個
   // ============================================================
   question(
     "i-b1",
@@ -349,17 +408,7 @@ console.log(last([10, 20, 30]));`,
     "B",
     "accumulator",
     "0以上の数だけを合計する",
-    `function sumPositive(values) {
-  let total = [[1]];
-
-  for (const value of values) {
-    if (value [[<]] 0) {
-      total += value;
-    }
-  }
-
-  return total;
-}`,
+    `function sumPositive(values) {\n  let total = [[-1]];\n\n  for (const value of values) {\n    if (value [[<]] 0) {\n      total += value;\n    }\n  }\n\n  return total;\n}`,
     [
       ["0", "合計の初期値は0です。"],
       [">=", "0以上の値を加算します。"],
@@ -372,15 +421,7 @@ console.log(last([10, 20, 30]));`,
     "B",
     "transform",
     "items の各値を2倍にした配列を返す",
-    `function doubled(items) {
-  const result = [];
-
-  for (let i = [[1]]; i < items.length; i++) {
-    result.push(items[i] * 2);
-  }
-
-  return [[items]];
-}`,
+    `function doubled(items) {\n  const result = [];\n\n  for (let i = [[1]]; i < items.length; i++) {\n    result.push(items[i] * 2);\n  }\n\n  return [[items]];\n}`,
     [
       ["0", "先頭要素から処理するので0から開始します。"],
       ["result", "変換結果をためた result を返します。"],
@@ -393,13 +434,7 @@ console.log(last([10, 20, 30]));`,
     "B",
     "modulo",
     "5の倍数なら fizz、それ以外は元の値を返す",
-    `function label(value) {
-  if (value [[/]] 5 === 0) {
-    return "fizz";
-  }
-
-  return [[5]];
-}`,
+    `function label(value) {\n  if (value [[/]] 5 === 0) {\n    return "fizz";\n  }\n\n  return [[5]];\n}`,
     [
       ["%", "倍数判定には余りを求める % を使います。"],
       ["value", "それ以外は元の value を返します。"],
@@ -410,45 +445,55 @@ console.log(last([10, 20, 30]));`,
     "i-b4",
     "intermediate",
     "B",
-    "calculation",
+    "tax-calculation",
     "税込価格を返す。税率は0.1のような小数",
-    `function withTax(price, rate) {
-  const tax = price [[+]] rate;
-  const total = price + tax;
-  return [[tax]];
-}
-
-console.log(withTax(100, 0.1));`,
+    `function withTax(price, rate) {\n  const tax = price [[+]] rate;\n  const total = price + tax;\n  return [[tax]];\n}\n\nconsole.log(withTax(100, 0.1));`,
     [
       ["*", "税額は価格 × 税率です。"],
       ["total", "返すのは税込価格 total です。"],
     ]
   ),
 
+  question(
+    "i-b5",
+    "intermediate",
+    "B",
+    "string-normalize",
+    "前後の空白を除き、小文字にして返す",
+    `function normalizeName(name) {\n  const trimmed = name.[[slice]]();\n  return trimmed.[[toUpperCase]]();\n}`,
+    [
+      ["trim", "前後の空白を除くのは trim です。"],
+      ["toLowerCase", "小文字にするのは toLowerCase です。"],
+    ]
+  ),
+
+  question(
+    "i-b6",
+    "intermediate",
+    "B",
+    "slice-range",
+    "先頭から3件だけを新しい配列で返す",
+    `function firstThree(items) {\n  const end = [[2]];\n  return items.[[splice]](0, end);\n}`,
+    [
+      ["3", "slice の終了位置は含まれないので3です。"],
+      ["slice", "元配列を変えないため slice を使います。"],
+    ]
+  ),
+
   // ============================================================
-  // INTERMEDIATE / C : バグ3個
+  // INTERMEDIATE / C / ★3 : 中間の中では重め、バグ3個
   // ============================================================
   question(
     "i-c1",
     "intermediate",
     "C",
-    "count",
+    "count-even",
     "配列に含まれる偶数の個数を返す",
-    `function countEven(values) {
-  let count = [[1]];
-
-  for (let i = [[1]]; i < values.length; i++) {
-    if (values[i] % 2 === [[1]]) {
-      count++;
-    }
-  }
-
-  return count;
-}`,
+    `function countEven(values) {\n  let count = [[99]];\n\n  for (let i = [[-1]]; i < values.length; i++) {\n    if (values[i] % [[3]] === 0) {\n      count++;\n    }\n  }\n\n  return count;\n}`,
     [
       ["0", "個数は0から数えます。"],
       ["0", "先頭要素も調べるので0から開始します。"],
-      ["0", "偶数を2で割った余りは0です。"],
+      ["2", "偶数判定は2で割った余りを調べます。"],
     ]
   ),
 
@@ -458,15 +503,7 @@ console.log(withTax(100, 0.1));`,
     "C",
     "average",
     "空でない数値配列の平均値を返す",
-    `function average(values) {
-  let total = 0;
-
-  for (let i = [[1]]; i < values.length; i++) {
-    total [[=]] values[i];
-  }
-
-  return total [[*]] values.length;
-}`,
+    `function average(values) {\n  let total = 0;\n\n  for (let i = [[2]]; i < values.length; i++) {\n    total [[=]] values[i];\n  }\n\n  return total [[*]] values.length;\n}`,
     [
       ["0", "先頭要素も合計するため0から開始します。"],
       ["+=", "上書きせず合計するので += です。"],
@@ -478,15 +515,9 @@ console.log(withTax(100, 0.1));`,
     "i-c3",
     "intermediate",
     "C",
-    "object",
+    "object-profile",
     "user の name と age を使って Puku (38) を返す",
-    `function profile(user) {
-  const name = user.[[title]];
-  const age = user.age [[+]] 1;
-  return [[age + " (" + name + ")"]];
-}
-
-profile({ name: "Puku", age: 38 });`,
+    `function profile(user) {\n  const name = user.[[title]];\n  const age = user.age [[+]] 1;\n  return [[age + " (" + name + ")"]];\n}\n\nprofile({ name: "Puku", age: 38 });`,
     [
       ["name", "名前は user.name です。"],
       ["", "年齢をそのまま使うので + 1 は不要です。"],
@@ -498,14 +529,9 @@ profile({ name: "Puku", age: 38 });`,
     "i-c4",
     "intermediate",
     "C",
-    "filter",
+    "filter-map",
     "空文字を除き、残りを大文字にした配列を返す",
-    `function clean(names) {
-  return names
-    .filter((name) => name [[===]] "")
-    .map((name) => name.[[toLowerCase]]())
-    .[[reverse]]();
-}`,
+    `function clean(names) {\n  return names\n    .filter((name) => name [[===]] "")\n    .map((name) => name.[[toLowerCase]]())\n    .[[reverse]]();\n}`,
     [
       ["!==", "空文字ではない要素を残します。"],
       ["toUpperCase", "大文字へ変換します。"],
@@ -517,17 +543,9 @@ profile({ name: "Puku", age: 38 });`,
     "i-c5",
     "intermediate",
     "C",
-    "range",
+    "sum-range",
     "1から n までの整数を合計する",
-    `function sumTo(n) {
-  let total = [[1]];
-
-  for (let i = 1; i [[<]] n; i++) {
-    total += [[n]];
-  }
-
-  return total;
-}`,
+    `function sumTo(n) {\n  let total = [[10]];\n\n  for (let i = 1; i [[<]] n; i++) {\n    total += [[n]];\n  }\n\n  return total;\n}`,
     [
       ["0", "合計の初期値は0です。"],
       ["<=", "n自身も含めるので <= です。"],
@@ -535,39 +553,68 @@ profile({ name: "Puku", age: 38 });`,
     ]
   ),
 
+  question(
+    "i-c6",
+    "intermediate",
+    "C",
+    "shopping-total",
+    "price×count の小計に shipping を足して返す",
+    `function total(price, count, shipping) {\n  const subtotal = price [[-]] count;\n  const amount = subtotal [[-]] shipping;\n  return [[shipping]];\n}`,
+    [
+      ["*", "小計は価格 × 個数です。"],
+      ["+", "送料は小計へ足します。"],
+      ["amount", "返すのは最終金額 amount です。"],
+    ]
+  ),
+
+  question(
+    "i-c7",
+    "intermediate",
+    "C",
+    "search-result",
+    "見つかった最初の active ユーザーの name を返す。いなければ null",
+    `function activeName(users) {\n  const user = users.[[map]]((item) => item.active);\n  if ([[user]]) return null;\n  return user.[[id]];\n}`,
+    [
+      ["find", "最初の1人なら find を使います。"],
+      ["!user", "見つからないときに null を返します。"],
+      ["name", "返したいのは name です。"],
+    ]
+  ),
+
+  question(
+    "i-c8",
+    "intermediate",
+    "C",
+    "dedupe-simple",
+    "重複を除いた値を、元の登場順で配列にして返す",
+    `function unique(values) {\n  const seen = new Set();\n  const result = [];\n\n  for (const value of values) {\n    if ([[!seen.has(value)]]) {\n      continue;\n    }\n    seen.[[delete]](value);\n    result.[[unshift]](value);\n  }\n\n  return result;\n}`,
+    [
+      ["seen.has(value)", "すでに見た値ならスキップします。"],
+      ["add", "初登場の値は Set に追加します。"],
+      ["push", "登場順を保つため末尾へ追加します。"],
+    ]
+  ),
+
   // ============================================================
-  // ADVANCED / A : バグ1個
+  // ADVANCED / A / ★1 : 上級の入口、実戦あるある1個
   // ============================================================
   question(
     "a-a1",
     "advanced",
     "A",
-    "sort",
+    "numeric-sort",
     "数値配列を昇順に並べたコピーを返す。元配列は保持する",
-    `function ascending(values) {
-  return [...values].[[sort()]];
-}
-
-console.log(ascending([2, 10, 1]));`,
-    [
-      [
-        "sort((a, b) => a - b)",
-        "既定の sort は文字列順なので数値用の比較関数が必要です。",
-      ],
-    ]
+    `function ascending(values) {\n  return [...values].[[sort()]];\n}\n\nconsole.log(ascending([2, 10, 1]));`,
+    [["sort((a, b) => a - b)", "既定の sort は文字列順なので数値用の比較関数が必要です。"]]
   ),
 
   question(
     "a-a2",
     "advanced",
     "A",
-    "nullish",
+    "nullish-default",
     "limit が null / undefined のときだけ10にする。0は有効",
-    `function limitOf(options) {
-  return options.limit [[||]] 10;
-}
-
-console.log(limitOf({ limit: 0 }));`,
+    `function limitOf(options) {\n  return options.limit [[||]] 10;\n}\n\nconsole.log(limitOf({ limit: 0 }));`,
     [["??", "|| は0も既定値に置き換えるため ?? を使います。"]]
   ),
 
@@ -575,22 +622,9 @@ console.log(limitOf({ limit: 0 }));`,
     "a-a3",
     "advanced",
     "A",
-    "binary-search",
+    "binary-search-boundary",
     "昇順配列から target の位置を二分探索する。なければ -1",
-    `function search(values, target) {
-  let low = 0;
-  let high = values.length - 1;
-
-  while (low [[<]] high) {
-    const mid = Math.floor((low + high) / 2);
-
-    if (values[mid] === target) return mid;
-    if (values[mid] < target) low = mid + 1;
-    else high = mid - 1;
-  }
-
-  return -1;
-}`,
+    `function search(values, target) {\n  let low = 0;\n  let high = values.length - 1;\n\n  while (low [[<]] high) {\n    const mid = Math.floor((low + high) / 2);\n\n    if (values[mid] === target) return mid;\n    if (values[mid] < target) low = mid + 1;\n    else high = mid - 1;\n  }\n\n  return -1;\n}`,
     [["<=", "low と high が一致した最後の1要素も調べます。"]]
   ),
 
@@ -598,39 +632,42 @@ console.log(limitOf({ limit: 0 }));`,
     "a-a4",
     "advanced",
     "A",
-    "nan",
+    "nan-dedupe",
     "同じ値をまとめる。NaN 同士も1個にまとめる",
-    `function unique(values) {
-  return [[values.filter((v, i) => values.indexOf(v) === i)]];
-}
+    `function unique(values) {\n  return [[values.filter((v, i) => values.indexOf(v) === i)]];\n}\n\nconsole.log(unique([NaN, NaN, 1, 1]));`,
+    [["[...new Set(values)]", "indexOf は NaN を見つけられません。Set なら NaN も重複として扱えます。"]]
+  ),
 
-console.log(unique([NaN, NaN, 1, 1]));`,
-    [
-      [
-        "[...new Set(values)]",
-        "indexOf は NaN を見つけられません。Set なら NaN も重複として扱えます。",
-      ],
-    ]
+  question(
+    "a-a5",
+    "advanced",
+    "A",
+    "missing-await",
+    "fetcher の完了を待って JSON を返す",
+    `async function load(fetcher) {\n  const response = [[fetcher()]];\n  return response.json();\n}`,
+    [["await fetcher()", "Promise の完了を待たないと response.json() を呼べません。"]]
+  ),
+
+  question(
+    "a-a6",
+    "advanced",
+    "A",
+    "sort-mutation",
+    "数値を昇順にした配列を返す。入力配列は変更しない",
+    `function sorted(values) {\n  return [[values.sort((a, b) => a - b)]];\n}`,
+    [["[...values].sort((a, b) => a - b)", "sort は元配列を変更するため、先にコピーします。"]]
   ),
 
   // ============================================================
-  // ADVANCED / B : バグ2個
+  // ADVANCED / B / ★2 : 実戦的な複合ミス、バグ2個
   // ============================================================
   question(
     "a-b1",
     "advanced",
     "B",
-    "immutability",
+    "nested-immutability",
     "user の name と settings.theme だけを更新したコピーを返す。元は変更しない",
-    `function update(user, name, theme) {
-  const next = [[user]];
-  next.name = name;
-
-  next.settings = [[user.settings]];
-  next.settings.theme = theme;
-
-  return next;
-}`,
+    `function update(user, name, theme) {\n  const next = [[user]];\n  next.name = name;\n\n  next.settings = [[user.settings]];\n  next.settings.theme = theme;\n\n  return next;\n}`,
     [
       ["{ ...user }", "外側のオブジェクトをコピーします。"],
       ["{ ...user.settings }", "ネストした settings もコピーします。"],
@@ -643,16 +680,7 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "B",
     "median",
     "数値配列の中央値を返す。空なら null。元配列は保持する",
-    `function median(values) {
-  if (!values.length) return null;
-
-  const sorted = [...values].[[sort()]];
-  const mid = Math.floor(sorted.length / 2);
-
-  if (sorted.length % 2) return sorted[mid];
-
-  return (sorted[[[mid]]] + sorted[mid]) / 2;
-}`,
+    `function median(values) {\n  if (!values.length) return null;\n\n  const sorted = [...values].[[sort()]];\n  const mid = Math.floor(sorted.length / 2);\n\n  if (sorted.length % 2) return sorted[mid];\n\n  return (sorted[[[mid]]] + sorted[mid]) / 2;\n}`,
     [
       ["sort((a, b) => a - b)", "数値としてソートします。"],
       ["[mid - 1]", "偶数個なら中央の左側は mid - 1 です。"],
@@ -665,12 +693,7 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "B",
     "pagination",
     "items を1始まりのページ番号で切り出す。size は正の整数",
-    `function pageOf(items, page, size) {
-  const start = [[page * size]];
-  const end = start + [[size - 1]];
-
-  return items.slice(start, end);
-}`,
+    `function pageOf(items, page, size) {\n  const start = [[page * size]];\n  const end = start + [[size - 1]];\n\n  return items.slice(start, end);\n}`,
     [
       ["(page - 1) * size", "1ページ目の開始添字は0です。"],
       ["size", "slice の終了位置は含まれないので start + size です。"],
@@ -681,32 +704,43 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "a-b4",
     "advanced",
     "B",
-    "conversion",
+    "strict-conversion",
     "入力を整数に変換する。無効値は null、0は有効",
-    `function integerOf(input) {
-  if (typeof input !== "string" && typeof input !== "number") return null;
-  if (typeof input === "string" && input.trim() === "") return null;
-
-  const value = [[parseInt(input, 10)]];
-
-  if ([[!value]] || !Number.isInteger(value)) return null;
-
-  return value;
-}`,
+    `function integerOf(input) {\n  if (typeof input !== "string" && typeof input !== "number") return null;\n  if (typeof input === "string" && input.trim() === "") return null;\n\n  const value = [[parseInt(input, 10)]];\n\n  if ([[!value]] || !Number.isInteger(value)) return null;\n\n  return value;\n}`,
     [
-      [
-        "Number(input)",
-        "12px などを許可しないため全体を Number で変換します。",
-      ],
-      [
-        "!Number.isFinite(value)",
-        "!value は有効な0も拒否するため有限数かどうかを確認します。",
-      ],
+      ["Number(input)", "12px などを許可しないため全体を Number で変換します。"],
+      ["!Number.isFinite(value)", "!value は有効な0も拒否するため有限数かどうかを確認します。"],
+    ]
+  ),
+
+  question(
+    "a-b5",
+    "advanced",
+    "B",
+    "fetch-status",
+    "fetcher の完了を待ち、HTTPエラーなら null を返す",
+    `async function loadUser(fetcher) {\n  const response = [[fetcher("/user")]];\n  if ([[response.ok]]) return null;\n  return response.json();\n}`,
+    [
+      ['await fetcher("/user")', "fetcher の Promise 完了を待ちます。"],
+      ["!response.ok", "HTTPエラーのときだけ null を返します。"],
+    ]
+  ),
+
+  question(
+    "a-b6",
+    "advanced",
+    "B",
+    "promise-array",
+    "全ユーザーの名前を非同期取得し、文字列配列で返す",
+    `async function names(users, loadName) {\n  const tasks = users.map((user) => loadName([[user]]));\n  return [[tasks]];\n}`,
+    [
+      ["user.id", "loadName に渡すのは user.id です。"],
+      ["await Promise.all(tasks)", "Promise 配列ではなく完了後の値配列を返します。"],
     ]
   ),
 
   // ============================================================
-  // ADVANCED / C : バグ3個
+  // ADVANCED / C / ★3 : 最難関、訓練向けの複合ミス、バグ3個
   // ============================================================
   question(
     "a-c1",
@@ -714,17 +748,7 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "C",
     "deep-copy",
     "全ユーザーの done を true にしたコピー配列を返す。元データは保持する",
-    `function complete(users) {
-  const result = [[users]];
-
-  for (let i = 0; i < result.length; i++) {
-    const next = [[result[i]]];
-    next.done = true;
-    result[i] = next;
-  }
-
-  return [[users]];
-}`,
+    `function complete(users) {\n  const result = [[users]];\n\n  for (let i = 0; i < result.length; i++) {\n    const next = [[result[i]]];\n    next.done = true;\n    result[i] = next;\n  }\n\n  return [[users]];\n}`,
     [
       ["[...users]", "配列自体をコピーします。"],
       ["{ ...result[i] }", "各ユーザーオブジェクトもコピーします。"],
@@ -738,13 +762,7 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "C",
     "pipeline",
     "重複を除き、数値昇順の上位 limit 個を返す。limit=0 は空、未指定は3個",
-    `function smallest(values, limit) {
-  const count = limit [[||]] 3;
-  const unique = [...new Set(values)];
-  const sorted = unique.[[sort()]];
-
-  return sorted.slice(0, [[count - 1]]);
-}`,
+    `function smallest(values, limit) {\n  const count = limit [[||]] 3;\n  const unique = [...new Set(values)];\n  const sorted = unique.[[sort()]];\n\n  return sorted.slice(0, [[count - 1]]);\n}`,
     [
       ["??", "0を有効にするため ?? を使います。"],
       ["sort((a, b) => a - b)", "数値順に並べます。"],
@@ -758,25 +776,9 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "C",
     "map-key",
     "id ごとに最初の1件だけ残す。id=0 は有効、null / undefined は除外",
-    `function uniqueById(items) {
-  const seen = new Map();
-  const result = [];
-
-  for (const item of items) {
-    if ([[!item.id]]) continue;
-    if (seen.has([[item]])) continue;
-
-    seen.set(item.id, true);
-    result.[[unshift]](item);
-  }
-
-  return result;
-}`,
+    `function uniqueById(items) {\n  const seen = new Map();\n  const result = [];\n\n  for (const item of items) {\n    if ([[!item.id]]) continue;\n    if (seen.has([[item]])) continue;\n\n    seen.set(item.id, true);\n    result.[[unshift]](item);\n  }\n\n  return result;\n}`,
     [
-      [
-        "item.id == null",
-        "0を除外せず null / undefined だけを除外します。",
-      ],
+      ["item.id == null", "0を除外せず null / undefined だけを除外します。"],
       ["item.id", "Map に保存しているキーは id です。"],
       ["push", "入力順を保つため末尾へ追加します。"],
     ]
@@ -786,21 +788,9 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "a-c4",
     "advanced",
     "C",
-    "cache",
+    "cache-expiry",
     "期限が now 以下のキャッシュを削除し、残った値を返す。値0も残す",
-    `function readLive(cache, now) {
-  const result = [];
-
-  for (const [key, entry] of cache) {
-    if (entry.expires [[<]] now) {
-      cache.delete([[entry]]);
-    } else if ([[entry.value]]) {
-      result.push(entry.value);
-    }
-  }
-
-  return result;
-}`,
+    `function readLive(cache, now) {\n  const result = [];\n\n  for (const [key, entry] of cache) {\n    if (entry.expires [[<]] now) {\n      cache.delete([[entry]]);\n    } else if ([[entry.value]]) {\n      result.push(entry.value);\n    }\n  }\n\n  return result;\n}`,
     [
       ["<=", "期限ちょうども期限切れです。"],
       ["key", "Map から削除するのは key です。"],
@@ -812,22 +802,55 @@ console.log(unique([NaN, NaN, 1, 1]));`,
     "a-c5",
     "advanced",
     "C",
-    "range",
+    "closed-range",
     "整数の閉区間 [start, end] の全整数を配列で返す。start > end は空配列",
-    `function range(start, end) {
-  if (start [[>=]] end) return [];
-
-  const count = end - start [[-]] 1;
-
-  return Array.from(
-    { length: count },
-    (_, index) => [[index]]
-  );
-}`,
+    `function range(start, end) {\n  if (start [[>=]] end) return [];\n\n  const count = end - start [[-]] 1;\n\n  return Array.from(\n    { length: count },\n    (_, index) => [[index]]\n  );\n}`,
     [
       [">", "start === end なら1要素を返すため除外しません。"],
       ["+", "両端を含む個数は end - start + 1 です。"],
       ["start + index", "値は start から始めます。"],
+    ]
+  ),
+
+  question(
+    "a-c6",
+    "advanced",
+    "C",
+    "async-pipeline",
+    "ids のユーザーを全件取得し、active なユーザー名だけを返す",
+    `async function activeNames(ids, fetchUser) {\n  const tasks = ids.map((id) => fetchUser([[id + 1]]));\n  const users = [[tasks]];\n  return [[users.filter((user) => user.active)]];\n}`,
+    [
+      ["id", "取得対象は元の id です。"],
+      ["await Promise.all(tasks)", "全 Promise の完了を待ってユーザー配列にします。"],
+      ["users.filter((user) => user.active).map((user) => user.name)", "active なユーザーを絞ったあと name だけを返します。"],
+    ]
+  ),
+
+  question(
+    "a-c7",
+    "advanced",
+    "C",
+    "safe-settings",
+    "settings がない場合も落ちずに theme を返す。未設定なら dark、空文字は有効",
+    `function themeOf(user) {\n  const settings = [[user.settings]];\n  const theme = settings.theme [[||]] "dark";\n  return [[theme || "dark"]];\n}`,
+    [
+      ["user.settings ?? {}", "settings がない場合は空オブジェクトへフォールバックします。"],
+      ["??", "空文字を有効にするため || ではなく ?? を使います。"],
+      ["theme", "すでに既定値処理済みなのでそのまま theme を返します。"],
+    ]
+  ),
+
+  question(
+    "a-c8",
+    "advanced",
+    "C",
+    "immutable-toggle",
+    "指定idのtodoだけ done を反転した新しい配列を返す。元データは変更しない",
+    `function toggle(todos, id) {\n  const result = [[todos]];\n  const index = result.findIndex((todo) => todo.id === id);\n  if (index < 0) return result;\n  result[index] = [[result[index]]];\n  result[index].done = !result[index].done;\n  return [[todos]];\n}`,
+    [
+      ["[...todos]", "配列をコピーして元配列の変更を避けます。"],
+      ["{ ...result[index] }", "対象todoもコピーして参照共有を避けます。"],
+      ["result", "更新した新しい配列 result を返します。"],
     ]
   ),
 ];

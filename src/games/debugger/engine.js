@@ -4,10 +4,30 @@ export const CLEAR_DELAY_MS = 700;
 export const STAGE_COUNT = 10;
 
 const GROUPS = [
-  { id: "A", count: 3, bugs: 1 },
-  { id: "B", count: 3, bugs: 2 },
-  { id: "C", count: 4, bugs: 3 },
+  { id: "A", count: 3, bugs: 1, stars: 1 },
+  { id: "B", count: 3, bugs: 2, stars: 2 },
+  { id: "C", count: 4, bugs: 3, stars: 3 },
 ];
+
+// 中級だけは「簡単な問題を引ける運」と「難問を引く緊張感」を残す。
+// ★が上がるほど advanced 寄りの問題を引きやすくする。
+const INTERMEDIATE_SOURCE_WEIGHTS = {
+  A: [
+    ["beginner", 0.70],
+    ["intermediate", 0.25],
+    ["advanced", 0.05],
+  ],
+  B: [
+    ["beginner", 0.20],
+    ["intermediate", 0.60],
+    ["advanced", 0.20],
+  ],
+  C: [
+    ["beginner", 0.05],
+    ["intermediate", 0.55],
+    ["advanced", 0.40],
+  ],
+};
 
 function shuffle(items, random) {
   const result = [...items];
@@ -18,6 +38,58 @@ function shuffle(items, random) {
   }
 
   return result;
+}
+
+function sourceDifficultyFor(runDifficulty, groupId, random) {
+  if (runDifficulty !== "intermediate") return runDifficulty;
+
+  const roll = random();
+  let cursor = 0;
+
+  for (const [difficulty, weight] of INTERMEDIATE_SOURCE_WEIGHTS[groupId]) {
+    cursor += weight;
+    if (roll < cursor) return difficulty;
+  }
+
+  return "intermediate";
+}
+
+function overlaps(set, values) {
+  return values.some((value) => set.has(value));
+}
+
+function pickQuestion(pool, state, random, requireFreshMistakes = false) {
+  let available = shuffle(
+    pool.filter((question) => !state.usedIds.has(question.id)),
+    random
+  );
+
+  if (requireFreshMistakes) {
+    available = available.filter(
+      (question) => !overlaps(state.usedMistakeKeys, question.mistakeKeys)
+    );
+  }
+
+  if (!available.length) return null;
+
+  const preferences = [
+    (question) =>
+      !state.usedCategories.has(question.category) &&
+      !overlaps(state.usedMistakeKeys, question.mistakeKeys),
+    (question) =>
+      question.category !== state.previousCategory &&
+      !overlaps(state.usedMistakeKeys, question.mistakeKeys),
+    (question) => !overlaps(state.usedMistakeKeys, question.mistakeKeys),
+    (question) => question.category !== state.previousCategory,
+    () => true,
+  ];
+
+  for (const preference of preferences) {
+    const candidate = available.find(preference);
+    if (candidate) return candidate;
+  }
+
+  return available[0];
 }
 
 export function validateQuestions(bank) {
@@ -33,7 +105,9 @@ export function validateQuestions(bank) {
       !group ||
       q.bugs.length !== group.bugs ||
       !q.objective ||
-      !q.category
+      !q.category ||
+      !Array.isArray(q.mistakeKeys) ||
+      q.mistakeKeys.length !== q.bugs.length
     ) {
       throw new Error(`Invalid question: ${q.id}`);
     }
@@ -57,31 +131,49 @@ export function validateQuestions(bank) {
 
 export function selectQuestions(bank, difficulty, random = Math.random) {
   const result = [];
-  let previousCategory = null;
+  const state = {
+    usedIds: new Set(),
+    usedCategories: new Set(),
+    usedMistakeKeys: new Set(),
+    previousCategory: null,
+  };
 
   for (const group of GROUPS) {
-    const pool = shuffle(
-      bank.filter(
-        (q) => q.difficulty === difficulty && q.group === group.id
-      ),
-      random
-    );
-
-    if (pool.length <= group.count) {
-      throw new Error(`Not enough questions: ${difficulty}/${group.id}`);
-    }
-
     for (let i = 0; i < group.count; i++) {
-      const differentCategoryIndex = pool.findIndex(
-        (q) => q.category !== previousCategory
+      const sourceDifficulty = sourceDifficultyFor(difficulty, group.id, random);
+      const sourcePool = bank.filter(
+        (q) => q.difficulty === sourceDifficulty && q.group === group.id
       );
 
-      const pickIndex =
-        differentCategoryIndex >= 0 ? differentCategoryIndex : 0;
+      // まず同じミス記号・同じ修正パターンを再登場させない候補を探す。
+      let picked = pickQuestion(sourcePool, state, random, true);
 
-      const [picked] = pool.splice(pickIndex, 1);
+      // 中級では抽選された難易度側に新鮮な候補がなければ、同じ★帯の別難易度へ逃がす。
+      // 「簡単 / 中間 / 上級」の配分より、同じミスの連発を避ける方を優先する。
+      if (!picked && difficulty === "intermediate") {
+        const fallbackPool = bank.filter((q) => q.group === group.id);
+        picked = pickQuestion(fallbackPool, state, random, true);
+      }
+
+      // 問題バンクを将来減らした場合の最後の保険。
+      if (!picked) {
+        picked = pickQuestion(sourcePool, state, random);
+      }
+
+      if (!picked && difficulty === "intermediate") {
+        const fallbackPool = bank.filter((q) => q.group === group.id);
+        picked = pickQuestion(fallbackPool, state, random);
+      }
+
+      if (!picked) {
+        throw new Error(`Not enough questions: ${difficulty}/${group.id}`);
+      }
+
       result.push(picked);
-      previousCategory = picked.category;
+      state.usedIds.add(picked.id);
+      state.usedCategories.add(picked.category);
+      for (const key of picked.mistakeKeys) state.usedMistakeKeys.add(key);
+      state.previousCategory = picked.category;
     }
   }
 
@@ -90,6 +182,12 @@ export function selectQuestions(bank, difficulty, random = Math.random) {
   }
 
   return result;
+}
+
+export function starsForStage(index) {
+  if (index < 3) return 1;
+  if (index < 6) return 2;
+  return 3;
 }
 
 // All displayed times use integer centiseconds, so CLEAR + PENALTY exactly equals FINAL.

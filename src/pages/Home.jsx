@@ -305,14 +305,13 @@ export default function Home() {
 
           <Link className="doodle doodleGamePad homeSlotTop3" to="/game">
             <span className="doodleLabel">GAME PAD / PLAY TEST</span>
-            <span className="doodleBadge">SOON</span>
-            <span className="doodleHint">準備中の遊び場</span>
+            <span className="doodleBadge">PLAY</span>
+            <span className="doodleHint">DEBUGGER公開中</span>
             <LabIcon type="gamepad" />
           </Link>
 
           <Link className="doodle doodleDesignDesk homeSlotTop4" to="/works">
             <span className="doodleLabel">DESIGN DESK / WORKS</span>
-            <span className="doodleBadge">NEW</span>
             <span className="doodleHint">HP制作・運営相談</span>
             <LabIcon type="works" />
           </Link>
