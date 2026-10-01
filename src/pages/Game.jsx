@@ -15,27 +15,27 @@ const games = [
     playable: true,
   },
   {
-    slug: "flask-mix",
+    slug: "",
     number: "002",
-    label: "MIX PUZZLE",
-    title: "FLASK MIX",
-    text: "指定された条件に合わせて素材を組み合わせる、フラスコ実験パズル。混ぜ方ひとつで結果が変わる小さな研究室。",
+    label: "NEXT EXPERIMENT",
+    title: "準備中",
+    text: "次に置くミニゲームはまだ未定です。遊びやすくて、ちょっと試したくなる小さな実験を考えています。",
     status: "COMING SOON",
-    meta: "PUZZLE / QUICK",
+    meta: "GAME IDEA / TBD",
     accent: "amber",
-    icon: "flask",
+    icon: "pending",
     playable: false,
   },
   {
-    slug: "lab-memory",
+    slug: "",
     number: "003",
-    label: "MEMORY TEST",
-    title: "LAB MEMORY",
-    text: "研究道具や記号の組み合わせを覚えてそろえる記憶ゲーム。短く遊べて、少しずつ難しくなる実験を予定しています。",
+    label: "OPEN SLOT",
+    title: "準備中",
+    text: "この枠も内容はまだ決めていません。思いついたアイデアを試しながら、形になったものから追加していきます。",
     status: "COMING SOON",
-    meta: "MEMORY / CASUAL",
+    meta: "GAME IDEA / TBD",
     accent: "blue",
-    icon: "memory",
+    icon: "pending",
     playable: false,
   },
   {
@@ -55,7 +55,10 @@ const games = [
 function GameIcon({ type }) {
   if (type === "debug") {
     return (
-      <span className="gameCardIcon gameCardIcon-debug" aria-hidden="true">
+      <span
+        className="gameCardIcon gameCardIcon-debug"
+        aria-hidden="true"
+      >
         <i className="gameCodeFrame" />
         <i className="gameCodeLine lineOne" />
         <i className="gameCodeLine lineTwo" />
@@ -68,30 +71,26 @@ function GameIcon({ type }) {
     );
   }
 
-  if (type === "flask") {
+  if (type === "pending") {
     return (
-      <span className="gameCardIcon gameCardIcon-flask" aria-hidden="true">
-        <i className="gameFlaskNeck" />
-        <i className="gameFlaskBody" />
-        <i className="gameFlaskLiquid" />
-        <i className="gameBubble bubbleOne" />
-        <i className="gameBubble bubbleTwo" />
-      </span>
-    );
-  }
-
-  if (type === "memory") {
-    return (
-      <span className="gameCardIcon gameCardIcon-memory" aria-hidden="true">
-        <i className="gameMemoryCard cardOne">?</i>
-        <i className="gameMemoryCard cardTwo">?</i>
-        <i className="gameMemoryCard cardThree">★</i>
+      <span
+        className="gameCardIcon gameCardIcon-pending"
+        aria-hidden="true"
+      >
+        <i className="gamePendingFrame" />
+        <i className="gamePendingLine lineOne" />
+        <i className="gamePendingLine lineTwo" />
+        <i className="gamePendingMark">?</i>
+        <i className="gamePendingDot" />
       </span>
     );
   }
 
   return (
-    <span className="gameCardIcon gameCardIcon-secret" aria-hidden="true">
+    <span
+      className="gameCardIcon gameCardIcon-secret"
+      aria-hidden="true"
+    >
       <i className="gameSecretRing ringOne" />
       <i className="gameSecretRing ringTwo" />
       <i className="gameSecretCore">?</i>
@@ -103,7 +102,9 @@ function GameIcon({ type }) {
 
 function GameCard({ game }) {
   const cardClass = `gameLabCard gameLabCard-${game.accent} ${
-    game.playable ? "gameLabCardPlayable" : "gameLabCardDisabled"
+    game.playable
+      ? "gameLabCardPlayable"
+      : "gameLabCardDisabled"
   }`;
 
   const content = (
@@ -130,14 +131,20 @@ function GameCard({ game }) {
 
   if (game.playable && game.slug) {
     return (
-      <Link className={cardClass} to={`/game/${game.slug}`}>
+      <Link
+        className={cardClass}
+        to={`/game/${game.slug}`}
+      >
         {content}
       </Link>
     );
   }
 
   return (
-    <article className={cardClass} aria-label={`${game.title} ${game.status}`}>
+    <article
+      className={cardClass}
+      aria-label={`${game.title} ${game.status}`}
+    >
       {content}
     </article>
   );
@@ -148,7 +155,9 @@ export default function Game() {
     <main className="siteFrame innerPageFrame gameLabPage">
       <section className="chalkboard pageBoard gameLabBoard">
         <header className="pageHead gameLabHead">
-          <p className="smallTag">PLAY LAB / GAME EXPERIMENTS</p>
+          <p className="smallTag">
+            PLAY LAB / GAME EXPERIMENTS
+          </p>
           <h1>遊べる実験室</h1>
           <p>
             Puku Labで作る、小さなブラウザゲームの研究室です。
@@ -157,24 +166,36 @@ export default function Game() {
           </p>
         </header>
 
-        <section className="gameLabGrid" aria-label="Puku Labのゲーム一覧">
+        <section
+          className="gameLabGrid"
+          aria-label="Puku Labのゲーム一覧"
+        >
           {games.map((game) => (
-            <GameCard key={`${game.number}-${game.title}`} game={game} />
+            <GameCard
+              key={`${game.number}-${game.title}`}
+              game={game}
+            />
           ))}
         </section>
 
         <div className="gameLabMemo">
           <p>PLAY LAB MEMO</p>
           <strong>
-            最初の実験「DEBUGGER」を公開中。公開したゲームから順番に、このページから遊べるようにしていきます。
+            最初の実験「DEBUGGER」を公開中。ほかのミニゲームはまだ白紙の研究枠です。形になったものから、このページに追加していきます。
           </strong>
         </div>
 
         <div className="pageActions gameLabFooterActions">
-          <Link className="navButton ghost" to="/">
+          <Link
+            className="navButton ghost"
+            to="/"
+          >
             ホームへ戻る
           </Link>
-          <Link className="navButton ghost" to="/apps">
+          <Link
+            className="navButton ghost"
+            to="/apps"
+          >
             アプリを見る
           </Link>
         </div>
