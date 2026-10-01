@@ -8,11 +8,11 @@ const games = [
     label: "CODE FINDING",
     title: "DEBUGGER",
     text: "コードの中に潜んでいる間違いを見つける、短時間のバグ探しゲーム。正しそうに見える1行を疑うところから実験開始。",
-    status: "NEXT GAME",
+    status: "PLAY NOW",
     meta: "1〜3 MIN / CODE",
     accent: "mint",
     icon: "debug",
-    playable: false,
+    playable: true,
   },
   {
     slug: "flask-mix",
@@ -166,7 +166,7 @@ export default function Game() {
         <div className="gameLabMemo">
           <p>PLAY LAB MEMO</p>
           <strong>
-            最初の実験は「DEBUGGER」を予定中。公開したゲームから順番に、このページから遊べるようにしていきます。
+            最初の実験「DEBUGGER」を公開中。公開したゲームから順番に、このページから遊べるようにしていきます。
           </strong>
         </div>
 

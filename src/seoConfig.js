@@ -504,6 +504,15 @@ const pages = {
     robots: "noindex, nofollow",
   },
 
+  "/game/debugger": {
+    title: "DEBUGGER（デバッガー）| コードのバグ探しゲーム | Puku Lab",
+    description: "コードの間違いを見つけるタイムアタック。初級・中級・上級の全10ステージにPC・スマホで挑戦できます。",
+    image: DEFAULT_OGP_IMAGE,
+    imageAlt: DEFAULT_IMAGE_ALT,
+    robots: "index, follow",
+    sitemap: { changefreq: "monthly", priority: "0.6", lastmod: LASTMOD },
+  },
+
   "/game": {
     title: "ゲーム実験室 | Puku Lab",
     description:

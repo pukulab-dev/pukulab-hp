@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Secret from "./pages/Secret";
 import Kanlog from "./pages/Kanlog";
 import Game from "./pages/Game";
+import Debugger from "./pages/Debugger";
 import Gallery from "./pages/Gallery";
 import GalleryCategory from "./pages/GalleryCategory";
 import Works from "./pages/Works";
@@ -209,6 +210,8 @@ export default function App() {
     "/entsumugi"
   );
 
+  const isDebuggerPage = normalizePathname(location.pathname) === "/game/debugger";
+
   return (
     <>
       <SeoTracker />
@@ -244,12 +247,13 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/secret" element={<Secret />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/game/debugger" element={<Debugger />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
 
       {!isEntsumugiPage ? <SiteFooter /> : null}
-      {!isEntsumugiPage ? <PageAssistNav /> : null}
+      {!isEntsumugiPage && !isDebuggerPage ? <PageAssistNav /> : null}
     </>
   );
 }
