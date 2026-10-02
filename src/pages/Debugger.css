@@ -1025,3 +1025,125 @@
   }
 }
 
+
+
+/* ------------------------------------------------------------
+   ONLINE RANKING
+------------------------------------------------------------ */
+.dbg-ranking-register {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
+  gap: 18px;
+  align-items: end;
+  margin: 18px 0 10px;
+  padding: 16px 18px;
+  border: 1px solid var(--dbg-border);
+  border-radius: 7px;
+  background: #12191d;
+}
+
+.dbg-ranking-register-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dbg-ranking-register-copy label {
+  color: #edf3f4;
+  font-weight: 700;
+}
+
+.dbg-ranking-register-copy span {
+  color: var(--dbg-muted);
+  font-size: 12px;
+}
+
+.dbg-ranking-register-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.dbg-ranking-register input {
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 13px;
+  border: 1px solid #526067;
+  border-radius: 5px;
+  outline: none;
+  background: #0e1418;
+  color: #edf3f4;
+  font: 15px/1
+    ui-monospace,
+    "Cascadia Code",
+    Consolas,
+    monospace;
+}
+
+.dbg-ranking-register input::placeholder {
+  color: #65767d;
+}
+
+.dbg-ranking-register input:focus {
+  border-color: var(--dbg-mint);
+  box-shadow: 0 0 0 2px rgba(121, 242, 208, 0.08);
+}
+
+.dbg-ranking-register input:disabled {
+  opacity: 0.65;
+}
+
+.dbg-page .dbg-ranking-submit {
+  white-space: nowrap;
+  border-color: rgba(121, 242, 208, 0.5);
+}
+
+.dbg-page .dbg-ranking-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.dbg-ranking-message {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-left: 3px solid #66767d;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--dbg-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.dbg-ranking-message.is-success {
+  border-left-color: var(--dbg-mint);
+  color: #bff8e8;
+}
+
+.dbg-ranking-message.is-error {
+  border-left-color: #ff8e84;
+  color: #ffbbb5;
+}
+
+.dbg-ranking-empty {
+  margin: 14px 0 0;
+  padding: 18px;
+  border: 1px dashed var(--dbg-border);
+  border-radius: 6px;
+  color: var(--dbg-muted);
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .dbg-ranking-register {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .dbg-ranking-register-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .dbg-page .dbg-ranking-submit {
+    width: 100%;
+  }
+}

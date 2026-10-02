@@ -10,13 +10,12 @@ export function buildXShareText({
   total = null,
 }) {
   const lines = [
-    "🐛 DEBUGGER CLEAR!",
+    "🐛 DEBUGGERをクリア！",
     "",
-    `${difficultyLabel} / 10 STAGES`,
-    `FINAL ${formatTime(result.finalMs)}`,
-    `MISS ${result.misses} (+${(
-      result.penaltyMs / 1000
-    ).toFixed(2)}s)`,
+    `【${difficultyLabel}】FINAL ${formatTime(
+      result.finalMs
+    )}`,
+    `MISS ${result.misses}回`,
   ];
 
   if (
@@ -26,13 +25,15 @@ export function buildXShareText({
     total > 0
   ) {
     lines.push(
-      `RANK ${rank} / ${total}`
+      `🏆 現在${rank}位 / ${total}人`
     );
   }
 
   lines.push(
     "",
-    "コードのバグ探しタイムアタックに挑戦",
+    "コードに潜むバグを10ステージで発見🔍",
+    "あなたはこの記録を超えられる？",
+    "",
     "#DEBUGGER #PukuLab"
   );
 

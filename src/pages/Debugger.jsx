@@ -113,26 +113,45 @@ function Result({
   onReplay,
   onLevels,
 }) {
+  const [nickname, setNickname] = useState(() => {
+    if (typeof window === "undefined") return "";
+
+    try {
+      return (
+        window.localStorage.getItem(
+          "debugger-ranking-nickname"
+        ) || ""
+      );
+    } catch {
+      return "";
+    }
+  });
+
+  const [registered, setRegistered] =
+    useState(false);
+
   const [ranking, setRanking] = useState({
     status: "loading",
     rows: [],
     currentRank: null,
     total: null,
+    message: "",
   });
 
   useEffect(() => {
     let active = true;
 
     rankingProvider
-      .submit(result)
+      .list(result.difficulty)
       .then((summary) => {
         if (!active) return;
 
         setRanking({
           status: "ready",
           rows: summary.rows,
-          currentRank: summary.currentRank,
+          currentRank: null,
           total: summary.total,
+          message: "",
         });
       })
       .catch(() => {
@@ -143,27 +162,98 @@ function Result({
           rows: [],
           currentRank: null,
           total: null,
+          message:
+            "オンラインランキングを読み込めませんでした。少し時間をおいて再度お試しください。",
         });
       });
 
     return () => {
       active = false;
     };
-  }, [result]);
+  }, [result.difficulty]);
+
+  async function registerScore(event) {
+    event.preventDefault();
+
+    const cleanName = nickname.trim();
+
+    if (
+      cleanName.length < 1 ||
+      cleanName.length > 12
+    ) {
+      setRanking((current) => ({
+        ...current,
+        message:
+          "ランキングネームは1〜12文字で入力してください。",
+      }));
+      return;
+    }
+
+    if (!result.rankingRunId) {
+      setRanking((current) => ({
+        ...current,
+        message:
+          "このプレイはオンラインランキング用のセッションを取得できませんでした。もう一度プレイすると登録できます。",
+      }));
+      return;
+    }
+
+    setRanking((current) => ({
+      ...current,
+      status: "submitting",
+      message: "",
+    }));
+
+    try {
+      const summary =
+        await rankingProvider.submit({
+          ...result,
+          nickname: cleanName,
+        });
+
+      try {
+        window.localStorage.setItem(
+          "debugger-ranking-nickname",
+          cleanName
+        );
+      } catch {
+        // Storage can be unavailable in private/restricted modes.
+      }
+
+      setNickname(cleanName);
+      setRegistered(true);
+      setRanking({
+        status: "ready",
+        rows: summary.rows,
+        currentRank: summary.currentRank,
+        total: summary.total,
+        message:
+          summary.currentRank
+            ? `${cleanName} の記録を ${summary.currentRank}位で登録しました。`
+            : `${cleanName} の記録を登録しました。`,
+      });
+    } catch (error) {
+      setRanking((current) => ({
+        ...current,
+        status: "error",
+        message:
+          error?.message ===
+          "Score timing validation failed"
+            ? "タイムの検証に失敗しました。もう一度プレイして登録してください。"
+            : "ランキングへの登録に失敗しました。少し時間をおいて再度お試しください。",
+      }));
+    }
+  }
 
   const shareUrl = buildXShareUrl({
     result,
     difficultyLabel: difficulty.label,
-    rank:
-      rankingProvider.isOnline &&
-      ranking.status === "ready"
-        ? ranking.currentRank
-        : null,
-    total:
-      rankingProvider.isOnline &&
-      ranking.status === "ready"
-        ? ranking.total
-        : null,
+    rank: registered
+      ? ranking.currentRank
+      : null,
+    total: registered
+      ? ranking.total
+      : null,
   });
 
   return (
@@ -187,7 +277,9 @@ function Result({
 
         <div>
           <dt>MISS</dt>
-          <dd data-testid="miss-count">{result.misses}</dd>
+          <dd data-testid="miss-count">
+            {result.misses}
+          </dd>
         </div>
 
         <div>
@@ -206,13 +298,148 @@ function Result({
         </div>
       </dl>
 
+      <section
+        className="dbg-ranking"
+        aria-label={`${difficulty.label}オンラインランキング`}
+      >
+        <div className="dbg-ranking-heading">
+          <h2>{difficulty.label} RANKING</h2>
+          <span>
+            ONLINE / FINAL TIME / TOP 10
+          </span>
+        </div>
+
+        <p>{rankingProvider.scope}</p>
+
+        <form
+          className="dbg-ranking-register"
+          onSubmit={registerScore}
+        >
+          <div className="dbg-ranking-register-copy">
+            <label htmlFor="dbg-ranking-name">
+              ランキングネーム
+            </label>
+            <span>
+              1〜12文字・次回から入力を記憶します
+            </span>
+          </div>
+
+          <div className="dbg-ranking-register-controls">
+            <input
+              id="dbg-ranking-name"
+              type="text"
+              value={nickname}
+              maxLength={12}
+              autoComplete="nickname"
+              placeholder="PLAYER"
+              disabled={
+                registered ||
+                ranking.status === "submitting"
+              }
+              onChange={(event) =>
+                setNickname(event.target.value)
+              }
+            />
+
+            <button
+              type="submit"
+              className="dbg-button dbg-ranking-submit"
+              disabled={
+                registered ||
+                ranking.status === "submitting"
+              }
+            >
+              {registered
+                ? "登録済み"
+                : ranking.status === "submitting"
+                ? "登録中…"
+                : "ランキングに登録"}
+            </button>
+          </div>
+        </form>
+
+        {ranking.message && (
+          <p
+            className={`dbg-ranking-message${
+              registered
+                ? " is-success"
+                : ranking.status === "error"
+                ? " is-error"
+                : ""
+            }`}
+            role="status"
+          >
+            {ranking.message}
+          </p>
+        )}
+
+        {registered &&
+          ranking.currentRank &&
+          ranking.total !== null && (
+            <div className="dbg-online-rank">
+              <span>YOUR RANK</span>
+              <strong>
+                {ranking.currentRank}
+                <small> / {ranking.total}</small>
+              </strong>
+            </div>
+          )}
+
+        {ranking.status === "loading" && (
+          <p role="status">
+            ランキングを読み込み中…
+          </p>
+        )}
+
+        {ranking.status !== "loading" &&
+          ranking.rows.length === 0 && (
+            <p className="dbg-ranking-empty">
+              まだ記録がありません。最初のランカーになれるかも。
+            </p>
+          )}
+
+        {ranking.rows.length > 0 && (
+          <ol className="dbg-ranking-list">
+            {ranking.rows.map((row, i) => (
+              <li
+                key={row.id}
+                className={
+                  row.id === result.id
+                    ? "dbg-current-record"
+                    : ""
+                }
+              >
+                <span className="dbg-rank">
+                  {String(i + 1).padStart(
+                    2,
+                    "0"
+                  )}
+                </span>
+                <span>
+                  {row.nickname || "PLAYER"}
+                </span>
+                <time>
+                  {formatTime(row.finalMs)}
+                </time>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+
       <div className="dbg-share-panel">
         <div>
           <span className="dbg-share-label">
             SHARE RESULT
           </span>
           <strong>
-            {difficulty.label} / {formatTime(result.finalMs)}
+            {difficulty.label} /{" "}
+            {formatTime(result.finalMs)}
+            {registered &&
+            ranking.currentRank &&
+            ranking.total
+              ? ` / ${ranking.currentRank}位`
+              : ""}
           </strong>
         </div>
 
@@ -222,7 +449,7 @@ function Result({
           target="_blank"
           rel="noopener noreferrer"
         >
-          Xでスコアをシェア
+          Xで結果をシェア
         </a>
       </div>
 
@@ -247,71 +474,6 @@ function Result({
           ゲーム一覧へ戻る
         </Link>
       </div>
-
-      <section
-        className="dbg-ranking"
-        aria-label={`${difficulty.label}ランキング`}
-      >
-        <div className="dbg-ranking-heading">
-          <h2>{difficulty.label} RANKING</h2>
-          <span>
-            {rankingProvider.isOnline
-              ? "ONLINE / FINAL TIME / TOP 10"
-              : "SESSION / FINAL TIME / TOP 10"}
-          </span>
-        </div>
-
-        <p>{rankingProvider.scope}</p>
-
-        {rankingProvider.isOnline &&
-          ranking.status === "ready" &&
-          ranking.currentRank &&
-          ranking.total && (
-            <div className="dbg-online-rank">
-              <span>YOUR RANK</span>
-              <strong>
-                {ranking.currentRank}
-                <small> / {ranking.total}</small>
-              </strong>
-            </div>
-          )}
-
-        {ranking.status === "loading" && (
-          <p role="status">記録を集計中…</p>
-        )}
-
-        {ranking.status === "error" && (
-          <p role="status">
-            ランキングに記録できませんでした。スコアの表示とXシェアはそのまま利用できます。
-          </p>
-        )}
-
-        {ranking.status === "ready" && (
-          <ol className="dbg-ranking-list">
-            {ranking.rows.map((row, i) => (
-              <li
-                key={row.id}
-                className={
-                  row.id === result.id
-                    ? "dbg-current-record"
-                    : ""
-                }
-              >
-                <span className="dbg-rank">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span>
-                  {row.id === result.id
-                    ? "今回の記録"
-                    : row.nickname ||
-                      `記録 ${row.sequence ?? i + 1}`}
-                </span>
-                <time>{formatTime(row.finalMs)}</time>
-              </li>
-            ))}
-          </ol>
-        )}
-      </section>
     </div>
   );
 }
@@ -469,11 +631,25 @@ export default function Debugger() {
       startedAt: null,
       lockedUntil: 0,
       clearing: false,
+      rankingRunId: null,
       result: null,
     };
 
     runRef.current = run;
     setRound({ ...run });
+
+    rankingProvider
+      .start(level)
+      .then((rankingRunId) => {
+        if (runRef.current !== run) return;
+
+        run.rankingRunId = rankingRunId;
+        setRound({ ...run });
+      })
+      .catch(() => {
+        // The game itself stays playable even if the
+        // online ranking service is temporarily unavailable.
+      });
     setDifficultyId(level);
     setFlash(null);
     setCount(3);
@@ -558,6 +734,7 @@ export default function Debugger() {
         run.result = {
           id: run.id,
           difficulty: run.difficulty,
+          rankingRunId: run.rankingRunId,
           ...resultFor(
             run.startedAt,
             now,

@@ -1,23 +1,18 @@
-// DEBUGGER ranking provider.
+// DEBUGGER online ranking provider.
 //
-// Current behavior:
-// - Without VITE_DEBUGGER_RANKING_ENDPOINT, ranking is kept only in this tab.
-// - When an endpoint is configured later, the same UI automatically switches
-//   to the online provider.
+// Backend:
+// Supabase Edge Function "debugger-ranking"
 //
-// Expected online response shape:
-// {
-//   rows: [{ id, nickname?, finalMs, misses?, sequence? }],
-//   currentRank: 18,
-//   total: 247
-// }
+// The endpoint issues a server-side run ID when play starts.
+// Score submission requires that run ID, validates score arithmetic,
+// and compares the client timer with the server-side play session.
 //
-// IMPORTANT:
-// The online endpoint must validate scores server-side.
-// Do not trust finalMs sent by the browser.
-
+// VITE_DEBUGGER_RANKING_ENDPOINT can override the endpoint for testing.
 export const DEBUGGER_GAME_ID = "debugger";
 export const DEBUGGER_RANKING_VERSION = "2026-10-02-v1";
+
+export const DEFAULT_DEBUGGER_RANKING_ENDPOINT =
+  "https://kgdobmsphbugmlpnqmhe.supabase.co/functions/v1/debugger-ranking";
 
 const ALLOWED_DIFFICULTIES = new Set([
   "beginner",
@@ -25,24 +20,33 @@ const ALLOWED_DIFFICULTIES = new Set([
   "advanced",
 ]);
 
+function validateDifficulty(difficulty) {
+  if (!ALLOWED_DIFFICULTIES.has(difficulty)) {
+    throw new Error("Invalid difficulty");
+  }
+}
+
 function validateEntry(entry) {
   if (
     !entry ||
     !entry.id ||
+    !entry.rankingRunId ||
     !ALLOWED_DIFFICULTIES.has(entry.difficulty) ||
+    typeof entry.nickname !== "string" ||
+    entry.nickname.trim().length < 1 ||
+    entry.nickname.trim().length > 12 ||
     !Number.isInteger(entry.misses) ||
     entry.misses < 0 ||
     !Number.isFinite(entry.clearMs) ||
     entry.clearMs < 0 ||
     entry.penaltyMs !== entry.misses * 3000 ||
-    entry.finalMs !==
-      entry.clearMs + entry.penaltyMs
+    entry.finalMs !== entry.clearMs + entry.penaltyMs
   ) {
     throw new Error("Invalid result");
   }
 }
 
-function normalizeSummary(payload, currentId = null) {
+function normalizeSummary(payload) {
   const rows = Array.isArray(payload?.rows)
     ? payload.rows
         .filter(
@@ -55,147 +59,48 @@ function normalizeSummary(payload, currentId = null) {
         .slice(0, 10)
     : [];
 
-  let currentRank = Number.isInteger(
-    payload?.currentRank
-  )
-    ? payload.currentRank
-    : null;
-
-  const total = Number.isInteger(payload?.total)
-    ? payload.total
-    : rows.length;
-
-  if (!currentRank && currentId) {
-    const index = rows.findIndex(
-      (row) => row.id === currentId
-    );
-
-    if (index >= 0) {
-      currentRank = index + 1;
-    }
-  }
-
   return {
     rows,
-    currentRank,
-    total,
-  };
-}
-
-export function createSessionRanking() {
-  const records = new Map();
-
-  function listRows(difficulty) {
-    return [
-      ...(records.get(difficulty) || []),
-    ]
-      .sort(
-        (a, b) =>
-          a.finalMs - b.finalMs ||
-          a.sequence - b.sequence
-      )
-      .slice(0, 10);
-  }
-
-  return {
-    mode: "session",
-    isOnline: false,
-    scope:
-      "このタブ内の仮ランキングです。再読み込みでリセットされます。オンラインランキング接続用の受け口は準備済みです。",
-
-    async list(difficulty) {
-      if (!ALLOWED_DIFFICULTIES.has(difficulty)) {
-        throw new Error("Invalid difficulty");
-      }
-
-      const rows = listRows(difficulty);
-
-      return {
-        rows,
-        currentRank: null,
-        total: rows.length,
-      };
-    },
-
-    async submit(entry) {
-      validateEntry(entry);
-
-      const current =
-        records.get(entry.difficulty) || [];
-
-      if (
-        !current.some(
-          (row) => row.id === entry.id
-        )
-      ) {
-        const sequence =
-          Math.max(
-            0,
-            ...current.map(
-              (row) => row.sequence
-            )
-          ) + 1;
-
-        current.push({
-          ...entry,
-          sequence,
-        });
-
-        records.set(
-          entry.difficulty,
-          current
-        );
-      }
-
-      const rows = listRows(entry.difficulty);
-      const currentRank =
-        rows.findIndex(
-          (row) => row.id === entry.id
-        ) + 1;
-
-      return {
-        rows,
-        currentRank:
-          currentRank > 0
-            ? currentRank
-            : null,
-        total: current.length,
-      };
-    },
+    currentRank:
+      Number.isInteger(payload?.currentRank) &&
+      payload.currentRank > 0
+        ? payload.currentRank
+        : null,
+    total:
+      Number.isInteger(payload?.total) &&
+      payload.total >= 0
+        ? payload.total
+        : rows.length,
   };
 }
 
 export function createHttpRanking(endpoint) {
   const baseUrl = endpoint.replace(/\/+$/, "");
 
-  async function request(
-    path = "",
-    options = {}
-  ) {
-    const response = await fetch(
-      `${baseUrl}${path}`,
-      {
-        ...options,
-        headers: {
-          Accept: "application/json",
-          ...(options.body
-            ? {
-                "Content-Type":
-                  "application/json",
-              }
-            : {}),
-          ...options.headers,
-        },
-      }
-    );
+  async function request(path = "", options = {}) {
+    const response = await fetch(`${baseUrl}${path}`, {
+      ...options,
+      headers: {
+        Accept: "application/json",
+        ...(options.body
+          ? { "Content-Type": "application/json" }
+          : {}),
+        ...options.headers,
+      },
+    });
+
+    const payload = await response
+      .json()
+      .catch(() => null);
 
     if (!response.ok) {
       throw new Error(
-        `Ranking request failed: ${response.status}`
+        payload?.error ||
+          `Ranking request failed: ${response.status}`
       );
     }
 
-    return response.json();
+    return payload;
   }
 
   return {
@@ -204,15 +109,34 @@ export function createHttpRanking(endpoint) {
     scope:
       "オンラインランキング。難易度ごとのFINAL TIME上位10件を表示します。",
 
-    async list(difficulty) {
-      if (!ALLOWED_DIFFICULTIES.has(difficulty)) {
-        throw new Error("Invalid difficulty");
+    async start(difficulty) {
+      validateDifficulty(difficulty);
+
+      const payload = await request("", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "start",
+          game: DEBUGGER_GAME_ID,
+          version: DEBUGGER_RANKING_VERSION,
+          difficulty,
+        }),
+      });
+
+      if (!payload?.runId) {
+        throw new Error(
+          "Ranking run could not be created"
+        );
       }
+
+      return payload.runId;
+    },
+
+    async list(difficulty) {
+      validateDifficulty(difficulty);
 
       const params = new URLSearchParams({
         game: DEBUGGER_GAME_ID,
-        version:
-          DEBUGGER_RANKING_VERSION,
+        version: DEBUGGER_RANKING_VERSION,
         difficulty,
       });
 
@@ -229,17 +153,21 @@ export function createHttpRanking(endpoint) {
       const payload = await request("", {
         method: "POST",
         body: JSON.stringify({
+          action: "submit",
           game: DEBUGGER_GAME_ID,
-          version:
-            DEBUGGER_RANKING_VERSION,
-          ...entry,
+          version: DEBUGGER_RANKING_VERSION,
+          runId: entry.rankingRunId,
+          id: entry.id,
+          nickname: entry.nickname.trim(),
+          difficulty: entry.difficulty,
+          clearMs: entry.clearMs,
+          misses: entry.misses,
+          penaltyMs: entry.penaltyMs,
+          finalMs: entry.finalMs,
         }),
       });
 
-      return normalizeSummary(
-        payload,
-        entry.id
-      );
+      return normalizeSummary(payload);
     },
   };
 }
@@ -250,6 +178,7 @@ const configuredEndpoint =
     ?.trim();
 
 export const rankingProvider =
-  configuredEndpoint
-    ? createHttpRanking(configuredEndpoint)
-    : createSessionRanking();
+  createHttpRanking(
+    configuredEndpoint ||
+      DEFAULT_DEBUGGER_RANKING_ENDPOINT
+  );
