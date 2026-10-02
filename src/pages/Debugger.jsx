@@ -16,6 +16,7 @@ import {
   validateQuestions,
 } from "../games/debugger/engine.js";
 import { rankingProvider } from "../games/debugger/ranking.js";
+import { buildXShareUrl } from "../games/debugger/share.js";
 import "./Debugger.css";
 
 validateQuestions(questions);
@@ -115,6 +116,8 @@ function Result({
   const [ranking, setRanking] = useState({
     status: "loading",
     rows: [],
+    currentRank: null,
+    total: null,
   });
 
   useEffect(() => {
@@ -122,17 +125,46 @@ function Result({
 
     rankingProvider
       .submit(result)
-      .then((rows) => {
-        if (active) setRanking({ status: "ready", rows });
+      .then((summary) => {
+        if (!active) return;
+
+        setRanking({
+          status: "ready",
+          rows: summary.rows,
+          currentRank: summary.currentRank,
+          total: summary.total,
+        });
       })
       .catch(() => {
-        if (active) setRanking({ status: "error", rows: [] });
+        if (!active) return;
+
+        setRanking({
+          status: "error",
+          rows: [],
+          currentRank: null,
+          total: null,
+        });
       });
 
     return () => {
       active = false;
     };
   }, [result]);
+
+  const shareUrl = buildXShareUrl({
+    result,
+    difficultyLabel: difficulty.label,
+    rank:
+      rankingProvider.isOnline &&
+      ranking.status === "ready"
+        ? ranking.currentRank
+        : null,
+    total:
+      rankingProvider.isOnline &&
+      ranking.status === "ready"
+        ? ranking.total
+        : null,
+  });
 
   return (
     <div className="dbg-result">
@@ -174,6 +206,26 @@ function Result({
         </div>
       </dl>
 
+      <div className="dbg-share-panel">
+        <div>
+          <span className="dbg-share-label">
+            SHARE RESULT
+          </span>
+          <strong>
+            {difficulty.label} / {formatTime(result.finalMs)}
+          </strong>
+        </div>
+
+        <a
+          className="dbg-button dbg-share-button"
+          href={shareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Xでスコアをシェア
+        </a>
+      </div>
+
       <div className="dbg-actions">
         <button
           type="button"
@@ -202,12 +254,27 @@ function Result({
       >
         <div className="dbg-ranking-heading">
           <h2>{difficulty.label} RANKING</h2>
-          <span>FINAL TIME / TOP 10</span>
+          <span>
+            {rankingProvider.isOnline
+              ? "ONLINE / FINAL TIME / TOP 10"
+              : "SESSION / FINAL TIME / TOP 10"}
+          </span>
         </div>
 
-        <p>
-          {rankingProvider.scope}。オンラインランキングは未接続です。
-        </p>
+        <p>{rankingProvider.scope}</p>
+
+        {rankingProvider.isOnline &&
+          ranking.status === "ready" &&
+          ranking.currentRank &&
+          ranking.total && (
+            <div className="dbg-online-rank">
+              <span>YOUR RANK</span>
+              <strong>
+                {ranking.currentRank}
+                <small> / {ranking.total}</small>
+              </strong>
+            </div>
+          )}
 
         {ranking.status === "loading" && (
           <p role="status">記録を集計中…</p>
@@ -215,7 +282,7 @@ function Result({
 
         {ranking.status === "error" && (
           <p role="status">
-            ランキングに記録できませんでした。今回の結果は上に表示しています。
+            ランキングに記録できませんでした。スコアの表示とXシェアはそのまま利用できます。
           </p>
         )}
 
@@ -236,7 +303,8 @@ function Result({
                 <span>
                   {row.id === result.id
                     ? "今回の記録"
-                    : `記録 ${row.sequence}`}
+                    : row.nickname ||
+                      `記録 ${row.sequence ?? i + 1}`}
                 </span>
                 <time>{formatTime(row.finalMs)}</time>
               </li>
@@ -255,14 +323,47 @@ export default function Debugger() {
     useState("beginner");
   const [round, setRound] = useState(null);
   const [flash, setFlash] = useState(null);
+  const [bgmEnabled, setBgmEnabled] = useState(() => {
+    if (typeof window === "undefined") return true;
+
+    try {
+      return (
+        window.localStorage.getItem(
+          "debugger-bgm-enabled"
+        ) !== "off"
+      );
+    } catch {
+      return true;
+    }
+  });
 
   const runRef = useRef(null);
   const timers = useRef(new Set());
   const root = useRef(null);
+  const audioRef = useRef(null);
 
   const difficulty = DIFFICULTIES.find(
     (level) => level.id === difficultyId
   );
+
+  useEffect(() => {
+    if (typeof Audio === "undefined") return undefined;
+
+    const audio = new Audio(
+      "/audio/debugger-bgm.wav"
+    );
+
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.18;
+    audioRef.current = audio;
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      audioRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const pending = timers.current;
@@ -286,6 +387,49 @@ export default function Debugger() {
     }
   }, [phase]);
 
+  function playBgm() {
+    if (!bgmEnabled) return;
+
+    const audio = audioRef.current;
+
+    if (!audio || !audio.paused) return;
+
+    audio.play().catch(() => {
+      // Browser autoplay policy can reject playback.
+      // A later user gesture, including the BGM toggle,
+      // can start it again.
+    });
+  }
+
+  function toggleBgm() {
+    const next = !bgmEnabled;
+    const audio = audioRef.current;
+
+    setBgmEnabled(next);
+
+    try {
+      window.localStorage.setItem(
+        "debugger-bgm-enabled",
+        next ? "on" : "off"
+      );
+    } catch {
+      // Storage can be unavailable in private/restricted modes.
+    }
+
+    if (!audio) return;
+
+    if (next) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }
+
+  function openLevelSelect() {
+    playBgm();
+    setPhase("levels");
+  }
+
   function later(callback, delay) {
     const timer = window.setTimeout(() => {
       timers.current.delete(timer);
@@ -307,6 +451,8 @@ export default function Debugger() {
   }
 
   function begin(level) {
+    playBgm();
+
     for (const timer of timers.current) {
       window.clearTimeout(timer);
     }
@@ -456,9 +602,29 @@ export default function Debugger() {
           <Link to="/game" className="dbg-lab-link">
             Puku Lab <span>/ PLAY LAB</span>
           </Link>
-          <span className="dbg-window-label">
-            debugger.js
-          </span>
+
+          <div className="dbg-topbar-tools">
+            <button
+              type="button"
+              className={`dbg-audio-toggle${
+                bgmEnabled ? " is-on" : ""
+              }`}
+              onClick={toggleBgm}
+              aria-pressed={bgmEnabled}
+              aria-label={`BGMを${
+                bgmEnabled ? "オフ" : "オン"
+              }にする`}
+            >
+              <span aria-hidden="true">
+                {bgmEnabled ? "♪" : "×"}
+              </span>
+              BGM {bgmEnabled ? "ON" : "OFF"}
+            </button>
+
+            <span className="dbg-window-label">
+              debugger.js
+            </span>
+          </div>
         </header>
 
         <section
@@ -525,7 +691,7 @@ export default function Debugger() {
               <button
                 type="button"
                 className="dbg-button dbg-primary dbg-start"
-                onClick={() => setPhase("levels")}
+                onClick={openLevelSelect}
               >
                 START
               </button>
