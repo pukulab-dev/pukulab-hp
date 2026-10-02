@@ -25,7 +25,7 @@ export function buildXShareText({
     total > 0
   ) {
     lines.push(
-      `🏆 現在${rank}位 / ${total}人`
+      `🏆 現在${rank}位 / ${total}人中`
     );
   }
 
