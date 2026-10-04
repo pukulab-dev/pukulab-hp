@@ -208,7 +208,7 @@ export default function App() {
   const location = useLocation();
   const isEntsumugiPage = normalizePathname(location.pathname).startsWith(
     "/entsumugi"
-  ) || (normalizePathname(location.pathname) === "/contact" && new URLSearchParams(location.search).get("type") === "entsumugi");
+  );
 
   const isDebuggerPage = normalizePathname(location.pathname) === "/game/debugger";
 

@@ -74,7 +74,6 @@ function makePrefill(context) {
 export default function Contact() {
   const [searchParams] = useSearchParams();
   const entsumugiContext = useMemo(() => getEntsumugiContext(searchParams), [searchParams]);
-  const isEntsumugiContact = searchParams.get("type") === "entsumugi";
   const prefillMessage = useMemo(() => makePrefill(entsumugiContext), [entsumugiContext]);
 
   const [form, setForm] = useState(() => ({
@@ -169,29 +168,26 @@ export default function Contact() {
   }
 
   return (
-    <main className={`siteFrame innerPageFrame ${isEntsumugiContact ? "entsumugiContactPage" : ""}`}>
-      {isEntsumugiContact && <div className="enContactBrand"><Link to="/entsumugi"><strong>縁紡</strong><span>議員サポートデスク</span></Link><Link to="/entsumugi">縁紡トップへ</Link></div>}
+    <main className="siteFrame innerPageFrame">
       <section className="chalkboard pageBoard">
         <header className="pageHead">
-          <p className="smallTag">{isEntsumugiContact ? "ENTSUMUGI CONTACT" : "CONTACT DESK / LAB MEMO"}</p>
-          <h2>{isEntsumugiContact ? "縁紡について相談する" : "お問い合わせ"}</h2>
+          <p className="smallTag">CONTACT DESK / LAB MEMO</p>
+          <h2>お問い合わせ</h2>
           <p>
-            {isEntsumugiContact
-              ? "現在のSNS運用、事務所体制、困っていることなど、分かる範囲でお知らせください。まだ整理できていない段階でも大丈夫です。"
-              : "アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、Puku Labへの連絡はこちらからどうぞ。"}
+            アプリの感想・不具合報告・HP制作相談・運営まわりの相談など、Puku Labへの連絡はこちらからどうぞ。
           </p>
         </header>
 
         {isSent ? (
           <section className="surveyThanks" aria-live="polite">
             <p className="smallTag">MESSAGE RECEIVED</p>
-            <h3>{isEntsumugiContact ? "縁紡へのご相談を受け取りました" : "メッセージを受け取りました"}</h3>
+            <h3>メッセージを受け取りました</h3>
             <p>
               内容を確認して、必要に応じてご連絡します。
             </p>
             <div className="pageActions">
               <button type="button" className="navButton" onClick={() => setStatus("idle")}>もう一度送る</button>
-              <Link className="navButton ghost" to={isEntsumugiContact ? "/entsumugi" : "/"}>戻る</Link>
+              <Link className="navButton ghost" to="/">戻る</Link>
             </div>
           </section>
         ) : (
@@ -227,7 +223,7 @@ export default function Contact() {
             <label>
               内容の種類
               <select name="category" value={form.category} onChange={(event) => updateField("category", event.target.value)}>
-                {(isEntsumugiContact ? categoryOptions.filter((option) => option.value === "entsumugi") : categoryOptions).map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
+                {categoryOptions.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
               </select>
             </label>
 
@@ -235,12 +231,10 @@ export default function Contact() {
               お問い合わせ内容
               <textarea
                 name="message"
-                rows={isEntsumugiContact ? 10 : 6}
+                rows={6}
                 value={form.message}
                 onChange={(event) => updateField("message", event.target.value)}
-                placeholder={isEntsumugiContact
-                  ? "現在の運用状況、困っていること、希望する支援などを自由に書いてください。"
-                  : "相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"}
+                placeholder="相談したい内容、気になったこと、制作したいページのイメージなどを自由に書いてください。"
                 required
               />
             </label>
@@ -253,22 +247,20 @@ export default function Contact() {
             {errorMessage ? <p className="surveyError" aria-live="polite">{errorMessage}</p> : null}
 
             <div className="metricPanel">
-              <p>{isEntsumugiContact ? "ENTSUMUGI CONSULTATION" : "CONTACT MEMO"}</p>
+              <p>CONTACT MEMO</p>
               <strong>
-                {isEntsumugiContact
-                  ? "コースが決まっていなくても、現在の状況から一緒に整理できます"
-                  : "HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています"}
+                HP制作・アプリ・AI画像・運営導線など、Puku Labに関する連絡を受け付けています
               </strong>
             </div>
 
             <div className="pageActions">
               <button className="navButton" type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "送信中..." : isEntsumugiContact ? "縁紡へ相談を送る" : "研究所へ届ける"}
+                {isSubmitting ? "送信中..." : "研究所へ届ける"}
               </button>
-              <Link className="navButton ghost" to={isEntsumugiContact ? "/entsumugi" : "/works"}>
-                {isEntsumugiContact ? "縁紡へ戻る" : "制作相談室へ戻る"}
+              <Link className="navButton ghost" to="/works">
+                制作相談室へ戻る
               </Link>
-              {!isEntsumugiContact ? <Link className="navButton ghost" to="/">ホームへ戻る</Link> : null}
+              <Link className="navButton ghost" to="/">ホームへ戻る</Link>
             </div>
           </form>
         )}
