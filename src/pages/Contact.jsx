@@ -46,6 +46,7 @@ function getEntsumugiContext(searchParams) {
   push("月額目安", "monthly");
   push("診断時の料金", "price");
   push("初期設定・追加制作", "setup");
+  push("初月目安", "firstMonth");
   push("SNS", "sns");
   push("LINE公式", "line");
   push("WEB", "web");
@@ -169,6 +170,7 @@ export default function Contact() {
 
   return (
     <main className={`siteFrame innerPageFrame ${isEntsumugiContact ? "entsumugiContactPage" : ""}`}>
+      {isEntsumugiContact && <div className="enContactBrand"><Link to="/entsumugi"><strong>縁紡</strong><span>議員サポートデスク</span></Link><Link to="/entsumugi">縁紡トップへ</Link></div>}
       <section className="chalkboard pageBoard">
         <header className="pageHead">
           <p className="smallTag">{isEntsumugiContact ? "ENTSUMUGI CONTACT" : "CONTACT DESK / LAB MEMO"}</p>
@@ -225,7 +227,7 @@ export default function Contact() {
             <label>
               内容の種類
               <select name="category" value={form.category} onChange={(event) => updateField("category", event.target.value)}>
-                {categoryOptions.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
+                {(isEntsumugiContact ? categoryOptions.filter((option) => option.value === "entsumugi") : categoryOptions).map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
               </select>
             </label>
 

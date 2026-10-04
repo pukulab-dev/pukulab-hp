@@ -370,3 +370,17 @@
     grid-template-columns: 58px minmax(0, 1fr);
   }
 }
+
+.enEstimateFieldset { min-width:0; border:1px solid #ecdac4; }
+.enEstimateFieldset > legend { padding:0 8px; font-size:1.3rem; font-weight:900; }
+.enEstimateSubFieldset { min-width:0; border:0; padding:0; margin-top:28px !important; }
+.enEstimateSubFieldset > legend { margin-bottom:12px; font-weight:900; }
+.enCountFields { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px; }
+.enCountFields label { display:grid; gap:10px; font-weight:800; }
+.enCountFields select { width:100%; min-height:48px; padding:10px; background:white; color:#2f2118; border:1px solid #caa881; border-radius:10px; font:inherit; }
+.enCountFields small { font-size:.76rem; color:#76665b; font-weight:500; }
+.enScopeNote { padding:14px; margin-top:14px !important; border-left:3px solid #b45b10; background:#fff4e4; color:#70431f; font-size:.8rem; line-height:1.8; }
+@media(max-width:640px) { .enCountFields { grid-template-columns:1fr; } }
+
+.enPublicEstimateSelections p { grid-template-columns:minmax(0,1fr) auto; gap:16px; }
+.enPublicEstimateSelections strong { white-space:nowrap; }

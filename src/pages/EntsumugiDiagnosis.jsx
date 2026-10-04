@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Entsumugi.css";
+import { recommendPlan, plans as pricePlans, yen } from "../data/entsumugiPlans.js";
 
 const questions = [
   {
@@ -8,10 +9,10 @@ const questions = [
     kicker: "Q1",
     title: "発信を、どこまで自分でやりたいですか？",
     options: [
-      { value: "self", label: "基本は自分で管理したい", scores: { app: 4, ai: 1 } },
-      { value: "assist", label: "文章づくりなどをAIに手伝ってほしい", scores: { ai: 4, app: 1 } },
-      { value: "operate", label: "原稿や投稿を継続して任せたい", scores: { basic: 4, pr: 1 } },
-      { value: "whole", label: "広報全体を相談しながら任せたい", scores: { pr: 3, room: 4 } },
+      { value: "self", label: "基本は自分で管理したい" },
+      { value: "assist", label: "文章づくりなどをAIに手伝ってほしい" },
+      { value: "operate", label: "原稿や投稿を継続して任せたい" },
+      { value: "whole", label: "広報全体を相談しながら任せたい" },
     ],
   },
   {
@@ -19,10 +20,11 @@ const questions = [
     kicker: "Q2",
     title: "継続して使いたい媒体は、どのくらいですか？",
     options: [
-      { value: "one", label: "1媒体くらい", scores: { app: 2, ai: 2, basic: 1 } },
-      { value: "two", label: "2媒体くらい", scores: { basic: 3, ai: 1 } },
-      { value: "three", label: "3媒体くらい", scores: { pr: 4, basic: 1 } },
-      { value: "many", label: "4媒体以上・まだ整理できていない", scores: { room: 4, pr: 2 } },
+      { value: "one", label: "1媒体くらい" },
+      { value: "two", label: "2媒体くらい" },
+      { value: "three", label: "3媒体くらい" },
+      { value: "many", label: "4媒体以上" },
+      { value: "unsure", label: "まだ決まっていない" },
     ],
   },
   {
@@ -30,10 +32,10 @@ const questions = [
     kicker: "Q3",
     title: "今いちばん減らしたい負担は？",
     options: [
-      { value: "organize", label: "予定・活動・原稿などの整理", scores: { app: 3, ai: 2 } },
-      { value: "write", label: "何をどう書けばいいか考える時間", scores: { ai: 3, basic: 2 } },
-      { value: "continue", label: "投稿が続かない・手が回らないこと", scores: { basic: 4, pr: 2 } },
-      { value: "strategy", label: "媒体の使い分けや広報全体の判断", scores: { pr: 3, room: 4 } },
+      { value: "organize", label: "予定・活動・原稿などの整理" },
+      { value: "write", label: "何をどう書けばいいか考える時間" },
+      { value: "continue", label: "投稿が続かない・手が回らないこと" },
+      { value: "strategy", label: "媒体の使い分けや広報全体の判断" },
     ],
   },
 ];
@@ -76,19 +78,9 @@ export default function EntsumugiDiagnosis() {
   const [showResult, setShowResult] = useState(false);
   const completed = questions.every((question) => answers[question.id]);
 
-  const resultKey = useMemo(() => {
-    const totals = { app: 0, ai: 0, basic: 0, pr: 0, room: 0 };
-    questions.forEach((question) => {
-      const choice = question.options.find((option) => option.value === answers[question.id]);
-      if (!choice) return;
-      Object.entries(choice.scores).forEach(([key, score]) => {
-        totals[key] += score;
-      });
-    });
-    return Object.entries(totals).sort((a, b) => b[1] - a[1])[0][0];
-  }, [answers]);
+  const resultKey = useMemo(() => recommendPlan(answers), [answers]);
 
-  const result = plans[resultKey];
+  const result = { ...plans[resultKey], name: pricePlans[resultKey].name, price: `月額 ${yen(pricePlans[resultKey].monthly)}円（税込）` };
   const contactParams = new URLSearchParams({
     type: "entsumugi",
     source: "diagnosis",
@@ -165,7 +157,7 @@ export default function EntsumugiDiagnosis() {
           <p>{result.detail}</p>
           <div className="enDiagnosisNext">
             <span>次は</span>
-            <strong>必要な準備状況を選んで、おおまかな料金帯を確認できます。</strong>
+            <strong>必要な準備状況を選んで、初月と翌月以降の料金目安を確認できます。</strong>
           </div>
           <div className="enResultActions">
             <Link className="enButton primary" to={`/entsumugi/estimate?plan=${resultKey}`}>このコースで料金目安を見る →</Link>

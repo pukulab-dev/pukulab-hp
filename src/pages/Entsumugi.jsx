@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "./Entsumugi.css";
 import "./EntsumugiEnhancements.css";
+import "./EntsumugiSales.css";
+import { plans, yen } from "../data/entsumugiPlans.js";
 
 import pcScreen from "../assets/entsumugi-pc.png";
 import mobileScreen from "../assets/entsumugi-mobile.png";
@@ -53,22 +55,11 @@ const flowSteps = [
 ];
 
 const features = [
-  ["予定・活動管理", "日・週・月の予定と日々の活動記録をまとめ、発信準備の起点にできます。"],
-  ["AI秘書", "日程・相談案件・原稿づくりなど、日々の事務作業をAIで補助します。"],
-  ["原稿・発信管理", "原稿作成、本人確認、修正依頼、投稿予定・投稿済みまで流れを確認できます。"],
-  ["写真・動画・資料共有", "現場の素材をその場で送り、原稿や活動記録、制作素材につなげます。"],
-  ["相談・領収書管理", "相談・要望の対応状況や領収書を記録し、事務所内の情報を整理できます。"],
-  ["リンク・情報整理", "HP、LINE、Driveなど、よく使う外部サービスへの入口もまとめられます。"],
+  ["発信を任せる", "原稿作成・簡易画像・投稿代行。運用プランでは、媒体に合わせた発信準備をPuku Labが支えます。"],
+  ["活動を共有する", "予定や写真を送り、できあがった原稿を確認。外出先からでも、発信準備を進められます。"],
+  ["日々の仕事を整理する", "予定・活動・相談案件をひとつの入口へ。AI秘書コースでは、情報の確認や原稿づくりも補助します。"],
 ];
 
-const aiActions = [
-  ["日程", "予定の確認・登録、空き時間の確認"],
-  ["案件", "相談・要望の確認と整理"],
-  ["原稿", "作成・修正・投稿準備をサポート"],
-  ["共有", "Puku Labへ素材を送る流れを案内"],
-  ["登録", "必要な情報を自分用に保存"],
-  ["その他", "問い合わせや設定などを相談"],
-];
 
 const trustItems = [
   {
@@ -93,6 +84,10 @@ const onboardingSteps = [
 ];
 
 const faqItems = [
+  { q: "最低契約期間や解約について教えてください。", a: "継続運用プラン（基本運用・広報運用・外部広報室）は原則3か月から。解約は希望月の前月末までにご連絡ください。アプリ・AI秘書・繁忙月サポートの条件は、お申し込み前に個別にご案内します。" },
+  { q: "途中でプランを変えられますか？", a: "活動量や事務所体制の変化に合わせてご相談いただけます。変更する支援範囲・料金・適用時期を確認したうえでご案内します。" },
+  { q: "初期費用や追加費用はかかりますか？", a: "既存SNSの引継ぎや新規立ち上げが必要な場合は、月額とは別に初期費用がかかります。通常範囲を超える制作・特急対応なども、内容と追加費用を事前にご案内します。" },
+  { q: "LINE公式の配信はどう進めますか？", a: "登録者数と契約中アカウントの配信枠に合わせて、無理のない配信計画を設計します。LINE公式側の有料プラン料金が必要な場合は別途となります。" },
   {
     q: "遠方でも利用できますか？",
     a: "はい。縁紡はPC・スマートフォンを使い、オンライン中心で情報共有と運用支援を進められるように設計しています。",
@@ -119,37 +114,10 @@ const faqItems = [
   },
 ];
 
-const pricingGroups = [
-  {
-    label: "SELF / AI",
-    title: "自分で管理する",
-    price: "1,980〜25,000",
-    unit: "円 / 月",
-    text: "アプリだけ使う方法から、AI秘書を使って自分で運用する方法まで。",
-    notes: ["アプリ利用のみ 1,980円", "AI秘書コース 25,000円", "AI利用回数追加 1,000円 / 枠"],
-  },
-  {
-    label: "MONTHLY SUPPORT",
-    title: "継続して任せる",
-    price: "66,000〜148,000",
-    unit: "円 / 月",
-    text: "原稿・投稿から、媒体ごとの企画や広報全体まで、必要な範囲を継続支援。",
-    notes: ["基本運用 66,000円", "広報運用 99,000円", "外部広報室 148,000円"],
-    featured: true,
-  },
-  {
-    label: "ONE SHOT",
-    title: "必要な時だけ頼む",
-    price: "3,300〜",
-    unit: "円 / 回",
-    text: "原稿、画像、動画、LINE、HP更新など、必要な制作だけ個別に依頼できます。",
-    notes: ["SNS原稿 3,300円〜", "動画・WEB制作にも対応"],
-  },
-];
 
 export default function Entsumugi() {
   return (
-    <main className="enPage">
+    <main className="enPage enSalesPage">
       <header className="enHeader">
         <div className="enHeaderInner">
           <Link to="/entsumugi" className="enBrand" aria-label="縁紡トップへ">
@@ -159,8 +127,8 @@ export default function Entsumugi() {
 
           <nav className="enNav" aria-label="縁紡ページ内ナビ">
             <a href="#about">縁紡とは</a>
-            <a href="#flow">仕組み</a>
-            <a href="#features">機能</a>
+            <a href="#flow">利用イメージ</a>
+            <a href="#experience">現場経験</a>
             <a href="#ai-secretary">AI秘書</a>
             <a href="#price">料金</a>
             <Link to="/entsumugi/startup">候補者向け</Link>
@@ -182,7 +150,7 @@ export default function Entsumugi() {
           <div className="enHeroCopy">
             <div className="enPills">
               <span>地方議員向け</span>
-              <span>実証運用中</span>
+              <span>SNS運用・情報発信支援</span>
             </div>
             <p className="enEyebrow">ENTSUMUGI / PUBLIC COMMUNICATION SUPPORT</p>
             <h1>
@@ -190,7 +158,7 @@ export default function Entsumugi() {
               <strong>発信につなげる</strong>
             </h1>
             <p className="enLead">
-              対面で会わなくても、SNS運用を任せられる。PC・スマートフォン・縁紡をつなぎ、日々の活動から継続的な情報発信まで支えます。
+              予定や写真を共有するところから。原稿づくり、本人確認、投稿までを支え、日々の議員活動を発信につなげます。
             </p>
             <div className="enHeroTags" aria-label="縁紡の主な特徴">
               <span>SNS運用代行</span>
@@ -207,7 +175,7 @@ export default function Entsumugi() {
                 30秒コース診断
               </Link>
             </div>
-            <p className="enNote">現在、地方議員との実証運用を通じてサービス改善を進めています。</p>
+            <p className="enNote">地方議員との実運用をもとに、開発・改善しています。</p>
           </div>
 
           <div className="enHeroVisual" aria-label="縁紡のPC版とスマートフォン版の画面">
@@ -219,7 +187,7 @@ export default function Entsumugi() {
             </div>
             <div className="enVisualBadge">
               <b>01</b>
-              <span>スマホで共有<br /><strong>→ PC・縁紡へ</strong></span>
+              <span>活動を共有<br /><strong>→ 原稿確認 → 発信</strong></span>
             </div>
           </div>
         </div>
@@ -266,45 +234,46 @@ export default function Entsumugi() {
             </article>
           ))}
         </div>
-      </section>
-
-      <section className="enStatement">
-        <div className="enStatementInner">
-          <p className="enEyebrow">OUR APPROACH</p>
-          <h2>
-            <span className="enOnlyDesktop">SNSは魔法ではありません</span>
-            <span className="enOnlyMobile">SNSは<br />魔法ではありません</span>
-          </h2>
-          <p>
-            投稿さえすれば、すべての人へ情報が届くわけではありません。まずは関心を持ってくれている人へ、日々の活動をきちんと届ける。その積み重ねが、少しずつ関心の外側へ広がっていきます。
-          </p>
-          <div className="enStatementSteps">
-            <div><span>01</span><strong>関心層へ届ける</strong></div>
-            <i>→</i>
-            <div><span>02</span><strong>無理なく続ける</strong></div>
-            <i>→</i>
-            <div><span>03</span><strong>少しずつ広げる</strong></div>
-          </div>
-        </div>
+        <p className="enWhyClosing">すでに行っている活動を、発信につなげやすくする。<br />その準備を、縁紡が支えます。</p>
       </section>
 
       <section className="enSection" id="flow">
         <div className="enSectionHead">
           <p className="enEyebrow">HOW IT WORKS</p>
-          <p className="enSectionCatch">会わなくても SNS運用を任せられる</p>
+          <p className="enSectionCatch">写真とひとことから、発信を準備</p>
           <h2>
             <span className="enOnlyDesktop">
-              活動から投稿までを<br />
-              ひとつの流れへ
+              ひとつの活動が<br />
+              発信になるまで
             </span>
             <span className="enOnlyMobile">
-              活動から投稿までを<br />
-              ひとつの流れへ
+              ひとつの活動が<br />
+              発信になるまで
             </span>
           </h2>
           <p>
-            予定や写真を共有するだけで、対面の打ち合わせがなくても発信準備を進められる仕組みを整えています。
+            たとえば、地域の防災訓練に参加した日。写真と活動メモをもとに、Puku Labが媒体に合う原稿を準備し、本人の確認後に投稿します。
           </p>
+        </div>
+
+        <div className="enActivityExample">
+          <div className="enExampleInput">
+            <span className="enExampleLabel">議員本人が共有</span>
+            <h3>地域の防災訓練に参加</h3>
+            <p className="enExampleMemo">○○地区の防災訓練へ参加。<br />自治会の皆さんと、災害時の避難経路について意見交換。</p>
+            <span className="enPhotoNote">添付：現場の写真3枚</span>
+            <p>文章が整っていなくても大丈夫。発信に必要なことは確認しながら整理します。</p>
+          </div>
+          <div className="enExampleOutput">
+            <span className="enExampleLabel">Puku Labが発信用に整理</span>
+            <div className="enSamplePosts">
+              <article><h4>X｜短く活動を伝える</h4><p>本日は○○地区の防災訓練に参加しました。自治会の皆さんと、災害時の避難経路について意見交換。日頃から備えを確かめる大切な機会となりました。</p></article>
+              <article><h4>Instagram｜写真と一緒に伝える</h4><p>○○地区の防災訓練へ。<br />自治会の皆さんと避難経路について話し合いました。訓練の様子を写真とともにお届けします。</p></article>
+              <article><h4>LINE｜活動をまとめて届ける</h4><p>【地域での活動報告】<br />○○地区の防災訓練に参加し、避難経路について自治会の皆さんと意見交換しました。今回はその様子をご報告します。</p></article>
+            </div>
+          </div>
+          <div className="enExampleApproval"><strong>議員本人が内容を確認・承認</strong><span aria-hidden="true">→</span><strong>各媒体へ投稿</strong></div>
+          <p className="enExampleDisclaimer">※説明用の架空サンプルです。実際の実績・投稿ではありません。対象媒体・制作範囲はプランとご相談内容に応じて決定します。</p>
         </div>
 
         <div className="enFlowGrid">
@@ -322,143 +291,11 @@ export default function Entsumugi() {
         </div>
       </section>
 
-      <section className="enDeviceSection">
-        <div className="enDeviceInner">
-          <div className="enDeviceCopy">
-            <p className="enEyebrow">PC + SMARTPHONE</p>
-            <p className="enSectionCatch">外出先と事務所をつなぐ</p>
-            <h2>
-              <span className="enOnlyDesktop">
-                同じ情報を<br />
-                どこからでも確認
-              </span>
-              <span className="enOnlyMobile">
-                同じ情報を<br />
-                どこからでも確認
-              </span>
-            </h2>
-            <p>
-              外出先ではスマートフォン、事務所ではPC。議員本人・事務所スタッフ・共有を許可した縁紡が、同じ流れを確認できます。
-            </p>
-          </div>
-
-          <div className="enDeviceDiagram" aria-label="スマートフォンとPCの連携イメージ">
-            <div className="enDeviceCard">
-              <small>外出先</small>
-              <strong>SMARTPHONE</strong>
-              <span>活動・写真を共有</span>
-            </div>
-            <div className="enDeviceBridge">
-              <strong>縁紡</strong>
-              <i>↕</i>
-              <span>同じ情報</span>
-            </div>
-            <div className="enDeviceCard pc">
-              <small>事務所</small>
-              <strong>PC</strong>
-              <span>予定・原稿を確認</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="enSection" id="features">
-        <div className="enSectionHead center">
-          <p className="enEyebrow">FEATURES</p>
-          <p className="enSectionCatch">発信だけではなく 日々の仕事をひとつの入口へ</p>
-          <h2>縁紡でできること</h2>
-          <p>予定、活動、原稿、素材、相談、領収書まで。議員活動と発信に関わる情報を、使いやすい形でまとめます。</p>
-        </div>
-        <div className="enFeatureGrid">
-          {features.map(([title, text], index) => (
-            <article className="enFeatureCard" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="enAiSecretarySection" id="ai-secretary">
-        <div className="enAiSecretaryInner">
-          <div className="enAiSecretaryCopy">
-            <p className="enEyebrow">AI SECRETARY</p>
-            <p className="enSectionCatch">「あれどこだっけ？」を減らす</p>
-            <h2>
-              <span className="enOnlyDesktop">
-                縁紡の中に<br />
-                AI秘書という入口
-              </span>
-              <span className="enOnlyMobile">
-                縁紡の中に<br />
-                AI秘書という入口
-              </span>
-            </h2>
-            <p>
-              日程、相談案件、原稿、共有した素材など、日々の仕事を探し回る時間を減らすためのAI機能です。自分で運用しながら、必要なところだけAIの力を借りられます。
-            </p>
-            <div className="enAiSecretaryPrice">
-              <span>AI秘書コース</span>
-              <strong>25,000<small>円 / 月</small></strong>
-              <p>利用回数を増やしたい場合は追加枠も用意しています。</p>
-            </div>
-          </div>
-
-          <div className="enAiSecretaryPanel" aria-label="AI秘書でできる主なこと">
-            <div className="enAiSecretaryTop">
-              <span className="enAiSecretaryMark">AI</span>
-              <div>
-                <strong>何をお手伝いしますか？</strong>
-                <small>下の項目から仕事を選べます</small>
-              </div>
-            </div>
-            <div className="enAiSecretaryGrid">
-              {aiActions.map(([title, text]) => (
-                <div key={title}>
-                  <strong>{title}</strong>
-                  <span>{text}</span>
-                </div>
-              ))}
-            </div>
-            <div className="enAiSecretaryExample">
-              <span>たとえば</span>
-              <p>「来週の予定を確認して」</p>
-              <p>「この活動をX用の原稿にしたい」</p>
-              <p>「対応中の相談案件を見せて」</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="enTrustSection">
-        <div className="enTrustInner">
-          <div className="enSectionHead center">
-            <p className="enEyebrow">INFORMATION SHARING</p>
-            <p className="enSectionCatch">便利さと情報の分け方を両立する</p>
-            <h2>
-              <span className="enOnlyDesktop">必要な情報だけを<br />必要な範囲へ</span>
-              <span className="enOnlyMobile">必要な情報だけを<br />必要な範囲へ</span>
-            </h2>
-            <p>議員事務所には、発信に使う情報と、事務所内だけで扱いたい情報があります。縁紡は、その違いを前提にした設計です。</p>
-          </div>
-          <div className="enTrustGrid">
-            {trustItems.map((item, index) => (
-              <article key={item.title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="enExperienceSection">
+      <section className="enExperienceSection" id="experience">
         <div className="enExperienceInner">
           <div>
             <p className="enEyebrow">FIELD EXPERIENCE</p>
-            <p className="enSectionCatch">政治・選挙の現場経験をサービス設計に</p>
+            <p className="enSectionCatch">政治の仕事が分かる相手に任せる</p>
             <h2>
               <span className="enOnlyDesktop">
                 「もっと投稿して<br />
@@ -483,34 +320,57 @@ export default function Entsumugi() {
         </div>
       </section>
 
-      <section className="enSection" id="price">
+      <section className="enSection" id="features">
         <div className="enSectionHead center">
-          <p className="enEyebrow">PRICE</p>
-          <p className="enSectionCatch">必要な支援だけを 無理なく続けられる形へ</p>
-          <h2>
-            <span className="enOnlyDesktop">利用方法は 大きく3つ</span>
-            <span className="enOnlyMobile">利用方法は<br />大きく3つ</span>
-          </h2>
-          <p>自分で管理するか、継続して任せるか、必要な時だけ依頼するか。支援範囲に合わせて選べます。</p>
+          <p className="enEyebrow">FEATURES</p>
+          <p className="enSectionCatch">活動する時間を、発信の準備で圧迫しない</p>
+          <h2>縁紡でできること</h2>
+          <p>任せたい仕事も、自分で進めたい仕事も。今の事務所体制に合う使い方を選べます。</p>
         </div>
-
-        <div className="enPricingGrid">
-          {pricingGroups.map((plan) => (
-            <article className={`enPriceCard ${plan.featured ? "featured" : ""}`} key={plan.title}>
-              {plan.featured ? <span className="enRecommend">おすすめ</span> : null}
-              <small>{plan.label}</small>
-              <h3>{plan.title}</h3>
-              <div className="enPriceValue">
-                <strong>{plan.price}</strong><span>{plan.unit}</span>
-              </div>
-              <p>{plan.text}</p>
-              <ul>
-                {plan.notes.map((note) => <li key={note}>{note}</li>)}
-              </ul>
+        <div className="enFeatureGrid">
+          {features.map(([title, text], index) => (
+            <article className="enFeatureCard" key={title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
             </article>
           ))}
         </div>
+      </section>
 
+      <section className="enSection" id="price">
+        <div className="enSectionHead center">
+          <p className="enEyebrow">PRICE</p>
+          <p className="enSectionCatch">どこまで任せるかで、選べます。</p>
+          <h2>今の体制に合う支援を</h2>
+          <p>日々のSNS運用から、発信全体の相談まで。まずは任せたい範囲を目安にお選びください。表示価格はすべて税込です。</p>
+        </div>
+        <h3 className="enPriceGroupTitle">運用を任せる</h3>
+        <div className="enPricingGrid enManagedPlans">
+          {["basic", "pr", "room"].map((key) => {
+            const plan = plans[key];
+            return <article className={`enPriceCard ${key === "pr" ? "featured" : ""}`} key={key}>
+              {key === "pr" && <span className="enRecommend">複数媒体の発信に</span>}
+              <small>{plan.label}</small>
+              <h3>{plan.name}</h3>
+              <p className="enPlanPurpose">{plan.note}</p>
+              <div className="enPriceValue"><strong>{yen(plan.monthly)}</strong><span>円 / 月</span></div>
+              <ul>{plan.features.map((item) => <li key={item}>{item}</li>)}</ul>
+              <Link className="enButton secondary" to={`/contact?type=entsumugi&plan=${encodeURIComponent(plan.name)}`}>このプランを相談する →</Link>
+            </article>;
+          })}
+        </div>
+        <p className="enPriceFinePrint">運用量は活動量・媒体・制作内容に応じて調整します。初期設定や通常範囲を超える制作等は、内容と費用を事前にご案内します。</p>
+        <h3 className="enPriceGroupTitle">自分で使う</h3>
+        <div className="enSelfPlans">
+          {["app", "ai"].map((key) => <article key={key}>
+            <div><h3>{plans[key].name}</h3><p>{plans[key].note}</p></div>
+            <strong>{yen(plans[key].monthly)}<small>円 / 月</small></strong>
+            <Link to={`/entsumugi/estimate?plan=${key}`}>料金目安を見る →</Link>
+          </article>)}
+        </div>
+        <p className="enPriceFinePrint">アプリ・AI秘書コースには人的な原稿作成・投稿代行は含みません。AI利用には月間上限があり、追加枠は1枠1,000円です。利用枠は相談時にご案内します。</p>
+        <details className="enOtherSupport"><summary>必要な時だけ頼みたい方へ</summary><p>原稿などの単発制作は3,300円〜。AI秘書をご利用の方には、繁忙月の支援を含めて月額66,000円とする使い方もご相談いただけます。対象範囲・時期は事前に確認します。</p></details>
         <div className="enToolsIntro">
           <div className="enToolsLead">
             <p className="enEyebrow">NEXT STEP</p>
@@ -539,13 +399,139 @@ export default function Entsumugi() {
             <Link className="enToolCard estimate" to="/entsumugi/estimate">
               <span>PRICE</span>
               <strong>料金目安シミュレーター</strong>
-              <p>準備状況を選んで、自分の場合のおおまかな料金帯を確認。</p>
+              <p>準備状況を選んで、自分の場合の初月と翌月以降の料金目安を確認。</p>
               <b>料金目安を見る →</b>
             </Link>
           </div>
           <p className="enToolDisclaimer">
             ※ 診断・シミュレーション結果は目安です。実際の作業内容・素材・運用状況により、適したコースや料金が前後する場合があります。正式な内容はヒアリング後に確認します。
           </p>
+        </div>
+      </section>
+
+      <section className="enDeviceSection">
+        <div className="enDeviceInner">
+          <div className="enDeviceCopy">
+            <p className="enEyebrow">PC + SMARTPHONE</p>
+            <p className="enSectionCatch">任せやすくするための、縁紡。</p>
+            <h2>
+              <span className="enOnlyDesktop">
+                同じ情報を<br />
+                どこからでも確認
+              </span>
+              <span className="enOnlyMobile">
+                同じ情報を<br />
+                どこからでも確認
+              </span>
+            </h2>
+            <p>
+              外出先ではスマートフォン、事務所ではPC。議員本人・事務所スタッフ・Puku Labが、許可された共有範囲で予定や原稿の進み具合を確認できます。
+            </p>
+          </div>
+
+          <div className="enDeviceDiagram" aria-label="スマートフォンとPCの連携イメージ">
+            <div className="enDeviceCard">
+              <small>外出先</small>
+              <strong>SMARTPHONE</strong>
+              <span>活動・写真を共有</span>
+            </div>
+            <div className="enDeviceBridge">
+              <strong>縁紡</strong>
+              <i>↕</i>
+              <span>同じ情報</span>
+            </div>
+            <div className="enDeviceCard pc">
+              <small>事務所</small>
+              <strong>PC</strong>
+              <span>予定・原稿を確認</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="enAiSecretarySection" id="ai-secretary">
+        <div className="enAiSecretaryInner">
+          <div className="enAiSecretaryCopy">
+            <p className="enEyebrow">AI SECRETARY</p>
+            <p className="enSectionCatch">「あれどこだっけ？」を減らす</p>
+            <h2>
+              <span className="enOnlyDesktop">
+                縁紡の中に<br />
+                AI秘書という入口
+              </span>
+              <span className="enOnlyMobile">
+                縁紡の中に<br />
+                AI秘書という入口
+              </span>
+            </h2>
+            <p>
+              日程、相談案件、原稿、共有した素材など、日々の仕事を探し回る時間を減らすためのAI機能です。自分で運用しながら、必要なところだけAIの力を借りられます。
+            </p>
+            <div className="enAiSecretaryPrice">
+              <span>AI秘書コース</span>
+              <strong>25,000<small>円 / 月</small></strong>
+              <p>月間の利用上限があります。利用枠は相談時にご案内し、追加は1枠1,000円です。</p>
+            </div>
+          </div>
+
+          <div className="enAiSecretaryPanel" aria-label="AI秘書でできる主なこと">
+            <div className="enAiSecretaryTop">
+              <span className="enAiSecretaryMark">AI</span>
+              <div>
+                <strong>何をお手伝いしますか？</strong>
+                <small>AI秘書への相談例</small>
+              </div>
+            </div>
+            <div className="enAiSecretaryExample">
+              <span>たとえば</span>
+              <p>「来週の予定を確認して」</p>
+              <p>「この活動をX用の原稿にしたい」</p>
+              <p>「対応中の相談案件を見せて」</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="enTrustSection">
+        <div className="enTrustInner">
+          <div className="enSectionHead center">
+            <p className="enEyebrow">INFORMATION SHARING</p>
+            <p className="enSectionCatch">公開前の最終判断は、議員本人。</p>
+            <h2>
+              <span className="enOnlyDesktop">必要な情報だけを<br />必要な範囲へ</span>
+              <span className="enOnlyMobile">必要な情報だけを<br />必要な範囲へ</span>
+            </h2>
+            <p>議員事務所には、発信に使う情報と、事務所内だけで扱いたい情報があります。縁紡は、その違いを前提にした設計です。</p>
+          </div>
+          <div className="enTrustGrid">
+            {trustItems.map((item, index) => (
+              <article key={item.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="enStatement">
+        <div className="enStatementInner">
+          <p className="enEyebrow">OUR APPROACH</p>
+          <h2>
+            <span className="enOnlyDesktop">SNSは魔法ではありません</span>
+            <span className="enOnlyMobile">SNSは<br />魔法ではありません</span>
+          </h2>
+          <p>
+            投稿さえすれば、すべての人へ情報が届くわけではありません。まずは関心を持ってくれている人へ、日々の活動をきちんと届ける。その積み重ねが、少しずつ関心の外側へ広がっていきます。
+          </p>
+          <div className="enStatementSteps">
+            <div><span>01</span><strong>関心層へ届ける</strong></div>
+            <i>→</i>
+            <div><span>02</span><strong>無理なく続ける</strong></div>
+            <i>→</i>
+            <div><span>03</span><strong>少しずつ広げる</strong></div>
+          </div>
         </div>
       </section>
 
@@ -596,13 +582,13 @@ export default function Entsumugi() {
             <p className="enEyebrow">CONTACT</p>
             <p className="enSectionCatch">活動を積み重ね きちんと市民へ届ける</p>
             <h2>
-              <span className="enOnlyDesktop">その継続を 縁紡が支えます</span>
-              <span className="enOnlyMobile">その継続を<br />縁紡が支えます</span>
+              <span className="enOnlyDesktop">今の発信方法を聞かせてください</span>
+              <span className="enOnlyMobile">今の発信方法を<br />聞かせてください</span>
             </h2>
-            <p>現在の発信方法、事務所の体制、希望する支援範囲を確認しながら、最適な使い方を一緒に整理します。</p>
+            <p>SNSの状況や事務所体制を確認しながら、縁紡が合うか、どの使い方が合うかを一緒に整理します。コースが決まっていなくてもご相談いただけます。</p>
           </div>
           <div className="enFinalActions">
-            <Link className="enButton primary" to="/contact?type=entsumugi">まずは相談する →</Link>
+            <Link className="enButton primary" to="/contact?type=entsumugi">縁紡について相談する →</Link>
             <a className="enButton secondary" href={SERVICE_URL} target="_blank" rel="noreferrer">縁紡をご利用中の方</a>
           </div>
         </div>

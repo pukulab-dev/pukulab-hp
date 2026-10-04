@@ -78,3 +78,32 @@
     gap: 4px;
   }
 }
+
+.siteFrame.entsumugiContactPage {
+  display:block; min-height:100vh; padding:24px 20px 64px;
+  background:linear-gradient(180deg,#fffaf0,#fffdf8); color:#2f2118;
+  --chalk-soft:#76665b; --chalk:#2f2118;
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+}
+.enContactBrand { width:min(900px,100%); margin:0 auto 24px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+.enContactBrand a { color:#95501a; text-decoration:none; font-size:.8rem; }
+.enContactBrand strong { display:block; color:#c85d12; font-size:1.6rem; }
+.enContactBrand span { font-size:.7rem; }
+.entsumugiContactPage .pageBoard { width:min(900px,100%); margin:0 auto; padding:clamp(22px,4vw,44px); background:#fff; border:1px solid #ead5b9; box-shadow:0 16px 50px #613c1c0e; }
+.entsumugiContactPage .pageBoard::before { display:none; }
+.entsumugiContactPage .pageHead h2 { font-family:inherit; text-shadow:none; line-height:1.45; font-size:clamp(1.6rem,4vw,2.3rem); }
+.entsumugiContactPage .pageHead p { color:#76665b; line-height:1.9; }
+.entsumugiContactPage .contactForm { margin-top:28px; }
+.entsumugiContactPage .contactForm label { color:#493425; }
+.entsumugiContactPage .contactForm input,
+.entsumugiContactPage .contactForm select,
+.entsumugiContactPage .contactForm textarea { background:#fffcf7; color:#2f2118; border:1px solid #d4bfa4; border-radius:10px; font-family:inherit; font-size:16px; }
+.entsumugiContactPage .contactForm textarea::placeholder { color:#81705f; }
+.entsumugiContactPage .metricPanel { background:#fff7e8; border:1px solid #ead5b9; box-shadow:none; color:#493425; }
+.entsumugiContactPage .metricPanel p { color:#95501a; }
+.entsumugiContactPage .navButton { background:#bc5811; color:white; border:1px solid #bc5811; box-shadow:none; text-shadow:none; }
+.entsumugiContactPage .navButton.ghost { background:#fff; color:#7b481f; border-color:#d4bfa4; }
+.entsumugiContactPage .surveyError { color:#a12020; background:#fff1ed; }
+.entsumugiContactPage a:focus-visible, .entsumugiContactPage button:focus-visible,
+.entsumugiContactPage input:focus-visible, .entsumugiContactPage textarea:focus-visible,
+.entsumugiContactPage select:focus-visible { outline:3px solid #a4551a; outline-offset:3px; }

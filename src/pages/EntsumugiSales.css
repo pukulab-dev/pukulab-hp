@@ -1,0 +1,53 @@
+/* Sales LP additions are scoped to avoid changing other Puku Lab pages. */
+.enSalesPage section[id] { scroll-margin-top: 100px; }
+.enSalesPage .enWhyClosing { text-align:center; margin-top:32px; font-weight:800; line-height:1.9; color:#7b481f; }
+.enActivityExample { display:grid; grid-template-columns: .8fr 1.2fr; gap:24px; margin-top:32px; padding:28px; border:1px solid #eed6b9; background:#fffaf1; border-radius:24px; }
+.enExampleLabel { display:inline-block; font-size:.78rem; font-weight:800; color:#99501b; margin-bottom:14px; }
+.enExampleInput { background:#fff; padding:24px; border:1px solid #efdfcd; border-radius:16px; }
+.enExampleInput h3 { font-size:1.3rem; }
+.enExampleInput p { margin-top:16px; line-height:1.9; font-size:.88rem; }
+.enExampleMemo { padding:16px; background:#faf6ef; border-left:3px solid #e98014; border-radius:6px; }
+.enPhotoNote { display:inline-block; margin-top:14px; padding:8px 12px; border:1px dashed #caac88; border-radius:8px; font-size:.8rem; }
+.enSamplePosts { display:grid; gap:12px; }
+.enSamplePosts article { padding:18px 20px; background:#fff; border:1px solid #efdfcd; border-radius:14px; }
+.enSamplePosts h4 { margin:0 0 8px; color:#9d511c; font-size:.86rem; }
+.enSamplePosts p { font-size:.86rem; line-height:1.85; }
+.enExampleApproval { grid-column:1/-1; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:14px; padding:16px; background:#f7e8ce; border-radius:12px; font-size:.9rem; }
+.enExampleDisclaimer { grid-column:1/-1; font-size:.75rem; line-height:1.75; color:#76665b; }
+.enSalesPage .enFlowGrid { margin-top:24px; }
+.enSalesPage .enFlowCard { box-shadow:none; }
+.enSalesPage .enPriceGroupTitle { margin-top:36px; padding-bottom:12px; border-bottom:1px solid #ebd7c2; font-size:1.2rem; }
+.enSalesPage .enManagedPlans { margin-top:24px; }
+.enSalesPage .enPriceCard { display:flex; flex-direction:column; padding-top:38px; }
+.enSalesPage .enRecommend { top:-12px; }
+.enSalesPage .enPlanPurpose { min-height:3.6em; font-weight:800; color:#584232; }
+.enSalesPage .enPriceCard .enButton { margin-top:auto; font-size:.82rem; }
+.enSalesPage .enPriceCard ul { margin-bottom:24px; }
+.enPriceFinePrint { margin-top:20px !important; font-size:.8rem; line-height:1.8; color:#76665b; }
+.enSelfPlans { margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.enSelfPlans article { background:#fff; border:1px solid #ebd7c2; padding:24px; border-radius:16px; display:grid; gap:16px; }
+.enSelfPlans p { margin-top:8px; font-size:.85rem; line-height:1.8; }
+.enSelfPlans strong { color:#a24d13; font-size:1.7rem; }
+.enSelfPlans small { color:#76665b; font-size:.8rem; margin-left:6px; }
+.enSelfPlans a { font-weight:800; font-size:.86rem; text-underline-offset:5px; }
+.enOtherSupport { margin-top:24px; background:#fff7e8; border-radius:12px; padding:20px; }
+.enOtherSupport summary { cursor:pointer; font-weight:800; }
+.enOtherSupport p { margin-top:16px; font-size:.86rem; line-height:1.8; }
+.enSalesPage .enAiSecretaryExample { margin-top:24px; }
+.enSalesPage .enAiSecretaryExample p { padding:14px; background:#fff; border:1px solid #eed6b9; border-radius:12px; margin-top:12px; font-size:1rem; }
+.enSalesPage .enNote { color:#76665b; }
+.enPage a:focus-visible, .enPage button:focus-visible, .enPage summary:focus-visible { outline:3px solid #9c4f13; outline-offset:4px; }
+@media(max-width:760px) {
+  .enActivityExample { grid-template-columns:1fr; padding:16px; gap:18px; }
+  .enExampleInput { padding:18px; }
+  .enSelfPlans { grid-template-columns:1fr; }
+  .enExampleApproval { flex-direction:column; }
+  .enExampleApproval > span { transform:rotate(90deg); }
+  .enSalesPage .enPlanPurpose { min-height:0; }
+}
+@media(prefers-reduced-motion:reduce) { .enPage *, .enPage *::before, .enPage *::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; } }
+
+.enSalesPage .enFinalCtaInner { grid-template-columns:1fr; gap:24px; }
+.enSalesPage .enFinalCtaInner h2 { font-size:clamp(1.65rem,3.5vw,2.7rem); }
+.enSalesPage .enFinalCtaInner .enOnlyDesktop { white-space:normal; }
+.enSalesPage .enAiSecretaryExample p { color:#493425; }

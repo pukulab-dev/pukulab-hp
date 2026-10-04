@@ -14,7 +14,12 @@ const app = (
   </React.StrictMode>
 );
 
-if (rootElement.hasChildNodes()) {
+// These pages use query parameters to initialize their form state. The static
+// HTML has no query context, so mount instead of hydrating that different tree.
+const queryInitializedPage = window.location.search &&
+  ["/contact", "/entsumugi/estimate"].includes(window.location.pathname.replace(/\/$/, ""));
+
+if (rootElement.hasChildNodes() && !queryInitializedPage) {
   hydrateRoot(rootElement, app);
 } else {
   createRoot(rootElement).render(app);
