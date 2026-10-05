@@ -1,0 +1,319 @@
+.shelfZoomPage {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at center, rgba(30, 30, 30, 0.65), rgba(0, 0, 0, 1));
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.shelfZoomFrameCard {
+  max-width: 980px;
+  margin: 0 auto;
+  border-radius: 18px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+}
+
+.shelfZoomInner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: min(100dvh, 980px);
+  min-height: 0;
+}
+
+.shelfZoomTopBlock {
+  position: relative;
+  width: 100%;
+  height: clamp(210px, 34dvh, 300px);
+  border-radius: 18px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  background-repeat: no-repeat;
+}
+
+.shelfZoomTopBlockInner {
+  position: relative;
+  height: 100%;
+  padding-top: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transform: scale(1);
+  transform-origin: top left;
+}
+
+.shelfZoomHeaderBtns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin-bottom: 6px;
+  margin-top: 18px;
+  margin-right: 16px;
+  flex: 0 0 auto;
+}
+
+.shelfZoomHeaderBtn {
+  padding: 10px 15px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.shelfZoomControlsRow {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  flex-wrap: nowrap;
+  padding-bottom: 6px;
+  min-height: 0;
+}
+
+.shelfZoomSectionSearch {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.shelfZoomSectionSearch.isLocked {
+  opacity: 0.55;
+}
+
+.shelfZoomSearchRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.shelfZoomSearchInput {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  background: rgba(255, 255, 255, 0.55);
+  color: rgba(0, 0, 0, 0.85);
+  outline: none;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.shelfZoomClearBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  background: rgba(255, 255, 255, 0.45);
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  font-weight: 950;
+  font-size: 16px;
+  flex: 0 0 auto;
+}
+
+.shelfZoomHitText {
+  font-size: 14px;
+  opacity: 0.92;
+  font-weight: 950;
+  color: rgba(20, 12, 8, 0.82);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.shelfZoomSortHint {
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.9;
+  font-weight: 950;
+  color: rgba(20, 12, 8, 0.75);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.shelfZoomSortInlineMobile {
+  margin-top: 8px;
+}
+
+.shelfZoomSortWrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+}
+
+.shelfZoomSortBtn {
+  padding: 7px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.82);
+  cursor: pointer;
+  font-weight: 950;
+  font-size: 11px;
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.shelfZoomSortBtn.isActive {
+  background: rgba(180, 240, 255, 0.4);
+  border: 1px solid rgba(80, 160, 200, 0.35);
+}
+
+.shelfZoomShelfPanel {
+  margin-top: 4px;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 6px;
+  height: auto;
+  min-height: 0;
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 90px rgba(0, 0, 0, 0.55);
+  position: relative;
+  flex: 1 1 auto;
+  touch-action: pan-x;
+}
+
+.shelfZoomSlotArea {
+  margin-top: 8px;
+  padding-top: 28%;
+  padding-left: 0.8%;
+  padding-right: 0.8%;
+  padding-bottom: 2%;
+  position: relative;
+}
+
+.shelfZoomSlotGrid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  align-items: stretch;
+}
+
+.shelfZoomSlotGrid.isFive {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* 本の太さはグリッド側で決め、縦方向だけ長くする */
+.shelfZoomSlotGrid .bookSpine {
+  aspect-ratio: auto;
+  height: clamp(340px, 38dvh, 500px);
+}
+
+.shelfZoomSlotGrid.isFive .bookSpine {
+  width: 72%;
+  justify-self: center;
+}
+
+.shelfZoomLockRibbon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  margin: 0 auto;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-weight: 800;
+  font-size: 12px;
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+}
+
+.shelfZoomMobileRowBar {
+  position: absolute;
+  right: 12px;
+  bottom: 100px;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.shelfZoomRowNowPillMobile {
+  min-width: 54px;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(70, 45, 20, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 950;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+}
+
+/* ===== Patch07b: shelf display size ===== */
+.shelfZoomPageSizeGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 0;
+  padding-left: 4px;
+  border-left: 1px solid rgba(55, 35, 20, 0.20);
+  flex: 0 0 auto;
+}
+
+.shelfZoomPageSizeLabel {
+  font-size: 10px;
+  font-weight: 900;
+  color: rgba(35, 22, 12, 0.72);
+}
+
+.shelfZoomPageSizeBtn {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.30);
+  color: rgba(0, 0, 0, 0.78);
+  padding: 6px 7px;
+  font-size: 11px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.shelfZoomPageSizeBtn.isActive {
+  background: rgba(255, 225, 145, 0.82);
+  border-color: rgba(110, 68, 20, 0.36);
+  color: rgba(55, 30, 10, 0.94);
+}
+
+@media (max-width: 420px) {
+  .shelfZoomSlotGrid .bookSpine {
+    height: clamp(330px, 37dvh, 460px);
+  }
+
+  .shelfZoomPageSizeGroup {
+    margin-left: 0;
+    padding-left: 4px;
+  }
+}
+
+
+/* ===== Patch09: shelf vertical position fine tune ===== */
+.shelfZoomSlotGrid {
+  transform: translateY(-30px);
+}
+
+@media (max-width: 420px) {
+  .shelfZoomSlotGrid {
+    transform: translateY(-28px);
+  }
+}
