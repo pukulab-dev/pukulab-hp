@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Yomogi&display=swap");
+
 /* 黒板への手書き風メモ。カード枠・背景は設けない。 */
 .homeTopRow {
   position: relative;
@@ -26,11 +28,11 @@
 .homeNewsHeading {
   margin: 0;
   padding: 2px 0 0;
-  font-weight: 600;
+  font-weight: 400;
   font-size: clamp(18px, 1.6vw, 23px);
   letter-spacing: 0.13em;
   line-height: 1.18;
-  font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: "Yomogi", "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
   writing-mode: vertical-rl;
   text-orientation: upright;
   white-space: nowrap;

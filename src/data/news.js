@@ -14,7 +14,7 @@ export const newsItems = [
     date: "2026-10-15",
     category: "Puku Lab",
     title: "新着情報ページを公開しました",
-    href: "/",
+    href: "/news",
     published: true,
   },
 ];
