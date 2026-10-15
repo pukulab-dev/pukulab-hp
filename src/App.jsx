@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import "./App.css";
 
 import Home from "./pages/Home";
+import News from "./pages/News";
 import Apps from "./pages/Apps";
 import Questionnaire from "./pages/Questionnaire";
 import Contact from "./pages/Contact";
@@ -218,6 +219,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/news" element={<News />} />
         <Route path="/apps" element={<Apps />} />
         <Route path="/apps/kanlog" element={<Kanlog />} />
 

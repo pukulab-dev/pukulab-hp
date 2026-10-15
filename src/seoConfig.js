@@ -30,7 +30,7 @@ const pages = {
     image: DEFAULT_OGP_IMAGE,
     imageAlt: "黒板の中の2D研究室を表現したPuku LabのOGP画像",
     robots: "index, follow",
-    sitemap: { changefreq: "weekly", priority: "1.0", lastmod: LASTMOD },
+    sitemap: { changefreq: "weekly", priority: "1.0", lastmod: "2026-10-15" },
     structuredData: [
       organizationData,
       {
@@ -47,6 +47,28 @@ const pages = {
         },
       },
     ],
+  },
+
+  "/news": {
+    title: "新着情報 | Puku Lab",
+    description:
+      "Puku Labの新着情報一覧。アプリ、ゲーム、AIギャラリー、HP制作など、研究所の更新情報をお知らせします。",
+    image: DEFAULT_OGP_IMAGE,
+    imageAlt: "Puku Labの新着情報",
+    robots: "index, follow",
+    sitemap: { changefreq: "weekly", priority: "0.6", lastmod: "2026-10-15" },
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Puku Lab 新着情報",
+      url: `${SITE_URL}/news`,
+      description: "Puku Labのアプリ・ゲーム・制作・ギャラリーに関するお知らせ一覧です。",
+      publisher: {
+        "@type": "Organization",
+        name: "Puku Lab",
+        url: SITE_URL,
+      },
+    },
   },
 
   "/apps": {

@@ -1,0 +1,139 @@
+/* 黒板への手書き風メモ。カード枠・背景は設けない。 */
+.homeTopRow {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(340px, 0.84fr);
+  align-items: center;
+  column-gap: clamp(28px, 3vw, 58px);
+  row-gap: 26px;
+}
+
+.homeTopRow > .cuteBoardHeader,
+.homeTopRow .homeTitleText {
+  min-width: 0;
+}
+
+.homeNews {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(12px, 1.3vw, 20px);
+  min-width: 0;
+  color: var(--chalk);
+}
+
+.homeNewsHeading {
+  margin: 0;
+  padding: 2px 0 0;
+  font-weight: 600;
+  font-size: clamp(18px, 1.6vw, 23px);
+  letter-spacing: 0.13em;
+  line-height: 1.18;
+  font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  white-space: nowrap;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.13);
+}
+
+.homeNewsHeading a {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+.homeNewsHeading a:hover,
+.homeNewsHeading a:focus-visible {
+  color: var(--accent);
+  text-shadow: 0 0 9px rgba(255, 196, 109, 0.17);
+}
+
+.homeNewsBody {
+  min-width: 0;
+  padding-left: clamp(10px, 1.4vw, 20px);
+  border-left: 1px solid rgba(243, 240, 223, 0.22);
+}
+
+.homeNewsList {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.homeNewsItem { min-width: 0; }
+
+.homeNewsLink {
+  display: block;
+  min-width: 0;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.homeNewsLink:hover,
+.homeNewsLink:focus-visible { color: var(--accent); }
+
+.homeNewsMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 3px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--chalk-soft);
+}
+
+.homeNewsMeta time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.homeNewsCategory {
+  letter-spacing: 0.095em;
+}
+
+.homeNewsTitle {
+  display: block;
+  line-height: 1.55;
+  font-size: clamp(13px, 1.12vw, 15px);
+  overflow-wrap: anywhere;
+}
+
+.homeNewsEmpty {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--chalk-soft);
+}
+
+/* 中間幅では見出しを下段に退避させ、フラスコとの重なりを防ぐ。 */
+@media (max-width: 1150px) {
+  .homeTopRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+  .homeNews { max-width: 670px; }
+}
+
+@media (max-width: 760px) {
+  .homeTopRow { gap: 22px; }
+  .homeNews {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .homeNewsHeading {
+    font-size: 17px;
+    letter-spacing: 0.08em;
+  }
+  .homeNewsBody { padding-left: 11px; }
+  .homeNewsItem:nth-child(n + 2) { display: none; }
+  .homeNewsTitle { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeNewsHeading a,
+  .homeNewsLink { transition: none; }
+}

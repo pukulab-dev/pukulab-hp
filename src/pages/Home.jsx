@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home.css";
+import HomeNews from "../components/HomeNews";
+import "../components/HomeNews.css";
 
 function LabIcon({ type }) {
   const iconMap = {
@@ -256,7 +258,8 @@ export default function Home() {
           <span className="chalkDust dust3" />
         </div>
 
-        <header className="boardHeader cuteBoardHeader">
+        <div className="homeTopRow">
+          <header className="boardHeader cuteBoardHeader">
           <div className="homeMascot" aria-hidden="true">
             <span className="homeMascotNeck" />
             <span className="homeMascotBody" />
@@ -277,7 +280,9 @@ export default function Home() {
               黒板の中の2D研究室で、アプリ・AI画像・遊びの実験を育てています。
             </p>
           </div>
-        </header>
+          </header>
+          <HomeNews />
+        </div>
 
         <div className="boardGrid boardGridEight">
           <button
