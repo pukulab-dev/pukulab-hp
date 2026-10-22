@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
+import { upcomingPlans } from "../data/entsumugiPlans.js";
 import "./Entsumugi.css";
 import "./EntsumugiEnhancements.css";
+import "./EntsumugiStartup.css";
 
 const INITIAL_ITEMS = [
+  {
+    code: "WEB-07",
+    title: "簡易HP制作 3ページまで",
+    price: "88,000円",
+    text: "活動方針やプロフィール、連絡先などを整理するサイト。トップ＋2ページまで。",
+  },
   {
     code: "INIT-03",
     title: "SNS新規立ち上げ一式",
@@ -15,20 +23,20 @@ const INITIAL_ITEMS = [
     price: "22,000円",
     text: "開設・基本情報・初期配信の準備まで。",
   },
-  {
-    code: "WEB-07",
-    title: "簡易HP制作 3ページまで",
-    price: "88,000円",
-    text: "トップ＋2ページまでの、基本的な候補者・議員サイトを想定。",
-  },
 ];
 
 const FIT_ITEMS = [
-  "立候補に向けて、SNSをこれから始めたい",
-  "LINE公式やHPも一緒に整えたい",
-  "何をどの順番で準備すればいいか迷っている",
-  "立ち上げ後の発信も継続して任せたい",
+  "立候補に向けて、HPやSNSをこれから準備したい",
+  "後援会活動や地域活動の情報を整理したい",
+  "SNSの発信準備を自分で効率よく進めたい",
+  "必要な時だけ、原稿作成や投稿を依頼したい",
 ];
+
+const contactUrl = (purpose, plan) => {
+  const params = new URLSearchParams({ type: "entsumugi", source: "startup", purpose });
+  if (plan) params.set("plan", plan);
+  return `/contact?${params.toString()}`;
+};
 
 export default function EntsumugiStartup() {
   return (
@@ -41,7 +49,7 @@ export default function EntsumugiStartup() {
           </Link>
           <div className="enHeaderActions">
             <Link className="enBackLink" to="/entsumugi">縁紡トップへ</Link>
-            <Link className="enHeaderCta" to="/contact?type=entsumugi">相談する</Link>
+            <Link className="enHeaderCta" to={contactUrl("立候補準備の相談")}>相談する</Link>
           </div>
         </div>
       </header>
@@ -50,43 +58,41 @@ export default function EntsumugiStartup() {
         <div className="enStartupHeroInner">
           <div className="enStartupHeroCopy">
             <div className="enPills">
-              <span>2027 統一地方選に向けて</span>
-              <span>期間限定特設ページ</span>
+              <span>2027年 統一地方選に向けて</span>
+              <span>候補者向けスタートアップ</span>
             </div>
             <p className="enEyebrow">CANDIDATE STARTUP</p>
             <h1>
               <span className="enOnlyDesktop">
-                立候補の準備と<br />
-                <strong>発信の準備を同時に！</strong>
+                立候補準備は、<br />
+                <strong>必要なものから。</strong>
               </span>
               <span className="enOnlyMobile">
-                立候補の準備と<br />
-                <strong>発信の準備を<br />同時に！</strong>
+                立候補準備は、<br />
+                <strong>必要なものから。</strong>
               </span>
             </h1>
             <p className="enLead">
-              SNS・LINE公式・HPを一つずつ別々に考えるのではなく、候補者として情報を届けるための入口をまとめて整えるスタートアップ支援です。
+              これから地方議会への立候補を目指す方へ。HP・SNS・LINE公式の立ち上げから、日々の活動や後援会情報の整理まで。必要な準備を組み合わせて始められる、縁紡のスタートアップ支援です。
             </p>
             <div className="enHeroActions">
-              <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">
-                この内容で料金目安を見る <span aria-hidden="true">→</span>
-              </Link>
-              <Link className="enButton secondary" to="/contact?type=entsumugi">
-                まず相談する
+              <a className="enButton primary" href="#startup-services">
+                制作内容と料金を見る <span aria-hidden="true">→</span>
+              </a>
+              <Link className="enButton secondary" to={contactUrl("立候補準備の相談")}>
+                立候補準備について相談する
               </Link>
             </div>
-            <p className="enNote">すでにSNS・LINE・HPがある場合は、不要な項目を外して個別に組み替えられます。</p>
+            <p className="enNote">初期制作だけの依頼も可能。すでにHP・SNS・LINE公式がある場合は、必要なものだけ選べます。</p>
           </div>
 
-          <aside className="enStartupPriceCard" aria-label="スタートアップパック料金の目安">
+          <aside className="enStartupPriceCard" aria-label="初期構築モデル料金の目安">
             <p className="enEyebrow">STARTUP MODEL</p>
-            <span className="enStartupPriceLabel">初期構築</span>
+            <span className="enStartupPriceLabel">初期構築の参考価格（税込）</span>
             <strong className="enStartupPrice">126,500<small>円</small></strong>
-            <div className="enStartupPlus">＋</div>
-            <span className="enStartupPriceLabel">継続運用</span>
-            <strong className="enStartupMonthly">66,000<small>円 / 月〜</small></strong>
-            <p>初月の参考合計：<b>192,500円〜</b></p>
-            <small className="enStartupPriceNote">※すべて税込。選択内容・素材・対応範囲により変動します。</small>
+            <p className="enStartupExample">簡易HP3ページ・SNS新規1媒体・LINE公式の初期設定をすべて依頼した場合</p>
+            <div className="enStartupPriceBenefit">初期制作のみの依頼もOK</div>
+            <small className="enStartupPriceNote">※月額契約は必須ではありません。外部サービス利用料や制作範囲による追加費用は別途確認します。</small>
           </aside>
         </div>
       </section>
@@ -94,8 +100,8 @@ export default function EntsumugiStartup() {
       <section className="enSection enStartupFitSection">
         <div className="enSectionHead center">
           <p className="enEyebrow">FOR CANDIDATES</p>
-          <p className="enSectionCatch">「まず何を作る？」から整理したい方へ</p>
-          <h2>こんな準備段階に</h2>
+          <p className="enSectionCatch">「何から準備する？」という段階から</p>
+          <h2>こんな方に</h2>
         </div>
         <div className="enStartupFitGrid">
           {FIT_ITEMS.map((item, index) => (
@@ -107,13 +113,13 @@ export default function EntsumugiStartup() {
         </div>
       </section>
 
-      <section className="enStartupPackageSection">
+      <section className="enStartupPackageSection" id="startup-services">
         <div className="enStartupPackageInner">
           <div className="enSectionHead">
             <p className="enEyebrow">WHAT'S INCLUDED</p>
-            <p className="enSectionCatch">情報発信の土台をまとめて立ち上げる</p>
+            <p className="enSectionCatch">活動を伝えるための入口づくり</p>
             <h2>初期構築 126,500円の内訳</h2>
-            <p>一例として、SNS新規1媒体・LINE公式・3ページHPをまとめて準備する構成です。</p>
+            <p>SNS新規1媒体・LINE公式・簡易HP3ページをすべて準備した場合のモデル例です。必要なサービスだけでもご依頼いただけます。</p>
           </div>
 
           <div className="enStartupItemList">
@@ -130,30 +136,52 @@ export default function EntsumugiStartup() {
             <div className="enStartupItem total">
               <span>TOTAL</span>
               <div>
-                <h3>初期構築 合計</h3>
-                <p>上記3項目をすべて新規で準備した場合。</p>
+                <h3>初期構築 合計（税込）</h3>
+                <p>上記3項目をすべて依頼した場合。セット契約の必須条件・割引はありません。</p>
               </div>
               <strong>126,500円</strong>
             </div>
           </div>
+          <p className="enStartupPackageNote">1ページのLP制作にも対応しています。既存デザイン流用は33,000円、構成・デザイン込みは55,000円（税込）。本格HP制作は必要に応じて専門業者をご紹介します。ドメイン・サーバー・保守等は条件により別途確認します。</p>
+          <Link className="enStartupTextLink" to="/entsumugi/estimate?preset=startup">必要な制作だけで料金目安を見る →</Link>
         </div>
       </section>
 
-      <section className="enSection enStartupContinueSection">
+      <section className="enSection enStartupContinueSection" id="after-launch">
         <div className="enSectionHead center">
           <p className="enEyebrow">AFTER LAUNCH</p>
-          <p className="enSectionCatch">作っただけで終わらせない</p>
-          <h2>立ち上げ後は月額運用へ</h2>
-          <p>SNSやHPは、用意しただけでは届きません。日々の活動を原稿・投稿へつなげる基本運用プランを組み合わせられます。</p>
+          <p className="enSectionCatch">自分で進める方も、任せたい方も</p>
+          <h2>立ち上げ後も、活動スタイルに合わせて。</h2>
+          <p>日々の活動や後援会情報を自分で整理したい方も、情報発信を継続して任せたい方も。必要なサポートを選べます。どちらも初期制作の必須契約ではありません。</p>
         </div>
-        <div className="enStartupMonthlyCard">
-          <div>
-            <span>MONTHLY SUPPORT</span>
+        <div className="enStartupChoiceGrid">
+          <article className="enStartupChoiceCard">
+            <div className="enStartupChoiceTop">
+              <span className="enStartupChoiceAudience">自分で効率よく進めたい方へ</span>
+              <span className="enStartupChoiceStatus">開発中</span>
+            </div>
+            <h3>{upcomingPlans.supporter.name}</h3>
+            <p className="enStartupChoiceDescription">活動記録やSNS原稿の下書き整理に加え、地図・後援会名簿の管理をサポート。日々の活動を自分で進めるためのコースです。</p>
+            <strong className="enStartupChoicePrice">{upcomingPlans.supporter.monthly.toLocaleString("ja-JP")}<small>円 / 月（税込・提供予定価格）</small></strong>
+            <p className="enStartupChoiceDetail">基本アプリ機能・地図・後援会名簿管理・標準文字認識（OCR）を提供予定。AI秘書・投稿代行は含みません。</p>
+            <Link className="enButton secondary enStartupChoiceButton" to={contactUrl("後援会活動コースの提供について相談", `${upcomingPlans.supporter.name}（開発中）`)}>
+              提供予定について相談する →
+            </Link>
+          </article>
+          <article className="enStartupChoiceCard">
+            <div className="enStartupChoiceTop">
+              <span className="enStartupChoiceAudience">情報発信を任せたい方へ</span>
+            </div>
             <h3>基本運用プラン</h3>
-            <p>継続的な原稿作成・投稿代行・簡易画像・発信相談などを支援。</p>
-          </div>
-          <strong>66,000<small>円 / 月</small></strong>
+            <p className="enStartupChoiceDescription">活動内容の整理から原稿作成・簡易画像制作・投稿代行まで、継続的な情報発信をサポートします。</p>
+            <strong className="enStartupChoicePrice">66,000<small>円 / 月（税込）</small></strong>
+            <p className="enStartupChoiceDetail">2媒体までを目安に運用。月間の制作量や媒体別の配分は、活動内容に合わせて事前に確認します。</p>
+            <Link className="enButton primary enStartupChoiceButton" to={contactUrl("基本運用プランの相談", "基本運用プラン")}>
+              運用代行について相談する →
+            </Link>
+          </article>
         </div>
+        <p className="enStartupChoiceFootnote">※後援会活動コースは開発中で、現時点では申込・利用開始できません。実際の提供時期・内容は確定後にご案内します。</p>
       </section>
 
       <section className="enStartupStepsSection">
@@ -165,10 +193,10 @@ export default function EntsumugiStartup() {
           </div>
           <div className="enStartupSteps">
             {[
-              ["01", "現在の状況を確認", "既存SNS・LINE・HPの有無と、準備したい時期を確認します。"],
-              ["02", "必要な項目を選ぶ", "すでにあるものは除き、必要な初期設定・制作だけを組みます。"],
-              ["03", "立ち上げ・制作", "SNS、LINE公式、HPなどを順番に準備します。"],
-              ["04", "発信を継続", "必要に応じて月額運用へつなぎ、日々の活動発信を続けます。"],
+              ["01", "現在の状況を確認", "立候補予定時期、既存SNS・LINE・HPの有無、必要な準備を確認します。"],
+              ["02", "必要なものを選ぶ", "すでにあるものは除き、制作・初期設定・活動支援を組み合わせます。"],
+              ["03", "立ち上げ・制作", "依頼内容に応じてSNS、LINE公式、HPなどを準備します。"],
+              ["04", "自分に合った形で活動開始", "自分で管理する、制作だけ依頼する、運用を任せるなど、希望に合わせて進めます。"],
             ].map(([num, title, text]) => (
               <article key={num}>
                 <span>{num}</span>
@@ -185,23 +213,18 @@ export default function EntsumugiStartup() {
           <div>
             <p className="enEyebrow">YOUR CASE</p>
             <p className="enSectionCatch">全部そろっていなくても大丈夫です</p>
-            <h2>
-              <span className="enOnlyDesktop">自分の場合の<br />料金目安を確認</span>
-              <span className="enOnlyMobile">自分の場合の<br />料金目安を確認</span>
-            </h2>
-            <p>すでにHPがある、SNSだけ新しく作りたい、LINEは不要など、現在の状況に合わせて項目を外せます。</p>
+            <h2>自分の場合の<br />料金目安を確認</h2>
+            <p>初期制作だけの依頼も、運用代行と組み合わせる場合も。今の準備状況に合わせて必要な項目を選べます。</p>
           </div>
           <div className="enFinalActions">
-            <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">スタートアップ構成で目安を見る →</Link>
-            <Link className="enButton secondary" to="/entsumugi/diagnosis">先にコース診断をする</Link>
+            <Link className="enButton primary" to="/entsumugi/estimate?preset=startup">必要な制作で料金目安を見る →</Link>
+            <Link className="enButton secondary" to={contactUrl("立候補準備の相談")}>まず相談する</Link>
           </div>
         </div>
       </section>
 
       <section className="enStartupLegalNote">
-        <p>
-          ※ このページは情報発信環境の立ち上げ支援を案内するものです。特急対応・選挙期間中の対応・撮影・大型制作物など、通常範囲を超える内容は事前に条件と料金を確認します。
-        </p>
+        <p>※表示料金は税込です。特急対応、選挙期間中の対応、撮影、大型制作物、HPの大規模改修など、通常範囲を超える内容は事前に条件と料金を確認します。後援会活動コースは開発中です。</p>
       </section>
 
       <footer className="enFooter">

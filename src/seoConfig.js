@@ -369,24 +369,24 @@ const pages = {
   },
 
   "/entsumugi/startup": {
-    title: "地方選候補者向け情報発信スタートアップ | 縁紡 | Puku Lab",
+    title: "地方選候補者のHP・SNS制作と後援会活動支援 | 縁紡 | Puku Lab",
     description:
-      "統一地方選に向けて、SNS・LINE公式・HPなど候補者の情報発信環境をまとめて整える縁紡のスタートアップ支援ページです。",
+      "2027年統一地方選に向けて、立候補予定者のHP・SNS・LINE公式の立ち上げを支援。初期制作だけの依頼も可能。開発中の後援会活動コースや、継続的な情報発信の運用代行も紹介します。",
     image: DEFAULT_OGP_IMAGE,
-    imageAlt: "縁紡の地方選候補者向け情報発信スタートアップ支援",
+    imageAlt: "縁紡の候補者向けHP・SNS制作と後援会活動支援",
     robots: "index, follow",
-    sitemap: { changefreq: "weekly", priority: "0.8", lastmod: LASTMOD },
+    sitemap: { changefreq: "weekly", priority: "0.8", lastmod: "2026-10-22" },
     structuredData: [
       {
         "@context": "https://schema.org",
         "@type": "Service",
         name: "縁紡 候補者向け情報発信スタートアップ",
-        serviceType: "地方選候補者向け情報発信環境の立ち上げ支援",
+        serviceType: ["地方選候補者向けHP・SNS制作", "情報発信環境の立ち上げ支援"],
         url: `${SITE_URL}/entsumugi/startup`,
         areaServed: { "@type": "Country", name: "日本" },
         provider: { "@type": "Organization", name: "Puku Lab", url: SITE_URL },
         description:
-          "SNS新規立ち上げ、LINE公式初期設定、候補者向け簡易HP制作、継続的な情報発信支援を組み合わせるスタートアップ支援です。",
+          "候補者向けHP・SNS・LINE公式の立ち上げ支援と、任意の継続運用サポート。後援会活動コースは開発中です。",
       },
       {
         "@context": "https://schema.org",
@@ -417,7 +417,7 @@ const pages = {
   "/entsumugi/estimate": {
     title: "縁紡 料金シミュレーター | 地方議員向け情報発信支援",
     description:
-      "縁紡の月額コース、SNS初期設定、原稿、動画、WEB制作などを選び、概算料金を確認できる料金シミュレーターです。",
+      "縁紡のSNS・LINEの初期設定やHP・LP制作と月額サポートの料金目安を計算。初期制作だけの見積にも対応しています。",
     image: DEFAULT_OGP_IMAGE,
     imageAlt: "縁紡料金シミュレーター",
     robots: "noindex, follow",

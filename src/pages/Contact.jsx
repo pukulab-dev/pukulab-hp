@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./EntsumugiContact.css";
 
@@ -42,6 +42,7 @@ function getEntsumugiContext(searchParams) {
     if (value) rows.push([label, value]);
   };
 
+  push("ご相談の目的", "purpose");
   push("希望コース", "plan");
   push("月額目安", "monthly");
   push("診断時の料金", "price");
@@ -56,7 +57,9 @@ function getEntsumugiContext(searchParams) {
     ? "料金目安シミュレーター"
     : source === "diagnosis"
       ? "コース診断"
-      : "縁紡LP";
+      : source === "startup"
+        ? "候補者向けスタートアップ"
+        : "縁紡LP";
 
   return { source, sourceLabel, rows };
 }
@@ -68,13 +71,15 @@ function makePrefill(context) {
     .map(([label, value]) => `・${label}：${value}`)
     .join("\n");
 
-  return `【${context.sourceLabel}の結果】\n${summary}\n\n相談したいこと：\n`;
+  const heading = context.source === "startup" ? `${context.sourceLabel}の相談内容` : `${context.sourceLabel}の結果`;
+  return `【${heading}】\n${summary}\n\n相談したいこと：\n`;
 }
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
   const entsumugiContext = useMemo(() => getEntsumugiContext(searchParams), [searchParams]);
   const prefillMessage = useMemo(() => makePrefill(entsumugiContext), [entsumugiContext]);
+  const lastAutoMessage = useRef(prefillMessage);
 
   const [form, setForm] = useState(() => ({
     ...initialForm,
@@ -89,11 +94,13 @@ export default function Contact() {
 
   useEffect(() => {
     const categoryFromQuery = getCategoryFromQuery(searchParams.get("type"));
+    const previousAuto = lastAutoMessage.current;
     setForm((prev) => ({
       ...prev,
       category: categoryFromQuery,
-      message: prev.message.trim() ? prev.message : prefillMessage,
+      message: !prev.message.trim() || prev.message === previousAuto ? prefillMessage : prev.message,
     }));
+    lastAutoMessage.current = prefillMessage;
   }, [prefillMessage, searchParams]);
 
   function updateField(key, value) {
@@ -193,7 +200,7 @@ export default function Contact() {
         ) : (
           <form className="contactForm" onSubmit={onSubmit}>
             {entsumugiContext?.rows?.length ? (
-              <section className="entsumugiContactContext" aria-label="引き継いだ診断・料金目安">
+              <section className="entsumugiContactContext" aria-label="引き継いだ相談・料金目安">
                 <div>
                   <span>引き継ぎ済み</span>
                   <strong>{entsumugiContext.sourceLabel}の内容</strong>
